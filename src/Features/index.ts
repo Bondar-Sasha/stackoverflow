@@ -1,5 +1,3 @@
-import registrationControls from './api/registration'
-import loginControls from './api/login'
-import getUserControls from './api/getUser'
+import userApiControls from './api/user'
 
-export { registrationControls, loginControls, getUserControls }
+export { userApiControls }
