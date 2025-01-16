@@ -23,9 +23,11 @@ export namespace UserTypes {
     id: number
   }
   export interface GetUserResponse {
-    id: string
-    username: string
-    role: string
+    data: {
+      id: string
+      username: string
+      role: string
+    }
   }
   export interface PatchUserRequest {
     id: number
@@ -33,11 +35,14 @@ export namespace UserTypes {
     password: string
   }
   export interface PatchUserResponse {
-    id: string
-    username: string
-    role: string
-    password: string
-    tempPassword: string
+    data: {
+      id: string
+      username: string
+      role: string
+      password: string
+      tempPassword: string
+    }
+    message: string
   }
   export interface DeleteUserRequest {
     id: string

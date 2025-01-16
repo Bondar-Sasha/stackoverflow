@@ -1,18 +1,16 @@
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
+import { setIsLogin } from '../../../App/redux/slices/auth.slice'
 
-import { useAppDispatch } from '../../../App/redux/hooks/hooks'
-import { setIsRegistered } from '../../../App/redux/slices/auth.slice'
 // import { userApiControls } from '../../../Features'
+import { useAppDispatch } from './../../../App/redux/hooks/hooks'
 
 interface RegisterFormData {
   username: string
   password: string
 }
 
-// const { registerControls } = userApiControls.userApiController
-
-const RegisterPage: FC = () => {
+const LoginPage: FC = () => {
   const dispatch = useAppDispatch()
 
   const {
@@ -27,13 +25,13 @@ const RegisterPage: FC = () => {
         resolve(9)
       }, 300)
     })
-    dispatch(setIsRegistered(true))
+    dispatch(setIsLogin(true))
 
     console.log(res)
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="bg-black">
       <div>
         <input
           type="text"
@@ -57,4 +55,4 @@ const RegisterPage: FC = () => {
   )
 }
 
-export default RegisterPage
+export default LoginPage

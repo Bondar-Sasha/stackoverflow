@@ -85,18 +85,17 @@ export const userApi = createApi({
         body: data,
       }),
     }),
-    logout: builder.mutation<
-      AuthTypes.LogoutResponse,
-      AuthTypes.LogoutResponse
-    >({
-      query: () => ({
-        url: `auth/logout`,
-        method: 'POST',
-      }),
-    }),
+    logout: builder.mutation<AuthTypes.LogoutResponse, AuthTypes.LogoutRequest>(
+      {
+        query: () => ({
+          url: `auth/logout`,
+          method: 'POST',
+        }),
+      }
+    ),
     register: builder.mutation<
       AuthTypes.RegisterResponse,
-      AuthTypes.RegisterResponse
+      AuthTypes.RegisterRequest
     >({
       query: (data) => ({
         url: `register`,

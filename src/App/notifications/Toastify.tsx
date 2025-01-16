@@ -1,8 +1,9 @@
 import { FC } from 'react'
 import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-const Notifications: FC = () => {
+const Toastify: FC = () => {
   return <ToastContainer />
 }
 
-export default Notifications
+export default Toastify
