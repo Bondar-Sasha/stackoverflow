@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { setIsLogin } from '../../../App/redux/slices/auth.slice'
 
 import { userApiControls } from '../../../Features'
+import { UI } from '../../../Shared'
 import { useAppDispatch } from './../../../App/redux/hooks/hooks'
 
 const { loginControls } = userApiControls.userApiController
@@ -29,7 +30,7 @@ const LoginPage: FC = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="bg-black">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div>
         <input
           type="text"
@@ -48,7 +49,9 @@ const LoginPage: FC = () => {
         {errors.password && <p>{errors.password.message}</p>}
       </div>
 
-      <button type="submit">Sign Up</button>
+      <button type="submit" className="w-16">
+        <span>sign Up</span> <UI.Spinner></UI.Spinner>
+      </button>
     </form>
   )
 }

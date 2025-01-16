@@ -8,7 +8,6 @@ export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl: constants.baseUrl,
-    credentials: 'include',
   }),
 
   tagTypes: ['UserCredentials'],
