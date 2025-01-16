@@ -2,9 +2,10 @@ import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { setIsLogin } from '../../../App/redux/slices/auth.slice'
 
-// import { userApiControls } from '../../../Features'
+import { userApiControls } from '../../../Features'
 import { useAppDispatch } from './../../../App/redux/hooks/hooks'
 
+const { loginControls } = userApiControls.userApiController
 interface RegisterFormData {
   username: string
   password: string
@@ -19,12 +20,9 @@ const LoginPage: FC = () => {
     formState: { errors },
   } = useForm<RegisterFormData>()
 
-  const onSubmit = async () => {
-    const res = await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(9)
-      }, 300)
-    })
+  const [login] = loginControls()
+  const onSubmit = async (data: RegisterFormData) => {
+    const res = await login(data)
     dispatch(setIsLogin(true))
 
     console.log(res)

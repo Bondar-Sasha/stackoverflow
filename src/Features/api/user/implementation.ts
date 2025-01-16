@@ -2,11 +2,16 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { MeTypes } from './types/Me'
 import type { UserTypes } from './types/User'
 import type { AuthTypes } from './types/Auth'
-import { baseUrl } from '../../../Shared'
+import { constants } from '../../../Shared'
 
 export const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: constants.baseUrl,
+    credentials: 'include',
+  }),
+
+  tagTypes: ['UserCredentials'],
   endpoints: (builder) => ({
     getUsers: builder.query<
       UserTypes.GetUsersResponse,
@@ -46,6 +51,7 @@ export const userApi = createApi({
     }),
     getMe: builder.query<MeTypes.GetMeResponse, MeTypes.GetMeRequest>({
       query: () => `me`,
+      providesTags: ['UserCredentials'],
     }),
     patchMe: builder.mutation<MeTypes.PatchMeResponse, MeTypes.PatchMeRequest>({
       query: (data) => ({
@@ -53,6 +59,7 @@ export const userApi = createApi({
         method: 'PATCH',
         body: data,
       }),
+      invalidatesTags: ['UserCredentials'],
     }),
     deleteMe: builder.mutation<
       MeTypes.DeleteMeResponse,
@@ -62,6 +69,7 @@ export const userApi = createApi({
         url: `me`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['UserCredentials'],
     }),
     patchMyPassword: builder.mutation<
       MeTypes.PatchMyPasswordResponse,
@@ -72,10 +80,12 @@ export const userApi = createApi({
         method: 'PATCH',
         body: data,
       }),
+      invalidatesTags: ['UserCredentials'],
     }),
     getAuth: builder.query<AuthTypes.GetAuthResponse, AuthTypes.GetAuthRequest>(
       {
         query: () => `auth`,
+        providesTags: ['UserCredentials'],
       }
     ),
     login: builder.mutation<AuthTypes.LoginResponse, AuthTypes.LoginRequest>({
@@ -83,6 +93,7 @@ export const userApi = createApi({
         url: `auth/login`,
         method: 'POST',
         body: data,
+        providesTags: ['UserCredentials'],
       }),
     }),
     logout: builder.mutation<AuthTypes.LogoutResponse, AuthTypes.LogoutRequest>(
@@ -91,6 +102,7 @@ export const userApi = createApi({
           url: `auth/logout`,
           method: 'POST',
         }),
+        invalidatesTags: ['UserCredentials'],
       }
     ),
     register: builder.mutation<
@@ -102,6 +114,7 @@ export const userApi = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['UserCredentials'],
     }),
   }),
 })
