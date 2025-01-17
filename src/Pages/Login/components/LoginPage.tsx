@@ -9,7 +9,7 @@ interface RegisterFormData {
   username: string
   password: string
 }
-const { loginControls } = userApiController
+const { loginControls, getLazyUserControls } = userApiController
 
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch()
@@ -21,12 +21,15 @@ const LoginPage: FC = () => {
   } = useForm<RegisterFormData>()
 
   const [login] = loginControls()
+  const [userTrigger, {}] = getLazyUserControls()
   const onSubmit = async (data: RegisterFormData) => {
     try {
       const res = await login(data)
+      console.log(document.cookie)
       if (res.error && 'status' in res.error && res.error.status === 404) {
         dispatch(setIsLogin(false))
       } else {
+        await userTrigger({ id: Number(res.data?.data.id) })
         dispatch(setIsLogin(true))
       }
     } catch (error) {}
@@ -39,6 +42,7 @@ const LoginPage: FC = () => {
           type="text"
           placeholder="Username"
           {...register('username', { required: 'Username is required' })}
+          value="useruser1"
         />
         {errors.username && <p>{errors.username.message}</p>}
       </div>
@@ -48,6 +52,7 @@ const LoginPage: FC = () => {
           type="password"
           placeholder="Password"
           {...register('password', { required: 'Password is required' })}
+          value="useruser1"
         />
         {errors.password && <p>{errors.password.message}</p>}
       </div>

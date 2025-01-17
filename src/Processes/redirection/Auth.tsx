@@ -22,7 +22,7 @@ const Auth: FC = () => {
     if (isRegistered && location.pathname === '/auth/registration') {
       navigate('/auth/login', { replace: true })
     }
-  }, [isLogin, isRegistered, location.pathname, navigate])
+  }, [isRegistered, isLogin, location.pathname])
 
   return null
 }

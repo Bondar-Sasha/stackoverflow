@@ -12,6 +12,9 @@ import {
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
+  useLazyGetMeQuery,
+  useLazyGetAuthQuery,
+  useLazyGetUserQuery,
 } from './implementation'
 import { MeTypes } from './types/Me'
 import { UserTypes } from './types/User'
@@ -20,6 +23,11 @@ import { AuthTypes } from './types/Auth'
 class UserApiController {
   getUserControls(req: UserTypes.GetUserRequest) {
     const controls = useGetUserQuery(req)
+    return controls
+  }
+
+  getLazyUserControls() {
+    const controls = useLazyGetUserQuery()
     return controls
   }
 
@@ -48,6 +56,11 @@ class UserApiController {
     return controls
   }
 
+  getLazyMeControls() {
+    const controls = useLazyGetMeQuery()
+    return controls
+  }
+
   patchMeControls() {
     const controls = usePatchMeMutation()
     return controls
@@ -65,6 +78,11 @@ class UserApiController {
 
   getAuthControls(req: AuthTypes.GetAuthRequest) {
     const controls = useGetAuthQuery(req)
+    return controls
+  }
+
+  getLazyAuthControls() {
+    const controls = useLazyGetAuthQuery()
     return controls
   }
 

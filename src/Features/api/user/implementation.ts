@@ -8,6 +8,7 @@ export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl,
+    // credentials: 'include',
   }),
 
   tagTypes: ['UserCredentials'],
@@ -21,6 +22,7 @@ export const userApi = createApi({
     getUser: builder.query<UserTypes.GetUserResponse, UserTypes.GetUserRequest>(
       {
         query: ({ id }) => `users/${id}`,
+        providesTags: ['UserCredentials'],
       }
     ),
     patchUser: builder.mutation<
@@ -92,8 +94,8 @@ export const userApi = createApi({
         url: `auth/login`,
         method: 'POST',
         body: data,
-        providesTags: ['UserCredentials'],
       }),
+      invalidatesTags: ['UserCredentials'],
     }),
     logout: builder.mutation<AuthTypes.LogoutResponse, AuthTypes.LogoutRequest>(
       {
@@ -120,15 +122,18 @@ export const userApi = createApi({
 
 export const {
   useGetUserQuery,
+  useLazyGetUserQuery,
   useGetUsersQuery,
   usePatchUserMutation,
   useDeleteUserMutation,
   useGetUserStatisticQuery,
   useGetMeQuery,
+  useLazyGetMeQuery,
   usePatchMeMutation,
   useDeleteMeMutation,
   usePatchMyPasswordMutation,
   useGetAuthQuery,
+  useLazyGetAuthQuery,
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,

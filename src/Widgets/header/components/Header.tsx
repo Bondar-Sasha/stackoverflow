@@ -1,23 +1,26 @@
 import { FC } from 'react'
-import { IoLanguageSharp } from 'react-icons/io5'
-import { FaCode } from 'react-icons/fa6'
+// import { useNavigate } from 'react-router-dom'
+import { selectorIsLogin, useAppSelector } from '../../../App/redux'
+
+import { HandleAppLogo, HandleUserLogo } from '../../../Features'
 
 interface HeaderProps {
   children?: React.ReactNode
+  className?: string
 }
 
-const Header: FC<HeaderProps> = ({ children }) => {
+const Header: FC<HeaderProps> = ({ className = '' }) => {
+  const isLogin = useAppSelector(selectorIsLogin)
   return (
-    <header className="h-14 flex items-center justify-space-between shadow-md pl-3 pr-3 bg-blue-700">
+    <header
+      className={`w-full h-14 flex items-center justify-between sticky top-0 left-0 shadow-md pl-3 pr-3  ${className}`}
+    >
+      <HandleAppLogo className="w-36" />
       <div className="main_inf cursor-pointer flex items-center justify-space-between">
-        <FaCode className="text-white" />
         <h1 className="text-white">CODELANG</h1>
       </div>
       <div className="interactivity flex items-center justify-space-between">
-        <div className="controls">{children}</div>
-        <div className="lang">
-          <IoLanguageSharp className="text-white" />
-        </div>
+        <div className="controls">{isLogin ? <HandleUserLogo /> : <></>}</div>
       </div>
     </header>
   )

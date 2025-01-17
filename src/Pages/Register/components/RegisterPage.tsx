@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useAppDispatch, setIsRegistered } from '../../../App/redux'
+import { Header } from '../../../Widgets'
 
 // import { userApiController } from '../../../Features'
 
@@ -32,27 +33,34 @@ const RegisterPage: FC = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <input
-          type="text"
-          placeholder="Username"
-          {...register('username', { required: 'Username is required' })}
-        />
-        {errors.username && <p>{errors.username.message}</p>}
-      </div>
+    <>
+      <Header />
+      <main className="mt-20">
+        {' '}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <input
+              type="text"
+              placeholder="Username"
+              {...register('username', { required: 'Username is required' })}
+            />
+            {errors.username && <p>{errors.username.message}</p>}
+          </div>
 
-      <div>
-        <input
-          type="password"
-          placeholder="Password"
-          {...register('password', { required: 'Password is required' })}
-        />
-        {errors.password && <p>{errors.password.message}</p>}
-      </div>
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              {...register('password', { required: 'Password is required' })}
+            />
+            {errors.password && <p>{errors.password.message}</p>}
+          </div>
 
-      <button type="submit">Sign Up</button>
-    </form>
+          <button type="submit">Sign Up</button>
+        </form>
+      </main>
+      <footer></footer>
+    </>
   )
 }
 

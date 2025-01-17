@@ -14,6 +14,7 @@ const AppRoutes: React.FC = () => {
           path="/"
           element={
             <>
+              <RegisterPage />
               <Link to="/auth/login">login</Link>
             </>
           }
@@ -21,10 +22,10 @@ const AppRoutes: React.FC = () => {
         <Route path="auth/registration" element={<RegisterPage />} />
         <Route path="auth/login" element={<LoginPage />} />
         <Route path="/post" element={<></>} />
-        <Route path="/account" element={<></>} />
         <Route path="/create_post" element={<></>} />
         <Route path="/my_posts" element={<></>} />
         <Route path="/edit_post" element={<></>} />
+        <Route path="/users/:userId/account" element={<></>} />
         <Route path="/users" element={<></>} />
         <Route path="/users/:userId" element={<></>} />
         <Route path="/questions" element={<></>} />
