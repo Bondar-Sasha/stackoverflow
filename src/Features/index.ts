@@ -1,3 +1,1 @@
-import userApiControls from './api/user'
-
-export { userApiControls }
+export * from './api/user'

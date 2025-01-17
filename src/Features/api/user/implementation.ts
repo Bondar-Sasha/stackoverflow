@@ -2,12 +2,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { MeTypes } from './types/Me'
 import type { UserTypes } from './types/User'
 import type { AuthTypes } from './types/Auth'
-import { constants } from '../../../Shared'
+import { baseUrl } from '../../../Shared'
 
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: constants.baseUrl,
+    baseUrl,
   }),
 
   tagTypes: ['UserCredentials'],

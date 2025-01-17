@@ -1,16 +1,16 @@
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { useAppDispatch } from '../../../App/redux/hooks/hooks'
-import { setIsRegistered } from '../../../App/redux/slices/auth.slice'
-// import { userApiControls } from '../../../Features'
+import { useAppDispatch, setIsRegistered } from '../../../App/redux'
+
+// import { userApiController } from '../../../Features'
 
 interface RegisterFormData {
   username: string
   password: string
 }
 
-// const { registerControls } = userApiControls.userApiController
+// const { registerControls } = userApiController
 
 const RegisterPage: FC = () => {
   const dispatch = useAppDispatch()
@@ -25,10 +25,9 @@ const RegisterPage: FC = () => {
     const res = await new Promise((resolve) => {
       setTimeout(() => {
         resolve(9)
-      }, 300)
+      }, 200)
     })
     dispatch(setIsRegistered(true))
-
     console.log(res)
   }
 

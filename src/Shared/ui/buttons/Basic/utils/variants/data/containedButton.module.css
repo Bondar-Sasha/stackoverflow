@@ -1,0 +1,13 @@
+.containedButton {
+   border: none;
+   color: white;
+   background-color: var(--theme);
+   transition: all 0.15s ease;
+}
+
+@media (hover: hover) {
+   .containedButton:not(:disabled):hover {
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+      transition: all 0.15s ease;
+   }
+}

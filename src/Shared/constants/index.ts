@@ -1,3 +1,1 @@
-import baseUrl from './baseUrl'
-
-export default { baseUrl }
+export * from './baseUrl'

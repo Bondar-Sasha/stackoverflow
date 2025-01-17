@@ -10,7 +10,7 @@ const TextLoader: FC<LoaderProps> = ({
   label = 'loading...',
 }) => {
   return (
-    <div className={`loader ${className}`}>
+    <div className={className}>
       <span>{label}</span>
     </div>
   )

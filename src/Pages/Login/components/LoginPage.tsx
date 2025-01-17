@@ -1,16 +1,15 @@
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
-import { setIsLogin } from '../../../App/redux/slices/auth.slice'
 
-import { userApiControls } from '../../../Features'
-import { UI } from '../../../Shared'
-import { useAppDispatch } from './../../../App/redux/hooks/hooks'
+import { userApiController } from '../../../Features'
+import { TextLoader } from '../../../Shared'
+import { useAppDispatch, setIsLogin } from '../../../App/redux'
 
-const { loginControls } = userApiControls.userApiController
 interface RegisterFormData {
   username: string
   password: string
 }
+const { loginControls } = userApiController
 
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch()
@@ -23,10 +22,14 @@ const LoginPage: FC = () => {
 
   const [login] = loginControls()
   const onSubmit = async (data: RegisterFormData) => {
-    const res = await login(data)
-    dispatch(setIsLogin(true))
-
-    console.log(res)
+    try {
+      const res = await login(data)
+      if (res.error && 'status' in res.error && res.error.status === 404) {
+        dispatch(setIsLogin(false))
+      } else {
+        dispatch(setIsLogin(true))
+      }
+    } catch (error) {}
   }
 
   return (
@@ -50,7 +53,7 @@ const LoginPage: FC = () => {
       </div>
 
       <button type="submit" className="w-16">
-        <span>sign Up</span> <UI.Spinner></UI.Spinner>
+        <span>sign Up</span> <TextLoader />
       </button>
     </form>
   )

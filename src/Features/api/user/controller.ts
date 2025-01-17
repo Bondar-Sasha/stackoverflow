@@ -83,4 +83,4 @@ class UserApiController {
     return controls
   }
 }
-export default new UserApiController()
+export const userApiController = new UserApiController()

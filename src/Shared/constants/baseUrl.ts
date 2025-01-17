@@ -1,1 +1,1 @@
-export default 'https://codelang.vercel.app/api'
+export const baseUrl = 'https://codelang.vercel.app/api'

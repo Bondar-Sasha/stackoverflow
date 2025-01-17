@@ -1,10 +1,10 @@
 import { FC, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useAppSelector } from '../../App/redux/hooks/hooks'
 import {
+  useAppSelector,
   selectorIsLogin,
   selectorIsRegistered,
-} from '../../App/redux/slices/auth.slice'
+} from '../../App/redux'
 
 const Auth: FC = () => {
   const navigate = useNavigate()
@@ -14,12 +14,15 @@ const Auth: FC = () => {
   const isLogin = useAppSelector(selectorIsLogin)
 
   useEffect(() => {
-    if (isLogin && location.pathname.includes('auth')) navigate('/')
-  }, [isLogin, location.pathname, navigate])
+    if (isLogin && location.pathname.includes('auth')) {
+      navigate('/', { replace: true })
+      return
+    }
 
-  useEffect(() => {
-    if (!isLogin && isRegistered) navigate('/auth/login')
-  }, [isRegistered, isLogin, location.pathname, navigate])
+    if (isRegistered && location.pathname === '/auth/registration') {
+      navigate('/auth/login', { replace: true })
+    }
+  }, [isLogin, isRegistered, location.pathname, navigate])
 
   return null
 }

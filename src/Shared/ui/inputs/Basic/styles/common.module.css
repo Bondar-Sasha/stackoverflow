@@ -1,0 +1,9 @@
+.common {
+  padding: 0 5px;
+  width: 100%;
+  color: #4d4d4d;
+  outline: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid #4d4d4d;
+}
