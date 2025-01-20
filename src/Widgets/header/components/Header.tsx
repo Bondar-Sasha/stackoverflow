@@ -1,6 +1,6 @@
 import { FC } from 'react'
 // import { useNavigate } from 'react-router-dom'
-import { selectorIsLogin, useAppSelector } from '../../../App/redux'
+import { selectorUser, useAppSelector } from '../../../App/redux'
 
 import { HandleAppLogo, HandleUserLogo } from '../../../Features'
 
@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ className = '' }) => {
-  const isLogin = useAppSelector(selectorIsLogin)
+  const user = useAppSelector(selectorUser)
   return (
     <header
       className={`w-full h-14 flex items-center justify-between sticky top-0 left-0 shadow-md pl-3 pr-3  ${className}`}
@@ -20,7 +20,9 @@ const Header: FC<HeaderProps> = ({ className = '' }) => {
         <h1 className="text-white">CODELANG</h1>
       </div>
       <div className="interactivity flex items-center justify-space-between">
-        <div className="controls">{isLogin ? <HandleUserLogo /> : <></>}</div>
+        <div className="controls">
+          {user.id !== '-1' ? <HandleUserLogo /> : <></>}
+        </div>
       </div>
     </header>
   )

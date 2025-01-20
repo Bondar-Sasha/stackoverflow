@@ -1,3 +1,4 @@
 import promiseWithMinTime from './promiseWithMinTime'
+export * from './localStorage'
 
-export default { promiseWithMinTime }
+export { promiseWithMinTime }

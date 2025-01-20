@@ -2,14 +2,15 @@ import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { userApiController } from '../../../Features'
-import { TextLoader } from '../../../Shared'
-import { useAppDispatch, setIsLogin } from '../../../App/redux'
+// import { TextLoader } from '../../../Shared'
+import { useAppDispatch, setUser } from '../../../App/redux'
+// import Cookies from 'js-cookie'
 
 interface RegisterFormData {
   username: string
   password: string
 }
-const { loginControls, getLazyUserControls } = userApiController
+const { loginControls, getLazyAuthControls } = userApiController
 
 const LoginPage: FC = () => {
   const dispatch = useAppDispatch()
@@ -20,19 +21,16 @@ const LoginPage: FC = () => {
     formState: { errors },
   } = useForm<RegisterFormData>()
 
-  const [login] = loginControls()
-  const [userTrigger, {}] = getLazyUserControls()
-  const onSubmit = async (data: RegisterFormData) => {
+  const [login, { data }] = loginControls()
+  const [getA] = getLazyAuthControls()
+  const onSubmit = async (formData: RegisterFormData) => {
     try {
-      const res = await login(data)
-      console.log(document.cookie)
-      if (res.error && 'status' in res.error && res.error.status === 404) {
-        dispatch(setIsLogin(false))
-      } else {
-        await userTrigger({ id: Number(res.data?.data.id) })
-        dispatch(setIsLogin(true))
-      }
-    } catch (error) {}
+      await login(formData)
+      await getA()
+      if (data) dispatch(setUser(data.data))
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -58,7 +56,7 @@ const LoginPage: FC = () => {
       </div>
 
       <button type="submit" className="w-16">
-        <span>sign Up</span> <TextLoader />
+        <span>log in</span>
       </button>
     </form>
   )

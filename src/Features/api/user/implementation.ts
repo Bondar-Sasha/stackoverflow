@@ -2,13 +2,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { MeTypes } from './types/Me'
 import type { UserTypes } from './types/User'
 import type { AuthTypes } from './types/Auth'
-import { baseUrl } from '../../../Shared'
+import { baseUrl, removeItem, setItem } from '../../../Shared'
 
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl,
-    // credentials: 'include',
+    credentials: 'include',
   }),
 
   tagTypes: ['UserCredentials'],
@@ -95,6 +95,10 @@ export const userApi = createApi({
         method: 'POST',
         body: data,
       }),
+      transformResponse: (res: AuthTypes.LoginResponse) => {
+        setItem('userId', res.data.id)
+        return res
+      },
       invalidatesTags: ['UserCredentials'],
     }),
     logout: builder.mutation<AuthTypes.LogoutResponse, AuthTypes.LogoutRequest>(
@@ -103,6 +107,10 @@ export const userApi = createApi({
           url: `auth/logout`,
           method: 'POST',
         }),
+        transformResponse: (res: AuthTypes.LogoutResponse) => {
+          removeItem('userId')
+          return res
+        },
         invalidatesTags: ['UserCredentials'],
       }
     ),

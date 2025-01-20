@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { useAppDispatch, setIsRegistered } from '../../../App/redux'
+// import { useAppDispatch } from '../../../App/redux'
 import { Header } from '../../../Widgets'
 
 // import { userApiController } from '../../../Features'
@@ -14,7 +14,7 @@ interface RegisterFormData {
 // const { registerControls } = userApiController
 
 const RegisterPage: FC = () => {
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
   const {
     register,
@@ -28,7 +28,6 @@ const RegisterPage: FC = () => {
         resolve(9)
       }, 200)
     })
-    dispatch(setIsRegistered(true))
     console.log(res)
   }
 
