@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { MeTypes } from './types/Me'
 import type { UserTypes } from './types/User'
 import type { AuthTypes } from './types/Auth'
-import { baseUrl, removeItem, setItem } from '../../../Shared'
+import { baseUrl } from '../../../Shared'
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -11,18 +11,19 @@ export const userApi = createApi({
     credentials: 'include',
   }),
 
-  tagTypes: ['UserCredentials'],
+  tagTypes: ['User', 'MeData', 'IsMeAuth'],
   endpoints: (builder) => ({
     getUsers: builder.query<
       UserTypes.GetUsersResponse,
       UserTypes.GetUsersRequest
     >({
       query: ({ page, limit }) => `users?page=${page}&limit=${limit}`,
+      providesTags: ['User'],
     }),
     getUser: builder.query<UserTypes.GetUserResponse, UserTypes.GetUserRequest>(
       {
         query: ({ id }) => `users/${id}`,
-        providesTags: ['UserCredentials'],
+        providesTags: ['User'],
       }
     ),
     patchUser: builder.mutation<
@@ -34,6 +35,7 @@ export const userApi = createApi({
         method: 'PATCH',
         body: data,
       }),
+      invalidatesTags: ['User'],
     }),
     deleteUser: builder.mutation<
       UserTypes.DeleteUserResponse,
@@ -43,16 +45,18 @@ export const userApi = createApi({
         url: `users/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['User'],
     }),
     getUserStatistic: builder.query<
       UserTypes.GetUserStatisticResponse,
       UserTypes.GetUserStatisticRequest
     >({
       query: ({ id }) => `users/${id}/statistic`,
+      providesTags: ['User'],
     }),
     getMe: builder.query<MeTypes.GetMeResponse, MeTypes.GetMeRequest>({
       query: () => `me`,
-      providesTags: ['UserCredentials'],
+      providesTags: ['MeData'],
     }),
     patchMe: builder.mutation<MeTypes.PatchMeResponse, MeTypes.PatchMeRequest>({
       query: (data) => ({
@@ -60,7 +64,7 @@ export const userApi = createApi({
         method: 'PATCH',
         body: data,
       }),
-      invalidatesTags: ['UserCredentials'],
+      invalidatesTags: ['MeData'],
     }),
     deleteMe: builder.mutation<
       MeTypes.DeleteMeResponse,
@@ -70,7 +74,7 @@ export const userApi = createApi({
         url: `me`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['UserCredentials'],
+      invalidatesTags: ['MeData', 'IsMeAuth'],
     }),
     patchMyPassword: builder.mutation<
       MeTypes.PatchMyPasswordResponse,
@@ -81,12 +85,12 @@ export const userApi = createApi({
         method: 'PATCH',
         body: data,
       }),
-      invalidatesTags: ['UserCredentials'],
+      invalidatesTags: ['MeData'],
     }),
     getAuth: builder.query<AuthTypes.GetAuthResponse, AuthTypes.GetAuthRequest>(
       {
         query: () => `auth`,
-        providesTags: ['UserCredentials'],
+        providesTags: ['IsMeAuth'],
       }
     ),
     login: builder.mutation<AuthTypes.LoginResponse, AuthTypes.LoginRequest>({
@@ -95,11 +99,8 @@ export const userApi = createApi({
         method: 'POST',
         body: data,
       }),
-      transformResponse: (res: AuthTypes.LoginResponse) => {
-        setItem('userId', res.data.id)
-        return res
-      },
-      invalidatesTags: ['UserCredentials'],
+
+      invalidatesTags: ['MeData', 'IsMeAuth'],
     }),
     logout: builder.mutation<AuthTypes.LogoutResponse, AuthTypes.LogoutRequest>(
       {
@@ -107,11 +108,7 @@ export const userApi = createApi({
           url: `auth/logout`,
           method: 'POST',
         }),
-        transformResponse: (res: AuthTypes.LogoutResponse) => {
-          removeItem('userId')
-          return res
-        },
-        invalidatesTags: ['UserCredentials'],
+        invalidatesTags: ['IsMeAuth'],
       }
     ),
     register: builder.mutation<
@@ -123,7 +120,6 @@ export const userApi = createApi({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['UserCredentials'],
     }),
   }),
 })

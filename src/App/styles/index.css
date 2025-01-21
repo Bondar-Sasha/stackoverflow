@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* :root {
+  --toastify-color-dark: #005fb4;
+  --toastify-color-progress-dark: white;
+} */
 html,
 body {
   margin: 0;

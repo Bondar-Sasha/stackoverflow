@@ -1,14 +1,10 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import 'normalize.css'
-
-import './styles/index.css'
 import AppRoutes from './routes'
 import Notifications from './notifications'
-import { getItem } from '../Shared'
 import { userApiController } from '../Features'
-import { setUser, useAppDispatch } from './redux'
-
-const { getUserControls } = userApiController
+import { setIsAuth, useAppDispatch } from './redux'
+import './styles/index.css'
 
 const Accumulator: FC = () => {
   return (
@@ -19,16 +15,21 @@ const Accumulator: FC = () => {
   )
 }
 
+const { getAuthControls } = userApiController
+
 const App: FC = () => {
   const dispatch = useAppDispatch()
-  const userId = getItem('userId')
+  const { isLoading, isSuccess } = getAuthControls()
 
-  if (!userId) return <Accumulator />
-
-  const { isLoading, isSuccess, data } = getUserControls({ id: Number(userId) })
-
-  if (isSuccess && data) dispatch(setUser(data.data))
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setIsAuth(true))
+    } else {
+      dispatch(setIsAuth(false))
+    }
+  }, [isSuccess, dispatch])
 
   return <>{isLoading ? <div>loading...</div> : <Accumulator />}</>
 }
+
 export default App

@@ -1,15 +1,19 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useAppSelector, selectorUser } from '../../App/redux'
+
+import { selectorIsAuth, useAppSelector } from '../../App'
 
 const Auth: FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const user = useAppSelector(selectorUser)
+  const isAuth = useAppSelector(selectorIsAuth)
 
-  if (user.id !== '-1' && location.pathname.includes('auth'))
-    navigate('/', { replace: true })
+  useEffect(() => {
+    if (isAuth && location.pathname.includes('auth')) {
+      navigate('/', { replace: true })
+    }
+  }, [isAuth, location.pathname, navigate])
 
   return null
 }

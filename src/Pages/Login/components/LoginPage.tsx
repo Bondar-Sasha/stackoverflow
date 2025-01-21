@@ -3,31 +3,25 @@ import { useForm } from 'react-hook-form'
 
 import { userApiController } from '../../../Features'
 // import { TextLoader } from '../../../Shared'
-import { useAppDispatch, setUser } from '../../../App/redux'
 // import Cookies from 'js-cookie'
 
 interface RegisterFormData {
   username: string
   password: string
 }
-const { loginControls, getLazyAuthControls } = userApiController
+const { loginControls } = userApiController
 
 const LoginPage: FC = () => {
-  const dispatch = useAppDispatch()
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormData>()
 
-  const [login, { data }] = loginControls()
-  const [getA] = getLazyAuthControls()
+  const [login] = loginControls()
   const onSubmit = async (formData: RegisterFormData) => {
     try {
       await login(formData)
-      await getA()
-      if (data) dispatch(setUser(data.data))
     } catch (error) {
       console.log(error)
     }

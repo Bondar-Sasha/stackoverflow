@@ -1,13 +1,6 @@
 .textButton {
-   border: none;
-   background: none;
-   color: var(--theme);
-   transition: all 0.15s ease;
-}
-
-@media (hover: hover) {
-   .textButton:not(:disabled):hover {
-      background-color: color-mix(in srgb, var(--theme), transparent 90%);
-      transition: all 0.15s ease;
-   }
+  border: none;
+  background: none;
+  color: var(--theme);
+  transition: all 0.15s ease;
 }

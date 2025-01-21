@@ -11,7 +11,7 @@ const Spinner: FC<SpinnerProps> = ({ className = '' }) => {
   return (
     <div className={className}>
       <span>
-        <CgSpinner className="animate-spin" />
+        <CgSpinner className="animate-spin color-inherit" />
       </span>
     </div>
   )

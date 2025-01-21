@@ -1,4 +1,3 @@
-import AppLogo from './components/AppLogo'
-import UserLogo from './components/UserLogo'
+import LogoWrapper from './components/LogoWrapper'
 
-export { AppLogo, UserLogo }
+export { LogoWrapper }

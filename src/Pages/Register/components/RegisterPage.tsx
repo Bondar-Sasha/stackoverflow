@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 
 // import { useAppDispatch } from '../../../App/redux'
-import { Header } from '../../../Widgets'
+import { NeutralHeader } from '../../../Widgets'
 
 // import { userApiController } from '../../../Features'
 
@@ -33,7 +33,7 @@ const RegisterPage: FC = () => {
 
   return (
     <>
-      <Header />
+      <NeutralHeader />
       <main className="mt-20">
         {' '}
         <form onSubmit={handleSubmit(onSubmit)}>
