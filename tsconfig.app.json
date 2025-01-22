@@ -27,5 +27,8 @@
       }
     ]
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "src/Features/components/buttons/HomeButton/HomeButton/HomeButton.tsx"
+  ]
 }

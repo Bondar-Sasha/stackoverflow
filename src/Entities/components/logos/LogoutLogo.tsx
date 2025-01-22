@@ -11,7 +11,7 @@ const LogoutLogo: FC<LogoutLogoProps> = (props) => {
   return (
     <LogoWrapper {...props}>
       {' '}
-      <MdOutlineLogout className="cursor-pointer color-inherit" />
+      <MdOutlineLogout className="cursor-pointer color-inherit hover:text-color-for-hover" />
     </LogoWrapper>
   )
 }

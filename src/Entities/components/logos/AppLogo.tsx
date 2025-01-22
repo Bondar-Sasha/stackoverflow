@@ -11,7 +11,7 @@ const AppLogo: FC<AppLogoProps> = (props) => {
   return (
     <LogoWrapper {...props}>
       {' '}
-      <FaCode className="cursor-pointer color-inherit hover:text-color-for-color" />
+      <FaCode className="cursor-pointer color-inherit hover:text-color-for-hover" />
     </LogoWrapper>
   )
 }

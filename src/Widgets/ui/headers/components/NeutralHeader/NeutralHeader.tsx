@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import { HeaderWrapper } from '../../../../../Features'
+import { HeaderWrapper, HomeButton } from '../../../../../Features'
 
 const NeutralHeader: FC = () => {
   return (
     <HeaderWrapper>
-      <></>
+      <HomeButton />
     </HeaderWrapper>
   )
 }

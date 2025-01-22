@@ -1,11 +1,11 @@
 import { BasicButton } from '../../../../Shared'
 import { useNavigate } from 'react-router-dom'
 
-const SingUpButton: typeof BasicButton = ({ className, ...props }) => {
+const HomeButton: typeof BasicButton = ({ className = '', ...props }) => {
   const navigate = useNavigate()
 
   const handleClick = () => {
-    navigate('/auth/registration')
+    navigate('/')
   }
   const preparedClasses = [
     'bg-osseous-theme rounded-full w-28 text-ordinary-text hover:bg-color-for-hover',
@@ -13,15 +13,10 @@ const SingUpButton: typeof BasicButton = ({ className, ...props }) => {
   ].join(' ')
 
   return (
-    <BasicButton
-      onClick={handleClick}
-      variant="outlined"
-      {...props}
-      className={preparedClasses}
-    >
-      sing up
+    <BasicButton onClick={handleClick} {...props} className={preparedClasses}>
+      Home
     </BasicButton>
   )
 }
 
-export default SingUpButton
+export default HomeButton

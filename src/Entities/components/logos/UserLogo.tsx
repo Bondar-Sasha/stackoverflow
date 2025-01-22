@@ -11,7 +11,7 @@ const UserLogo: FC<UserLogoProps> = (props) => {
   return (
     <LogoWrapper {...props}>
       {' '}
-      <FaRegUser className="cursor-pointer color-inherit" />
+      <FaRegUser className="cursor-pointer color-inherit hover:text-color-for-hover" />
     </LogoWrapper>
   )
 }

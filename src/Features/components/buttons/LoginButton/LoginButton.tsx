@@ -8,7 +8,7 @@ const LoginButton: typeof BasicButton = ({ className = '', ...props }) => {
     navigate('/auth/login')
   }
   const preparedClasses = [
-    'bg-osseous-theme rounded-full w-28 text-ordinary-text hover:bg-color-for-color',
+    'bg-osseous-theme rounded-full w-28 text-ordinary-text hover:bg-color-for-hover',
     className,
   ].join(' ')
 

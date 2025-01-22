@@ -3,7 +3,7 @@ import 'normalize.css'
 import AppRoutes from './routes'
 import Notifications from './notifications'
 import { userApiController } from '../Features'
-import { setIsAuth, useAppDispatch } from './redux'
+import { setIsAuth, setId, useAppDispatch } from './redux'
 import './styles/index.css'
 
 const Accumulator: FC = () => {
@@ -19,15 +19,17 @@ const { getAuthControls } = userApiController
 
 const App: FC = () => {
   const dispatch = useAppDispatch()
-  const { isLoading, isSuccess } = getAuthControls()
+  const { isLoading, isSuccess, data } = getAuthControls()
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       dispatch(setIsAuth(true))
+      dispatch(setId(Number(data.data.id)))
     } else {
       dispatch(setIsAuth(false))
+      dispatch(setId(-1))
     }
-  }, [isSuccess, dispatch])
+  }, [isSuccess, dispatch, data])
 
   return <>{isLoading ? <div>loading...</div> : <Accumulator />}</>
 }
