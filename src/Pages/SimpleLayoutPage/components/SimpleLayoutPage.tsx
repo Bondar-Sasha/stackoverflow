@@ -7,7 +7,8 @@ const SimpleLayoutPage: FC = () => {
   return (
     <>
       <NeutralHeader />
-      <main className="w-full h-full flex items-start justify-center flex-grow bg-gray-200">
+      <main className="w-full h-full flex items-center justify-center flex-grow bg-[rgb(241,241,241)]">
+        {' '}
         <Outlet />
       </main>
       <BasicFooter />

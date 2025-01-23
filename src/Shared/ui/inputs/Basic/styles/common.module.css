@@ -1,5 +1,7 @@
 .common {
-  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  padding: 0px 10px;
   width: 100%;
   color: #4d4d4d;
   outline: none;
