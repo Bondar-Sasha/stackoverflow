@@ -3,7 +3,14 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Toastify: FC = () => {
-  return <ToastContainer />
+  return (
+    <ToastContainer
+      theme="light"
+      position="bottom-right"
+      autoClose={1500}
+      pauseOnHover
+    />
+  )
 }
 
 export default Toastify

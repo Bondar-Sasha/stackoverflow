@@ -8,7 +8,11 @@ module.exports = {
       'ordinary-text': 'rgb(30 30 30)',
       'color-for-hover': 'rgb(240 240 240)',
     },
-    extend: {},
+    extend: {
+      spacing: {
+        '56-px': '56px',
+      },
+    },
   },
   plugins: [],
 }
