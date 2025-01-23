@@ -26,8 +26,7 @@ const validationSchema = Yup.object({
     .matches(
       /^[A-Za-z0-9]+$/,
       'Password must contain only Latin letters and numbers'
-    )
-    .matches(/^(?=.*[0-9]).+$/, 'Password must contain at least one number'),
+    ),
   confirmPassword: Yup.string()
     .required('Confirm Password is required')
     .oneOf([Yup.ref('password')], 'Passwords must match'),
@@ -51,9 +50,9 @@ const RegisterPage: FC = () => {
         }, 200)
       })
       navigate('/auth/login')
-      toast('Login to new account', {
+      toast('Now login to new account', {
         type: 'success',
-        autoClose: 2000,
+        autoClose: 2300,
       })
     } catch (error) {
       console.error(error)
@@ -103,6 +102,7 @@ const RegisterPage: FC = () => {
               <Field
                 name="confirmPassword"
                 as={PasswordInput}
+                autoComplete="new-password"
                 placeholder="confirm password"
                 className="rounded-full h-11 border-theme border-2 text-lg w-full pb-1"
               />
@@ -117,7 +117,7 @@ const RegisterPage: FC = () => {
               type="submit"
               className="bg-theme h-11 rounded-full w-full"
             >
-              Sign Up
+              <span>Sign Up</span>
             </BasicButton>
           </Form>
         )}
