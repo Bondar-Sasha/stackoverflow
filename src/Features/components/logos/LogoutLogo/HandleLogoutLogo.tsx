@@ -16,12 +16,12 @@ const HandleLogoutLogo: typeof LogoutLogo = (props) => {
       dispatch(setIsAuth(false))
       toast('You have successfully logged out', {
         type: 'success',
-        theme: 'light',
+        autoClose: 1900,
       })
     } else {
-      toast('Error was occurred', {
+      toast('Server error was occurred', {
         type: 'error',
-        theme: 'light',
+        autoClose: 1900,
       })
     }
   }

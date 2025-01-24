@@ -13,5 +13,4 @@ const Redirection: FC = () => {
     </>
   )
 }
-
 export default Redirection

@@ -3,6 +3,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom'
 
 import { Redirection } from '../../Processes'
 import { AccountPage, HomePage, LoginPage, RegisterPage } from '../../Pages'
+import { LayoutPage, SimpleLayoutPage } from '../../Pages'
 
 interface RedirectWrapperProps {
   children: ReactNode
@@ -11,8 +12,8 @@ interface RedirectWrapperProps {
 const RedirectWrapper: FC<RedirectWrapperProps> = ({ children }) => {
   return (
     <>
-      {children}
       <Redirection />
+      {children}
     </>
   )
 }
@@ -25,114 +26,51 @@ const AppRoutes: React.FC = () => {
           path="/"
           element={
             <RedirectWrapper>
-              <HomePage />
+              <LayoutPage />
             </RedirectWrapper>
           }
-        />
+        >
+          <Route index element={<HomePage />} />
+          <Route path="posts" element={<></>} />
+          <Route path="create_post" element={<></>} />
+          <Route path="my_posts" element={<></>} />
+          <Route path="edit_post" element={<></>} />
+          <Route path="account" element={<AccountPage />} />
+          <Route path="users" element={<></>} />
+          <Route path="users/:userId" element={<></>} />
+          <Route path="questions" element={<></>} />
+          <Route path="create_question" element={<></>} />
+          <Route path="edit_question" element={<></>} />
+        </Route>
+
         <Route
-          path="auth/registration"
+          path="/auth"
           element={
             <RedirectWrapper>
-              <RegisterPage />
+              <SimpleLayoutPage />
             </RedirectWrapper>
           }
-        />
-        <Route
-          path="auth/login"
-          element={
-            <RedirectWrapper>
-              <LoginPage />
-            </RedirectWrapper>
-          }
-        />
-        <Route
-          path="/post"
-          element={
-            <RedirectWrapper>
-              <></>
-            </RedirectWrapper>
-          }
-        />
-        <Route
-          path="/create_post"
-          element={
-            <RedirectWrapper>
-              <></>
-            </RedirectWrapper>
-          }
-        />
-        <Route
-          path="/my_posts"
-          element={
-            <RedirectWrapper>
-              <></>
-            </RedirectWrapper>
-          }
-        />
-        <Route
-          path="/edit_post"
-          element={
-            <RedirectWrapper>
-              <></>
-            </RedirectWrapper>
-          }
-        />
-        <Route
-          path="/account"
-          element={
-            <RedirectWrapper>
-              <AccountPage />
-            </RedirectWrapper>
-          }
-        />
-        <Route
-          path="/users"
-          element={
-            <RedirectWrapper>
-              <></>
-            </RedirectWrapper>
-          }
-        />
-        <Route
-          path="/users/:userId"
-          element={
-            <RedirectWrapper>
-              <></>
-            </RedirectWrapper>
-          }
-        />
-        <Route
-          path="/questions"
-          element={
-            <RedirectWrapper>
-              <></>
-            </RedirectWrapper>
-          }
-        />
-        <Route
-          path="/create_question"
-          element={
-            <RedirectWrapper>
-              <></>
-            </RedirectWrapper>
-          }
-        />
-        <Route
-          path="/edit_question"
-          element={
-            <RedirectWrapper>
-              <></>
-            </RedirectWrapper>
-          }
-        />
+        >
+          <Route path="registration" element={<RegisterPage />} />
+          <Route path="login" element={<LoginPage />} />
+        </Route>
         <Route
           path="*"
           element={
             <RedirectWrapper>
-              <>404 Not Found</>
+              <SimpleLayoutPage />
             </RedirectWrapper>
           }
-        />
+        >
+          <Route
+            index
+            element={
+              <RedirectWrapper>
+                <>404 Not Found</>
+              </RedirectWrapper>
+            }
+          />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
