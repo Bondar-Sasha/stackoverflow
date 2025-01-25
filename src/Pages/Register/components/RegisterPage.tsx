@@ -3,11 +3,12 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { BasicButton, BasicInput } from '../../../Shared'
+import { BasicButton, BasicInput, Spinner } from '../../../Shared'
 import { PasswordInput } from '../../../Entities'
 import stylesForErrors from '../styles/errors.module.css'
 import stylesForInput from '../styles/input.module.css'
 import { toast } from 'react-toastify'
+import { useRegisterMutation } from '../../../Features'
 
 interface RegisterFormData {
   username: string
@@ -19,7 +20,10 @@ const validationSchema = Yup.object({
   username: Yup.string()
     .required('Username is required')
     .min(5, 'Username must be at least 5 characters')
-    .matches(/^[A-Za-z]+$/, 'Username must contain only Latin letters'),
+    .matches(
+      /^[A-Za-z0-9]+$/,
+      'Username must contain only Latin letters and numbers'
+    ),
   password: Yup.string()
     .required('Password is required')
     .min(5, 'Password must be at least 5 characters')
@@ -40,15 +44,10 @@ const initialValues: RegisterFormData = {
 
 const RegisterPage: FC = () => {
   const navigate = useNavigate()
-
+  const [register, { isLoading }] = useRegisterMutation()
   const onSubmit = async (values: RegisterFormData) => {
     try {
-      ;(() => values)()
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(9)
-        }, 200)
-      })
+      await register(values)
       navigate('/auth/login')
       toast('Now login to new account', {
         type: 'success',
@@ -67,7 +66,7 @@ const RegisterPage: FC = () => {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {() => (
+        {({ isValid }) => (
           <Form className="text-ordinary-text flex flex-col w-full">
             <div className={`${stylesForInput.input}`}>
               <Field
@@ -115,9 +114,17 @@ const RegisterPage: FC = () => {
 
             <BasicButton
               type="submit"
+              onClick={() => {
+                if (!isValid) {
+                  toast('Fill out the form correctly', {
+                    autoClose: 2000,
+                    type: 'warning',
+                  })
+                }
+              }}
               className="bg-theme h-11 rounded-full w-full"
             >
-              <span>Sign Up</span>
+              <span>Sing up</span> {isLoading && <Spinner className="ml-2" />}
             </BasicButton>
           </Form>
         )}

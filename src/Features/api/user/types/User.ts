@@ -48,26 +48,30 @@ export namespace UserTypes {
     id: string
   }
   export interface DeleteUserResponse {
-    id: string
-    username: string
-    role: string
+    data: {
+      id: string
+      username: string
+      role: string
+    }
   }
   export interface GetUserStatisticRequest {
     id: string
   }
   export interface GetUserStatisticResponse {
-    id: string
-    username: string
-    role: string
-    statistic: {
-      snippetsCount: number
-      rating: number
-      commentsCount: number
-      likesCount: number
-      dislikesCount: number
-      questionsCount: number
-      correctAnswersCount: number
-      regularAnswersCount: number
+    data: {
+      id: string
+      username: string
+      role: string
+      statistic: {
+        snippetsCount: number
+        rating: number
+        commentsCount: number
+        likesCount: number
+        dislikesCount: number
+        questionsCount: number
+        correctAnswersCount: number
+        regularAnswersCount: number
+      }
     }
   }
 }

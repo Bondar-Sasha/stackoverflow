@@ -2,15 +2,13 @@ import { FC } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { BasicButton, BasicInput, Spinner } from '../../../Shared'
 import { PasswordInput } from '../../../Entities'
 import stylesForErrors from '../styles/errors.module.css'
 import stylesForInput from '../styles/input.module.css'
-import { toast } from 'react-toastify'
-import { userApiController } from '../../../Features'
-
-const { loginControls } = userApiController
+import { useLoginMutation } from '../../../Features'
 
 interface LoginFormData {
   username: string
@@ -21,7 +19,10 @@ const validationSchema = Yup.object({
   username: Yup.string()
     .required('Username is required')
     .min(5, 'Username must be at least 5 characters')
-    .matches(/^[A-Za-z]+$/, 'Username must contain only Latin letters'),
+    .matches(
+      /^[A-Za-z0-9]+$/,
+      'Username must contain only Latin letters and numbers'
+    ),
   password: Yup.string()
     .required('Password is required')
     .min(5, 'Password must be at least 5 characters')
@@ -37,14 +38,21 @@ const initialValues: LoginFormData = {
 }
 
 const LoginPage: FC = () => {
-  const [login, { isLoading }] = loginControls()
+  const [login, { isLoading, isError }] = useLoginMutation()
   const onSubmit = async (formData: LoginFormData) => {
     try {
       await login(formData)
-      toast('You have successfully logged in', {
-        type: 'success',
-        autoClose: 1800,
-      })
+      if (!isError) {
+        toast('You have successfully logged in', {
+          type: 'success',
+          autoClose: 1800,
+        })
+      } else {
+        toast('Error was occurred', {
+          type: 'error',
+          autoClose: 1800,
+        })
+      }
     } catch (error) {
       console.error(error)
     }
@@ -58,7 +66,7 @@ const LoginPage: FC = () => {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {() => (
+        {({ isValid }) => (
           <Form className="text-ordinary-text flex flex-col w-full">
             <div className={`${stylesForInput.input}`}>
               <Field
@@ -91,6 +99,14 @@ const LoginPage: FC = () => {
             <BasicButton
               type="submit"
               disabled={isLoading}
+              onClick={() => {
+                if (!isValid) {
+                  toast('Fill out the form correctly', {
+                    autoClose: 2000,
+                    type: 'warning',
+                  })
+                }
+              }}
               className="flex items-center justify-center bg-theme h-11 rounded-full w-full"
             >
               <span>Log in</span> {isLoading && <Spinner className="ml-2" />}

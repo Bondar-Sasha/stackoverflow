@@ -2,9 +2,10 @@ import { FC, useEffect } from 'react'
 import 'normalize.css'
 import AppRoutes from './routes'
 import Notifications from './notifications'
-import { userApiController } from '../Features'
-import { setIsAuth, setId, useAppDispatch } from './redux'
+import { useGetAuthQuery } from '../Features'
+import { setIsAuth, setId, useAppDispatch, setIsLoading } from './redux'
 import './styles/index.css'
+import { TextLoader } from '../Shared'
 
 const Accumulator: FC = () => {
   return (
@@ -15,13 +16,12 @@ const Accumulator: FC = () => {
   )
 }
 
-const { getAuthControls } = userApiController
-
 const App: FC = () => {
   const dispatch = useAppDispatch()
-  const { isLoading, isSuccess, data } = getAuthControls()
+  const { isLoading, isSuccess, data } = useGetAuthQuery()
 
   useEffect(() => {
+    dispatch(setIsLoading(isLoading))
     if (isSuccess && data) {
       dispatch(setIsAuth(true))
       dispatch(setId(Number(data.data.id)))
@@ -29,9 +29,19 @@ const App: FC = () => {
       dispatch(setIsAuth(false))
       dispatch(setId(-1))
     }
-  }, [isSuccess, dispatch, data])
+  }, [isSuccess, dispatch, data, isLoading])
 
-  return <>{isLoading ? <div>loading...</div> : <Accumulator />}</>
+  return (
+    <>
+      {isLoading ? (
+        <div className="w-full h-full flex items-center justify-center">
+          <TextLoader className="text-2xl" label="Loading..." />
+        </div>
+      ) : (
+        <Accumulator />
+      )}
+    </>
+  )
 }
 
 export default App

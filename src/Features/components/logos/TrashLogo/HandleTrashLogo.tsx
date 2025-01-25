@@ -1,11 +1,11 @@
 import { toast } from 'react-toastify'
 
-import { LogoutLogo } from '../../../../Entities'
+import { TrashLogo } from '../../../../Entities'
 import { useLogoutMutation } from '../../../api/user'
 import { Spinner } from '../../../../Shared'
 import { setIsAuth, useAppDispatch } from '../../../../App'
 
-const HandleLogoutLogo: typeof LogoutLogo = (props) => {
+const HandleTrashLogo: typeof TrashLogo = (props) => {
   const dispatch = useAppDispatch()
   const [logout, { data, isLoading }] = useLogoutMutation()
 
@@ -25,10 +25,10 @@ const HandleLogoutLogo: typeof LogoutLogo = (props) => {
     }
   }
   return isLoading ? (
-    <Spinner className="text-osseous-theme" />
+    <Spinner className="text-ordinary-text" />
   ) : (
-    <LogoutLogo onClick={handleClick} {...props} />
+    <TrashLogo onClick={handleClick} {...props} />
   )
 }
 
-export default HandleLogoutLogo
+export default HandleTrashLogo

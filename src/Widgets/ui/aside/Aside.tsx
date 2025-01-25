@@ -15,12 +15,12 @@ const Aside: FC = () => {
   const isAuth = useAppSelector(selectorIsAuth)
   return (
     <aside
-      className={`flex flex-col items-center fixed z-5 top-56-px left-0 w-80 bg-theme pt-7 ${styles.aside}`}
+      className={`flex flex-col items-center fixed z-5 top-0 left-0 w-80 bg-theme pt-20 ${styles.aside}`}
     >
       <HomeControl />
       {isAuth && <AccountControl />}
       <PostSnippetControl />
-      <MySnippetsControl />
+      {isAuth && <MySnippetsControl />}
       <QuestionsControl />
       <UsersControl />
     </aside>

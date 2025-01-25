@@ -2,7 +2,13 @@ import React, { FC, ReactNode } from 'react'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 
 import { Redirection } from '../../Processes'
-import { AccountPage, HomePage, LoginPage, RegisterPage } from '../../Pages'
+import {
+  AccountPage,
+  HomePage,
+  LoginPage,
+  RegisterPage,
+  QuestionsPage,
+} from '../../Pages'
 import { LayoutPage, SimpleLayoutPage } from '../../Pages'
 
 interface RedirectWrapperProps {
@@ -38,7 +44,7 @@ const AppRoutes: React.FC = () => {
           <Route path="account" element={<AccountPage />} />
           <Route path="users" element={<></>} />
           <Route path="users/:userId" element={<></>} />
-          <Route path="questions" element={<></>} />
+          <Route path="questions" element={<QuestionsPage />} />
           <Route path="create_question" element={<></>} />
           <Route path="edit_question" element={<></>} />
         </Route>

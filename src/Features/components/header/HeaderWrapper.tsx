@@ -11,7 +11,7 @@ interface HeaderWrapperProps {
 const HeaderWrapper: FC<HeaderWrapperProps> = ({ children }) => {
   return (
     <header
-      className={`w-full h-14 flex items-center justify-between sticky z-10 top-0 left-0 shadow-xl pl-3 pr-3 bg-theme ${styles.header}`}
+      className={`w-full h-14 flex items-center justify-between fixed z-10 top-0 left-0 shadow-xl pl-3 pr-3 bg-theme ${styles.header}`}
     >
       <div className="flex items-center justify-between">
         <HandleAppLogo className="text-2xl text-osseous-theme" />

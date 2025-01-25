@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import colors from 'tailwindcss/colors'
+
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}', './.storybook/**/*.{js,jsx,ts,tsx}'],
   theme: {
@@ -7,6 +9,7 @@ module.exports = {
       'osseous-theme': 'white',
       'ordinary-text': 'rgb(30 30 30)',
       'color-for-hover': 'rgb(240 240 240)',
+      ...colors,
     },
     extend: {
       spacing: {
