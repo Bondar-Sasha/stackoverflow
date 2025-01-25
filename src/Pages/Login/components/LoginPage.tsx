@@ -4,11 +4,16 @@ import * as Yup from 'yup'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import { BasicButton, BasicInput, Spinner } from '../../../Shared'
+import {
+  BasicButton,
+  BasicInput,
+  Errors,
+  Spinner,
+  useLoginMutation,
+} from '../../../Shared'
 import { PasswordInput } from '../../../Entities'
 import stylesForErrors from '../styles/errors.module.css'
 import stylesForInput from '../styles/input.module.css'
-import { useLoginMutation } from '../../../Features'
 
 interface LoginFormData {
   username: string
@@ -38,23 +43,19 @@ const initialValues: LoginFormData = {
 }
 
 const LoginPage: FC = () => {
-  const [login, { isLoading, isError }] = useLoginMutation()
+  const [login, { isLoading }] = useLoginMutation()
   const onSubmit = async (formData: LoginFormData) => {
     try {
-      await login(formData)
-      if (!isError) {
-        toast('You have successfully logged in', {
-          type: 'success',
-          autoClose: 1800,
-        })
-      } else {
-        toast('Error was occurred', {
-          type: 'error',
-          autoClose: 1800,
-        })
-      }
-    } catch (error) {
-      console.error(error)
+      await login(formData).unwrap()
+      toast('You have successfully logged in', {
+        type: 'success',
+        autoClose: 1800,
+      })
+    } catch (err) {
+      toast((err as Errors.ErrorWithData).data.message, {
+        type: 'error',
+        autoClose: 1800,
+      })
     }
   }
 
@@ -107,7 +108,7 @@ const LoginPage: FC = () => {
                   })
                 }
               }}
-              className="flex items-center justify-center bg-theme h-11 rounded-full w-full"
+              className="flex items-center justify-center bg-theme h-11 rounded-full w-full text-osseous-theme"
             >
               <span>Log in</span> {isLoading && <Spinner className="ml-2" />}
             </BasicButton>

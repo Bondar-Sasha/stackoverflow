@@ -2,13 +2,18 @@ import { FC } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import { BasicButton, BasicInput, Spinner } from '../../../Shared'
+import {
+  BasicButton,
+  BasicInput,
+  Errors,
+  Spinner,
+  useRegisterMutation,
+} from '../../../Shared'
 import { PasswordInput } from '../../../Entities'
 import stylesForErrors from '../styles/errors.module.css'
 import stylesForInput from '../styles/input.module.css'
-import { toast } from 'react-toastify'
-import { useRegisterMutation } from '../../../Features'
 
 interface RegisterFormData {
   username: string
@@ -47,14 +52,17 @@ const RegisterPage: FC = () => {
   const [register, { isLoading }] = useRegisterMutation()
   const onSubmit = async (values: RegisterFormData) => {
     try {
-      await register(values)
+      await register(values).unwrap()
       navigate('/auth/login')
       toast('Now login to new account', {
         type: 'success',
         autoClose: 2300,
       })
-    } catch (error) {
-      console.error(error)
+    } catch (err) {
+      toast((err as Errors.ErrorWithData).data.message, {
+        type: 'error',
+        autoClose: 1800,
+      })
     }
   }
 
@@ -122,7 +130,7 @@ const RegisterPage: FC = () => {
                   })
                 }
               }}
-              className="bg-theme h-11 rounded-full w-full"
+              className="flex items-center justify-center bg-theme h-11 rounded-full w-full text-osseous-theme"
             >
               <span>Sing up</span> {isLoading && <Spinner className="ml-2" />}
             </BasicButton>

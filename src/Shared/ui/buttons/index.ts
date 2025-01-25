@@ -1,3 +1,1 @@
-import BasicButton from './Basic/BasicButton'
-
-export { BasicButton }
+export * from './Basic'

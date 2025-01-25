@@ -3,17 +3,17 @@ import {
   setIsAuth,
   setId,
   selectorId,
-  selectorIsLoading,
-  setIsLoading,
-} from './isAuth.slice'
-import isAuthReducer from './isAuth.slice'
+  selectorWaitingForAuth,
+  setWaitingForAuth,
+} from './Auth.slice'
+import authReducer from './Auth.slice'
 
 export {
   selectorIsAuth,
-  isAuthReducer,
+  authReducer,
   setIsAuth,
   setId,
   selectorId,
-  selectorIsLoading,
-  setIsLoading,
+  selectorWaitingForAuth,
+  setWaitingForAuth,
 }

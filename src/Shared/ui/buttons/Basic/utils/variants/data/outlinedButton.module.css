@@ -1,6 +1,4 @@
 .outlinedButton {
   background: none;
-  border: 1px solid var(--theme);
-  color: var(--theme);
-  transition: all 0.15s ease;
+  border: 1px solid initial;
 }

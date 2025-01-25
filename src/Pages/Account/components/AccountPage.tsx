@@ -1,39 +1,36 @@
-import { FC, useEffect } from 'react'
+import { FC, useLayoutEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import {
-  DeleteAccButton,
-  LogoutButton,
-  useLazyGetUserStatisticQuery,
-} from '../../../Features'
-import { selectorId, selectorIsLoading, useAppSelector } from '../../../App'
+import { DeleteAccButton, LogoutButton } from '../../../Features'
+import { selectorId, useAppSelector } from '../../../App'
 import { toast } from 'react-toastify'
-import { TextLoader } from './../../../Shared'
+import { TextLoader, useLazyGetUserStatisticQuery } from './../../../Shared'
 import { AnonymousUser } from '../../../Entities'
 
 const AccountPage: FC = () => {
   const navigate = useNavigate()
   const userId = useAppSelector(selectorId)
-  const isAuthLoading = useAppSelector(selectorIsLoading)
 
-  const [statistic, { isLoading = true, isError, data }] =
-    useLazyGetUserStatisticQuery()
+  const [statistic, { isLoading, data }] = useLazyGetUserStatisticQuery()
 
-  useEffect(() => {
-    if (!isAuthLoading) {
-      statistic({
-        id: String(userId),
-      })
+  useLayoutEffect(() => {
+    async function handleStatistic() {
+      try {
+        console.log(userId)
+        await statistic({
+          id: String(userId),
+        }).unwrap()
+      } catch (err) {
+        toast('server error', {
+          autoClose: 1800,
+          type: 'error',
+        })
+        navigate('/')
+        console.error(err)
+      }
     }
-
-    if (isError) {
-      toast('Server error', {
-        autoClose: 1800,
-        type: 'error',
-      })
-      navigate('/')
-    }
-  }, [isAuthLoading, isError, navigate, statistic, userId])
+    if (userId) handleStatistic()
+  }, [isLoading, navigate, statistic, userId])
 
   if (isLoading)
     return (
@@ -43,7 +40,7 @@ const AccountPage: FC = () => {
     )
 
   return (
-    <div className="w-full h-full flex flex-col items-center p-5">
+    <div className="stretching flex flex-col items-center p-5">
       <div className="mb-10">
         <h1 className="text-2xl">
           <span className="font-bold">Welcome</span>,{' '}
@@ -52,7 +49,7 @@ const AccountPage: FC = () => {
       </div>
       <div className="w-3/4">
         <div className="flex items-center justify-evenly">
-          <AnonymousUser className="bg-color-for-hover text-8xl text-gray-500 rounded-full" />
+          <AnonymousUser className=" text-8xl" />
           <div className="flex items-center flex-col">
             <div className="flex justify-around flex-col w-full mb-3">
               <h2 className="font-bold">{data?.data.username}</h2>

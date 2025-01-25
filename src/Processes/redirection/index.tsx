@@ -1,9 +1,9 @@
-import { FC, useEffect } from 'react'
+import { FC, useLayoutEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
   selectorId,
   selectorIsAuth,
-  selectorIsLoading,
+  selectorWaitingForAuth,
   useAppSelector,
 } from '../../App'
 import { toast } from 'react-toastify'
@@ -20,9 +20,9 @@ const Redirection: FC = () => {
 
   const userId = useAppSelector(selectorId)
   const isAuth = useAppSelector(selectorIsAuth)
-  const isLoading = useAppSelector(selectorIsLoading)
+  const isLoading = useAppSelector(selectorWaitingForAuth)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isLoading) {
       if (isAuth && location.pathname.includes('auth')) {
         navigate('/', { replace: true })

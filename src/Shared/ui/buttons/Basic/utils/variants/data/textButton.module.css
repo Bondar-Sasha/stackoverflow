@@ -1,6 +1,4 @@
 .textButton {
   border: none;
   background: none;
-  color: var(--theme);
-  transition: all 0.15s ease;
 }
