@@ -16,7 +16,6 @@ const AccountPage: FC = () => {
   useLayoutEffect(() => {
     async function handleStatistic() {
       try {
-        console.log(userId)
         await statistic({
           id: String(userId),
         }).unwrap()
@@ -30,7 +29,7 @@ const AccountPage: FC = () => {
       }
     }
     if (userId) handleStatistic()
-  }, [isLoading, navigate, statistic, userId])
+  }, [navigate, statistic, userId])
 
   if (isLoading)
     return (

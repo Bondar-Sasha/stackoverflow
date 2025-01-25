@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import { FC } from 'react'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 
 import { Redirection } from '../../Processes'
@@ -11,29 +11,16 @@ import {
 } from '../../Pages'
 import { LayoutPage, SimpleLayoutPage } from '../../Pages'
 
-interface RedirectWrapperProps {
-  children: ReactNode
-}
-
-const RedirectWrapper: FC<RedirectWrapperProps> = ({ children }) => {
-  return (
-    <>
-      <Redirection />
-      {children}
-    </>
-  )
-}
-
-const AppRoutes: React.FC = () => {
+const AppRoutes: FC = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
           element={
-            <RedirectWrapper>
+            <Redirection>
               <LayoutPage />
-            </RedirectWrapper>
+            </Redirection>
           }
         >
           <Route index element={<HomePage />} />
@@ -52,30 +39,16 @@ const AppRoutes: React.FC = () => {
         <Route
           path="/auth"
           element={
-            <RedirectWrapper>
+            <Redirection>
               <SimpleLayoutPage />
-            </RedirectWrapper>
+            </Redirection>
           }
         >
           <Route path="registration" element={<RegisterPage />} />
           <Route path="login" element={<LoginPage />} />
         </Route>
-        <Route
-          path="*"
-          element={
-            <RedirectWrapper>
-              <SimpleLayoutPage />
-            </RedirectWrapper>
-          }
-        >
-          <Route
-            index
-            element={
-              <RedirectWrapper>
-                <>404 Not Found</>
-              </RedirectWrapper>
-            }
-          />
+        <Route path="*" element={<SimpleLayoutPage />}>
+          <Route index element={<>404 Not Found</>} />
         </Route>
       </Routes>
     </BrowserRouter>

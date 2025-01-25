@@ -1,3 +1,1 @@
-import Redirection from './redirection'
-
-export { Redirection }
+export * from './redirection'
