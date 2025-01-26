@@ -1,11 +1,16 @@
 import { FC, useLayoutEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 import { DeleteAccButton, LogoutButton } from '../../../Features'
 import { selectorId, useAppSelector } from '../../../App'
-import { toast } from 'react-toastify'
-import { TextLoader, useLazyGetUserStatisticQuery } from './../../../Shared'
+import { useLazyGetUserStatisticQuery } from './../../../Shared'
 import { AnonymousUser } from '../../../Entities'
+import {
+  DownloadMask,
+  EditPasswordForm,
+  EditUsernameForm,
+} from '../../../Widgets'
 
 const AccountPage: FC = () => {
   const navigate = useNavigate()
@@ -31,12 +36,7 @@ const AccountPage: FC = () => {
     if (userId) handleStatistic()
   }, [navigate, statistic, userId])
 
-  if (isLoading)
-    return (
-      <div className="w-full h-full flex items-center justify-center">
-        <TextLoader className="text-2xl" label="Loading..." />
-      </div>
-    )
+  if (isLoading) return <DownloadMask />
 
   return (
     <div className="stretching flex flex-col items-center p-5">
@@ -46,7 +46,7 @@ const AccountPage: FC = () => {
           <span className="">{data?.data.username}</span>
         </h1>
       </div>
-      <div className="w-3/4">
+      <div className="w-3/4 mb-5">
         <div className="flex items-center justify-evenly">
           <AnonymousUser className=" text-8xl" />
           <div className="flex items-center flex-col">
@@ -76,7 +76,13 @@ const AccountPage: FC = () => {
           </span>
         </div>
       </div>
-      <div className="w-3/4 h-10 "></div>
+      <div className="w-3/4 flex flex-col">
+        <h3 className="underline font-bold mb-1">Edit your profile:</h3>
+        <div className="w-full flex justify-between">
+          <EditUsernameForm />
+          <EditPasswordForm />
+        </div>
+      </div>
     </div>
   )
 }

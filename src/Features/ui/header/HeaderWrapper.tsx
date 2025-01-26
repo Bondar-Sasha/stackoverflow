@@ -14,7 +14,7 @@ const HeaderWrapper: FC<HeaderWrapperProps> = ({ children }) => {
       className={`w-full h-14 flex items-center justify-between fixed z-10 top-0 left-0 shadow-xl pl-3 pr-3 bg-theme ${styles.header}`}
     >
       <div className="flex items-center justify-between">
-        <HandleAppLogo className="text-2xl text-osseous-theme" />
+        <HandleAppLogo className="text-2xl text-osseous-theme hover:text-gray-200" />
         <div className="main_inf cursor-pointer flex items-center  ml-2">
           <HandleAppName />
         </div>

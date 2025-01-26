@@ -77,7 +77,7 @@ export const userApi = createApi({
       MeTypes.PatchMyPasswordRequest
     >({
       query: (data) => ({
-        url: `me`,
+        url: `me/password`,
         method: 'PATCH',
         body: data,
       }),

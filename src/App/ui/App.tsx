@@ -1,8 +1,9 @@
 import { FC, useEffect } from 'react'
 
 import { setIsAuth, setId, useAppDispatch, setWaitingForAuth } from '../redux'
-import { TextLoader, useGetAuthQuery } from '../../Shared'
+import { useGetAuthQuery } from '../../Shared'
 import Accumulator from './Accumulator'
+import { DownloadMask } from '../../Widgets'
 
 const App: FC = () => {
   const dispatch = useAppDispatch()
@@ -17,19 +18,9 @@ const App: FC = () => {
       dispatch(setIsAuth(false))
       dispatch(setId(null))
     }
-  }, [isSuccess, dispatch, data, isLoading])
+  }, [data, dispatch, isLoading, isSuccess])
 
-  return (
-    <>
-      {isLoading ? (
-        <div className="w-full h-full flex items-center justify-center">
-          <TextLoader className="text-2xl" label="Loading..." />
-        </div>
-      ) : (
-        <Accumulator />
-      )}
-    </>
-  )
+  return <>{isLoading ? <DownloadMask /> : <Accumulator />}</>
 }
 
 export default App

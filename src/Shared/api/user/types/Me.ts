@@ -9,7 +9,7 @@ export namespace MeTypes {
   }
   export interface PatchMeRequest {
     username: string
-    password: string
+    password?: string
   }
   export interface PatchMeResponse {
     data: {

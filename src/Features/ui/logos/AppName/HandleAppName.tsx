@@ -9,7 +9,7 @@ const HandleAppName: FC = () => {
   return (
     <h1
       onClick={handleClick}
-      className="text-osseous-theme hover:text-color-for-hover"
+      className="text-osseous-theme hover:text-gray-200"
     >
       CODELANG
     </h1>

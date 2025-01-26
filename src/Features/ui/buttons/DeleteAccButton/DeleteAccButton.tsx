@@ -14,10 +14,10 @@ const DeleteAccButton: typeof BasicButton = ({ className = '', ...props }) => {
 
   const handleClick = async () => {
     try {
-      await deleteMyAcc().unwrap()
+      const response = await deleteMyAcc().unwrap()
 
       dispatch(setIsAuth(false))
-      toast('You have successfully deleted your account', {
+      toast(response.message, {
         type: 'success',
         autoClose: 1900,
       })

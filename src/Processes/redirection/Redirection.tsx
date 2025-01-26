@@ -31,6 +31,7 @@ const Redirection: FC<RedirectionProps> = ({ children }) => {
       if (isAuth && location.pathname.includes('auth')) {
         const isManualNavigation =
           !window.history.state || !window.history.state.idx
+
         if (isManualNavigation) {
           toast('You are already logged in', {
             type: 'warning',
