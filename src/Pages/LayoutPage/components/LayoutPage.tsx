@@ -30,12 +30,9 @@ const LayoutPage: FC<LayoutPageProps> = ({ neutral }) => {
   return (
     <>
       {PreparedHeader}
-      <main className={`flex flex-grow ${styles.main}`}>
+      <main className={`w-full flex flex-grow ${styles.main}`}>
         <Aside />
-        <div className="w-80"></div>
-        <div className="flex-grow">
-          <Outlet />
-        </div>
+        <Outlet />
       </main>
       <BasicFooter />
     </>

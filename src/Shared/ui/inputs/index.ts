@@ -1,3 +1,1 @@
-import BasicInput from './Basic/BasicInput'
-
-export { BasicInput }
+export * from './Basic'

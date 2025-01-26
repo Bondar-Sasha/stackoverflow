@@ -1,4 +1,3 @@
 export * from './buttons'
 export * from './loaders'
 export * from './inputs'
-export * from './logos'

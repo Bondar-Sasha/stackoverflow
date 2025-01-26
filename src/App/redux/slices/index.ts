@@ -1,4 +1,19 @@
-import { selectorIsAuth, setIsAuth, setId, selectorId } from './isAuth.slice'
-import isAuthReducer from './isAuth.slice'
+import {
+  selectorIsAuth,
+  setIsAuth,
+  setId,
+  selectorId,
+  selectorWaitingForAuth,
+  setWaitingForAuth,
+} from './Auth.slice'
+import authReducer from './Auth.slice'
 
-export { selectorIsAuth, isAuthReducer, setIsAuth, setId, selectorId }
+export {
+  selectorIsAuth,
+  authReducer,
+  setIsAuth,
+  setId,
+  selectorId,
+  selectorWaitingForAuth,
+  setWaitingForAuth,
+}

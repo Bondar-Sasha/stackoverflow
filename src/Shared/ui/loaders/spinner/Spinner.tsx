@@ -1,8 +1,6 @@
 import { FC } from 'react'
 import { CgSpinner } from 'react-icons/cg'
 
-// import styles from './styles/anim.module.css'
-
 interface SpinnerProps {
   className?: string
 }
@@ -10,9 +8,7 @@ interface SpinnerProps {
 const Spinner: FC<SpinnerProps> = ({ className = '' }) => {
   return (
     <div className={className}>
-      <span>
-        <CgSpinner className="animate-spin color-inherit" />
-      </span>
+      <CgSpinner className="animate-spin color-inherit" />
     </div>
   )
 }

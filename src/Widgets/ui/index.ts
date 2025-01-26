@@ -1,3 +1,6 @@
 export * from './headers'
 export * from './footers'
 export * from './aside'
+export * from './Questions'
+export * from './DownloadMask'
+export * from './EditProfileForms'
