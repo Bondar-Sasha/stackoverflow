@@ -4,6 +4,7 @@ import AccountControl from './AccountControl'
 import QuestionsControl from './QuestionsControl'
 import PostSnippetControl from './PostSnippetControl'
 import UsersControl from './UsersControl'
+import ExitControl from './ExitControl'
 
 export {
   HomeControl,
@@ -12,4 +13,5 @@ export {
   AccountControl,
   QuestionsControl,
   UsersControl,
+  ExitControl,
 }

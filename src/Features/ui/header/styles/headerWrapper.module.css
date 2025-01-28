@@ -1,5 +1,5 @@
-@media screen and (max-width: 390px) {
-  .header h1 {
+@media screen and (min-width: 801px) {
+  .burger {
     display: none;
   }
 }

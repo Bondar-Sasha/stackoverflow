@@ -46,7 +46,7 @@ const EditUsernameForm: FC = () => {
     }
   }
   return (
-    <div className="flex flex-col w-2/6">
+    <div className="flex flex-col w-2/6 min-w-fit mb-2">
       <p className="mb-2">Change your username:</p>
       <Formik
         initialValues={initialValues}

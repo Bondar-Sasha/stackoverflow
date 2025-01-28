@@ -48,7 +48,7 @@ const AccountPage: FC = () => {
       </div>
       <div className="w-3/4 mb-5">
         <div className="flex items-center justify-evenly">
-          <AnonymousUser className=" text-8xl" />
+          <AnonymousUser className="text-7xl mr-5" />
           <div className="flex items-center flex-col">
             <div className="flex justify-around flex-col w-full mb-3">
               <h2 className="font-bold">{data?.data.username}</h2>
@@ -78,7 +78,7 @@ const AccountPage: FC = () => {
       </div>
       <div className="w-3/4 flex flex-col">
         <h3 className="underline font-bold mb-1">Edit your profile:</h3>
-        <div className="w-full flex justify-between">
+        <div className="w-full flex justify-evenly flex-wrap">
           <EditUsernameForm />
           <EditPasswordForm />
         </div>

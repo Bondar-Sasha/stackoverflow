@@ -1,3 +1,21 @@
 .aside {
+  width: 320px;
+  padding-top: 80px;
   height: 100vh;
+}
+
+@media (min-width: 801px) {
+  .aside {
+    display: flex;
+  }
+  .closeLogo {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .aside {
+    padding-top: 64px;
+    width: 100vw;
+  }
 }

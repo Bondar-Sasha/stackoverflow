@@ -1,9 +1,13 @@
 import { FC } from 'react'
 import { HeaderWrapper, HomeButton } from '../../../../../Features'
 
-const NeutralHeader: FC = () => {
+interface NeutralHeaderProps {
+  asideHandler?: () => void
+}
+
+const NeutralHeader: FC<NeutralHeaderProps> = () => {
   return (
-    <HeaderWrapper>
+    <HeaderWrapper isAsideBurger={false}>
       <HomeButton />
     </HeaderWrapper>
   )

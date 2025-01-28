@@ -1,13 +1,7 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
-import {
-  Aside,
-  AuthenticatedHeader,
-  BasicFooter,
-  NeutralHeader,
-  UnauthenticatedHeader,
-} from '../../../Widgets'
+import { Aside, BasicFooter, Header } from '../../../Widgets'
 import { selectorIsAuth, useAppSelector } from '../../../App'
 
 import styles from '../styles/layout.module.css'
@@ -18,20 +12,24 @@ interface LayoutPageProps {
 
 const LayoutPage: FC<LayoutPageProps> = ({ neutral }) => {
   const isAuth = useAppSelector(selectorIsAuth)
+  const [asideState, setAsideState] = useState<boolean>(false)
+  const asideHandler = () => {
+    setAsideState((prev) => !prev)
+  }
 
   const PreparedHeader = isAuth ? (
-    <AuthenticatedHeader />
+    <Header type="auth" asideHandler={asideHandler} />
   ) : neutral ? (
-    <NeutralHeader />
+    <Header type="neutral" />
   ) : (
-    <UnauthenticatedHeader />
+    <Header type="unauth" asideHandler={asideHandler} />
   )
 
   return (
     <>
       {PreparedHeader}
       <main className={`w-full flex flex-grow ${styles.main}`}>
-        <Aside />
+        <Aside isOpen={asideState} onClose={asideHandler} />
         <Outlet />
       </main>
       <BasicFooter />

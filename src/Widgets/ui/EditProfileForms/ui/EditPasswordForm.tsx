@@ -64,7 +64,7 @@ const EditPasswordForm: FC = () => {
   }
 
   return (
-    <div className="flex flex-col w-2/6">
+    <div className="flex flex-col w-2/6 min-w-fit">
       <p className="mb-2">Change your password:</p>
       <Formik
         initialValues={initialValues}

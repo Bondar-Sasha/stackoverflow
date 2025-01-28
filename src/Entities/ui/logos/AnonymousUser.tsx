@@ -6,9 +6,10 @@ interface AnonymousUserProps {
 }
 const AnonymousUser: FC<AnonymousUserProps> = ({ className = '' }) => {
   return (
-    <FaRegCircleUser
-      className={`bg-gray-200 text-gray-400 rounded-full ${className}`}
-    />
+    <div className={`bg-gray-200 text-gray-400 rounded-full ${className}`}>
+      {' '}
+      <FaRegCircleUser className="text-inherit stretching" />
+    </div>
   )
 }
 

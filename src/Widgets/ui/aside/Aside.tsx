@@ -3,6 +3,7 @@ import { FC } from 'react'
 import styles from './styles/aside.module.css'
 import {
   AccountControl,
+  ExitControl,
   HomeControl,
   MySnippetsControl,
   PostSnippetControl,
@@ -11,12 +12,21 @@ import {
 } from '../../../Features'
 import { selectorIsAuth, useAppSelector } from '../../../App'
 
-const Aside: FC = () => {
+interface AsideProps {
+  onClose: () => void
+  isOpen: boolean
+}
+
+const Aside: FC<AsideProps> = ({ onClose, isOpen }) => {
   const isAuth = useAppSelector(selectorIsAuth)
+
   return (
     <aside
-      className={`flex flex-col items-center fixed z-5 top-0 left-0 w-80 bg-theme pt-20 ${styles.aside}`}
+      className={`flex-col items-center fixed z-5 top-0 left-0 bg-theme ${
+        isOpen ? 'flex' : 'hidden'
+      } ${styles.aside}`}
     >
+      <ExitControl onClick={onClose} className={styles.closeLogo} />
       <HomeControl />
       {isAuth && <AccountControl />}
       <PostSnippetControl />
