@@ -12,7 +12,11 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': 'https://codelang.vercel.app/',
+      '/api': {
+        target: 'https://codelang.vercel.app/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
     },
   },
 })
