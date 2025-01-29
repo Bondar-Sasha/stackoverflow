@@ -4,7 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { AsideItemWrapper } from '../../../../Entities'
 
-const HomeControl: FC = () => {
+interface ControlProps {
+  onClick?: () => void
+}
+
+const HomeControl: FC<ControlProps> = ({ onClick }) => {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -12,6 +16,7 @@ const HomeControl: FC = () => {
 
   const handleClick = () => {
     navigate('/')
+    if (onClick) onClick()
   }
   return (
     <AsideItemWrapper

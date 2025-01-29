@@ -22,17 +22,17 @@ const Aside: FC<AsideProps> = ({ onClose, isOpen }) => {
 
   return (
     <aside
-      className={`flex-col items-center fixed z-5 top-0 left-0 bg-theme ${
+      className={`flex-col items-center fixed z-40 top-0 left-0 bg-theme ${
         isOpen ? 'flex' : 'hidden'
       } ${styles.aside}`}
     >
       <ExitControl onClick={onClose} className={styles.closeLogo} />
-      <HomeControl />
-      {isAuth && <AccountControl />}
-      <PostSnippetControl />
-      {isAuth && <MySnippetsControl />}
-      <QuestionsControl />
-      <UsersControl />
+      <HomeControl onClick={onClose} />
+      {isAuth && <AccountControl onClick={onClose} />}
+      <PostSnippetControl onClick={onClose} />
+      {isAuth && <MySnippetsControl onClick={onClose} />}
+      <QuestionsControl onClick={onClose} />
+      <UsersControl onClick={onClose} />
     </aside>
   )
 }

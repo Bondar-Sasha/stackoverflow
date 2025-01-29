@@ -33,7 +33,7 @@ const AppRoutes: FC = () => {
           <Route path="users/:userId" element={<></>} />
           <Route path="questions" element={<QuestionsPage />} />
           <Route path="create_question" element={<></>} />
-          {/* <Route path="edit_question" element={<></>} /> */}
+          <Route path="edit_question" element={<></>} />
         </Route>
 
         <Route

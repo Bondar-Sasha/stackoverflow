@@ -19,7 +19,7 @@ const HeaderWrapper: FC<HeaderWrapperProps> = ({
 }) => {
   return (
     <header
-      className={`w-full h-14 flex items-center justify-between fixed z-10 top-0 left-0 shadow-xl pl-3 pr-3 bg-theme ${className}`}
+      className={`w-full h-14 flex items-center justify-between fixed z-50 top-0 left-0 shadow-xl pl-3 pr-3 bg-theme ${className}`}
     >
       {isAsideBurger && (
         <div

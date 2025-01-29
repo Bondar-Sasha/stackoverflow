@@ -17,10 +17,19 @@ interface RedirectionProps {
   children?: ReactNode
 }
 
+const restrictedPaths: Record<string, string> = {
+  '/account': 'Account page is available only for logged in users',
+  '/create_question':
+    'Creating questions page is available only for logged in users',
+  '/create_post': 'Creating posts page is available only for logged in users',
+  '/my_posts': 'My posts page is available only for logged in users',
+  '/edit_post': 'Edit posts page is available only for logged in users',
+  '/edit_question': 'Edit questions page is available only for logged in users',
+}
+
 const Redirection: FC<RedirectionProps> = ({ children }) => {
   const location = useLocation()
   const params = useParams<Params>()
-
   const userId = useAppSelector(selectorId)
   const isAuth = useAppSelector(selectorIsAuth)
   const isLoading = useAppSelector(selectorWaitingForAuth)
@@ -28,32 +37,31 @@ const Redirection: FC<RedirectionProps> = ({ children }) => {
 
   useLayoutEffect(() => {
     if (!isLoading) {
-      if (isAuth && location.pathname.includes('auth')) {
-        const isManualNavigation =
-          !window.history.state || !window.history.state.idx
-
-        if (isManualNavigation) {
-          toast('You are already logged in', {
-            type: 'warning',
-            autoClose: 1800,
-          })
+      if (isAuth) {
+        if (location.pathname.includes('auth')) {
+          const isManualNavigation =
+            !window.history.state || !window.history.state.idx
+          if (isManualNavigation) {
+            toast('You are already logged in', {
+              type: 'warning',
+              autoClose: 1800,
+            })
+          }
+          setRedirectElem(<Navigate to="/" replace />)
+          return
         }
-        setRedirectElem(<Navigate to="/" replace />)
-        return
+        if (String(userId) === params.userId) {
+          setRedirectElem(<Navigate to="/account" replace />)
+          return
+        }
+      } else {
+        const message = restrictedPaths[location.pathname]
+        if (message) {
+          toast(message, { type: 'warning', autoClose: 2200 })
+          setRedirectElem(<Navigate to="/auth/login" replace />)
+          return
+        }
       }
-      if (!isAuth && location.pathname === '/account') {
-        toast('Account page is available only for logged in users', {
-          type: 'warning',
-          autoClose: 2200,
-        })
-        setRedirectElem(<Navigate to="/auth/login" replace />)
-        return
-      }
-      if (isAuth && String(userId) === params.userId) {
-        setRedirectElem(<Navigate to="/account" replace />)
-        return
-      }
-
       setRedirectElem(children)
     }
   }, [children, isAuth, isLoading, location.pathname, params.userId, userId])

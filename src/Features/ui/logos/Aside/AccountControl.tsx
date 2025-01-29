@@ -3,7 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { AsideItemWrapper, UserLogo } from '../../../../Entities'
 
-const AccountControl: FC = () => {
+interface ControlProps {
+  onClick?: () => void
+}
+
+const AccountControl: FC<ControlProps> = ({ onClick }) => {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -11,6 +15,7 @@ const AccountControl: FC = () => {
 
   const handleClick = () => {
     navigate('/account')
+    if (onClick) onClick()
   }
   return (
     <AsideItemWrapper

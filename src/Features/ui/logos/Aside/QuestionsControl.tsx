@@ -4,7 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { AsideItemWrapper } from '../../../../Entities'
 
-const QuestionsControl: FC = () => {
+interface ControlProps {
+  onClick?: () => void
+}
+
+const QuestionsControl: FC<ControlProps> = ({ onClick }) => {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -12,6 +16,7 @@ const QuestionsControl: FC = () => {
 
   const handleClick = () => {
     navigate('/questions')
+    if (onClick) onClick()
   }
   return (
     <AsideItemWrapper
