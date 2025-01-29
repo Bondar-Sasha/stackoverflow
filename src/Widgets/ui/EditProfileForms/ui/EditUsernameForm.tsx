@@ -4,8 +4,8 @@ import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 
 import {
-  FormAuthInput,
-  FormAuthWrapper,
+  AuthFormInput,
+  BasicFormWrapper,
   SubmitButton,
 } from '../../../../Features'
 import { Errors, usePatchMeMutation } from '../../../../Shared'
@@ -54,8 +54,8 @@ const EditUsernameForm: FC = () => {
         onSubmit={submitForm}
       >
         {({ isValid }) => (
-          <FormAuthWrapper>
-            <FormAuthInput
+          <BasicFormWrapper>
+            <AuthFormInput
               placeholder="new username"
               name="username"
               inputType="text"
@@ -63,7 +63,7 @@ const EditUsernameForm: FC = () => {
             <SubmitButton isValid={isValid} isLoading={isLoading}>
               Save
             </SubmitButton>
-          </FormAuthWrapper>
+          </BasicFormWrapper>
         )}
       </Formik>
     </div>

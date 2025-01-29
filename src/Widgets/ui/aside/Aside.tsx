@@ -29,7 +29,7 @@ const Aside: FC<AsideProps> = ({ onClose, isOpen }) => {
       <ExitControl onClick={onClose} className={styles.closeLogo} />
       <HomeControl onClick={onClose} />
       {isAuth && <AccountControl onClick={onClose} />}
-      <PostSnippetControl onClick={onClose} />
+      {isAuth && <PostSnippetControl onClick={onClose} />}
       {isAuth && <MySnippetsControl onClick={onClose} />}
       <QuestionsControl onClick={onClose} />
       <UsersControl onClick={onClose} />

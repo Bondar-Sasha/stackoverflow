@@ -1,12 +1,15 @@
 import { Form } from 'formik'
 import { FC, ReactNode } from 'react'
 
-interface FormAuthWrapperProps {
+interface BasicFormWrapperProps {
   children: ReactNode
   className?: string
 }
 
-const FormAuthWrapper: FC<FormAuthWrapperProps> = ({ children, className }) => {
+const BasicFormWrapper: FC<BasicFormWrapperProps> = ({
+  children,
+  className,
+}) => {
   return (
     <Form className={`text-ordinary-text flex flex-col w-full ${className}`}>
       {children}
@@ -14,4 +17,4 @@ const FormAuthWrapper: FC<FormAuthWrapperProps> = ({ children, className }) => {
   )
 }
 
-export default FormAuthWrapper
+export default BasicFormWrapper

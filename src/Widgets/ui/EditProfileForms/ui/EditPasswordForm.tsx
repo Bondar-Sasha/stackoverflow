@@ -4,8 +4,8 @@ import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 
 import {
-  FormAuthInput,
-  FormAuthWrapper,
+  AuthFormInput,
+  BasicFormWrapper,
   SubmitButton,
 } from '../../../../Features'
 import { Errors, usePatchMyPasswordMutation } from '../../../../Shared'
@@ -72,18 +72,18 @@ const EditPasswordForm: FC = () => {
         onSubmit={submitForm}
       >
         {({ isValid }) => (
-          <FormAuthWrapper>
-            <FormAuthInput
+          <BasicFormWrapper>
+            <AuthFormInput
               placeholder="old password"
               name="oldPassword"
               inputType="password"
             />
-            <FormAuthInput
+            <AuthFormInput
               placeholder="new password"
               name="newPassword"
               inputType="password"
             />
-            <FormAuthInput
+            <AuthFormInput
               placeholder="confirm password"
               name="confirmPassword"
               inputType="password"
@@ -91,7 +91,7 @@ const EditPasswordForm: FC = () => {
             <SubmitButton isValid={isValid} isLoading={isLoading}>
               Change password
             </SubmitButton>
-          </FormAuthWrapper>
+          </BasicFormWrapper>
         )}
       </Formik>
     </div>

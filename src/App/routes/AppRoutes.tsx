@@ -8,6 +8,7 @@ import {
   LoginPage,
   RegisterPage,
   QuestionsPage,
+  CreateQuestionPage,
 } from '../../Pages'
 import { LayoutPage, SimpleLayoutPage } from '../../Pages'
 
@@ -32,7 +33,7 @@ const AppRoutes: FC = () => {
           <Route path="users" element={<></>} />
           <Route path="users/:userId" element={<></>} />
           <Route path="questions" element={<QuestionsPage />} />
-          <Route path="create_question" element={<></>} />
+          <Route path="create_question" element={<CreateQuestionPage />} />
           <Route path="edit_question" element={<></>} />
         </Route>
 
