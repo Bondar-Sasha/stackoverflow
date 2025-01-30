@@ -1,7 +1,7 @@
-import { FC } from 'react'
-import { Routes, Route, BrowserRouter } from 'react-router-dom'
+import {FC} from 'react'
+import {Routes, Route, BrowserRouter, Navigate} from 'react-router-dom'
 
-import { Redirection } from '../../Processes'
+import {Redirection} from '../../Processes'
 import {
   AccountPage,
   HomePage,
@@ -9,8 +9,9 @@ import {
   RegisterPage,
   QuestionsPage,
   CreateQuestionPage,
+  EditQuestionPage,
 } from '../../Pages'
-import { LayoutPage, SimpleLayoutPage } from '../../Pages'
+import {LayoutPage, SimpleLayoutPage} from '../../Pages'
 
 const AppRoutes: FC = () => {
   return (
@@ -28,13 +29,17 @@ const AppRoutes: FC = () => {
           <Route path="posts" element={<></>} />
           <Route path="create_post" element={<></>} />
           <Route path="my_posts" element={<></>} />
-          <Route path="edit_post" element={<></>} />
+          <Route path="edit_post/:postId" element={<></>} />
           <Route path="account" element={<AccountPage />} />
           <Route path="users" element={<></>} />
           <Route path="users/:userId" element={<></>} />
           <Route path="questions" element={<QuestionsPage />} />
           <Route path="create_question" element={<CreateQuestionPage />} />
-          <Route path="edit_question" element={<></>} />
+          <Route path="edit_question" element={<Navigate to="/" replace />} />
+          <Route
+            path="edit_question/:questionId"
+            element={<EditQuestionPage />}
+          />
         </Route>
 
         <Route
