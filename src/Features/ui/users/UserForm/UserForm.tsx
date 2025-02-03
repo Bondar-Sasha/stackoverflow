@@ -10,11 +10,11 @@ interface UserFormProps {
 
 const UserForm: FC<UserFormProps> = ({username, role, userId}) => {
   return (
-    <div className="flex flex-col w-4/5 mb-7">
-      <AnonymousUser className="min-w-10 min-h-10" />
-      <div className="w-full flex items-center mb-2">
+    <div className="flex items-center w-4/5 mb-7 border-theme border-2 p-2">
+      <AnonymousUser className="min-w-10 min-h-10 mr-3" />
+      <div className="w-full flex flex-col mb-2">
         <span>
-          <span className="mr-2 italic">username:</span>
+          <span className="mr-2 italic ">username:</span>
           {
             <Link
               className="text-theme cursor-pointer hover:underline"
@@ -24,7 +24,14 @@ const UserForm: FC<UserFormProps> = ({username, role, userId}) => {
             </Link>
           }
         </span>
-        <span className="text-justify font-bold text-lg">{role}</span>
+        <span className="text-lg">
+          <span className="mr-2 italic">id:</span>
+          <span>{userId}</span>
+        </span>
+        <span className="text-lg">
+          <span className="mr-2 italic">role:</span>
+          {role}
+        </span>
       </div>
     </div>
   )

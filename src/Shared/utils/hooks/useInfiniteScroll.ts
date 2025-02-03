@@ -8,7 +8,7 @@ const useInfiniteScroll = () => {
     const clientHeight = window.innerHeight
     const scrollHeight = document.documentElement.scrollHeight
 
-    if (scrollHeight - scrollTop - clientHeight < scrollHeight * 0.3) {
+    if (scrollHeight - scrollTop - clientHeight < 200) {
       setIsEnd(true)
     } else {
       setIsEnd(false)
@@ -16,10 +16,14 @@ const useInfiniteScroll = () => {
   }, [])
 
   useEffect(() => {
-    window.addEventListener('scroll', scrollHandler)
+    const throttledScrollHandler = () => {
+      requestAnimationFrame(scrollHandler)
+    }
+
+    window.addEventListener('scroll', throttledScrollHandler)
 
     return () => {
-      window.removeEventListener('scroll', scrollHandler)
+      window.removeEventListener('scroll', throttledScrollHandler)
     }
   }, [scrollHandler])
 

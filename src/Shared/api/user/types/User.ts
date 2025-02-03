@@ -15,7 +15,9 @@ export namespace UserTypes {
   }
 
   export interface GetUsersResponse {
-    data: User[]
+    data: {
+      data: User[]
+    }
     meta: UserMetaInf0
   }
 

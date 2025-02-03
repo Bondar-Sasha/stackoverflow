@@ -1,27 +1,29 @@
 import {FC, useEffect, useState} from 'react'
-import {QuestionForm} from '../../../Features'
-import {useGetQuestionsQuery, useInfiniteScroll} from '../../../Shared'
+import {UserForm} from '../../../Features'
+import {useGetUsersQuery, useInfiniteScroll} from '../../../Shared'
 import {DownloadMask} from '../../../Widgets'
 
 const UsersPage: FC = () => {
-  const [questionLimitState, setQuestionLimit] = useState<number>(15)
+  const [usersLimitState, setUsersLimit] = useState<number>(15)
 
-  const {data, isLoading, isFetching} = useGetQuestionsQuery({
+  const {data, isLoading} = useGetUsersQuery({
     page: 1,
-    limit: questionLimitState,
+    limit: usersLimitState,
   })
 
   const {isEnd} = useInfiniteScroll()
-  console.log(isEnd)
 
   useEffect(() => {
     if (isEnd) {
-      setQuestionLimit((prevLimit) => prevLimit + 10)
+      setUsersLimit((prevLimit) => prevLimit + 10)
     }
   }, [isEnd])
 
   if (isLoading) {
     return <DownloadMask />
+  }
+  if (!data) {
+    return <div>There are no users</div>
   }
 
   return (
@@ -29,23 +31,14 @@ const UsersPage: FC = () => {
       className="p-7 flex-center flex-col"
       style={{width: '100%', height: '100%', overflowY: 'auto'}}
     >
-      {data && data.data.data.length > 0 ? (
-        <>
-          {data.data.data.map((item) => (
-            <QuestionForm
-              key={item.id}
-              title={item.title}
-              userId={item.user.id}
-              author={item.user.username}
-              attachedCode={item.attachedCode}
-              description={item.description}
-            />
-          ))}
-          {isFetching && <div className="loader">Loading more...</div>}
-        </>
-      ) : (
-        <div>There are no questions</div>
-      )}
+      {data.data.data.map((item) => (
+        <UserForm
+          key={item.id}
+          username={item.username}
+          userId={item.id}
+          role={item.role}
+        />
+      ))}
     </div>
   )
 }
