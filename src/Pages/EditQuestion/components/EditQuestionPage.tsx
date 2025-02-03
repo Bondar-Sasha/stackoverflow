@@ -1,7 +1,8 @@
-import {FC, useLayoutEffect, useState} from 'react'
-import {Formik} from 'formik'
+import {FC} from 'react'
+import {Field, Formik} from 'formik'
 import * as Yup from 'yup'
 import {useParams} from 'react-router-dom'
+import {toast} from 'react-toastify'
 
 import {DownloadMask, Editor} from '../../../Widgets'
 import {
@@ -10,7 +11,7 @@ import {
   BasicFormWrapper,
   SubmitButton,
 } from '../../../Features'
-import {useEditQuestionMutation, useLazyGetQuestionQuery} from '../../../Shared'
+import {useEditQuestionMutation, useGetQuestionQuery} from '../../../Shared'
 
 interface DataForCreatingQuestion {
   title: string
@@ -38,9 +39,9 @@ interface Params {
 const EditQuestionPage: FC = () => {
   const params = useParams<Params>()
   const [editQuestion, {isLoading}] = useEditQuestionMutation()
-  const [getQuestion, {isLoading: fetchingQuestion}] = useLazyGetQuestionQuery()
-  const [formValuesState, setFormValue] =
-    useState<DataForCreatingQuestion>(initialValues)
+  const {isLoading: fetchingQuestion, data} = useGetQuestionQuery({
+    id: Number(params.questionId),
+  })
 
   const handleSubmit = async (formData: DataForCreatingQuestion) => {
     try {
@@ -48,28 +49,14 @@ const EditQuestionPage: FC = () => {
         id: Number(params.questionId),
         ...formData,
       }).unwrap()
+      toast('Question was edited', {
+        type: 'success',
+        autoClose: 1800,
+      })
     } catch (error) {
       console.error(error)
     }
   }
-
-  useLayoutEffect(() => {
-    const getLazyQuestion = async () => {
-      try {
-        const response = await getQuestion({
-          id: Number(params.questionId),
-        }).unwrap()
-        setFormValue({
-          title: response.data.title,
-          description: response.data.description,
-          attachedCode: response.data.attachedCode,
-        })
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    getLazyQuestion()
-  }, [getQuestion, params.questionId])
 
   if (fetchingQuestion) {
     return <DownloadMask />
@@ -80,11 +67,11 @@ const EditQuestionPage: FC = () => {
       <h1 className="mb-5 text-3xl">Edit your question</h1>
       <Formik
         validationSchema={validationSchema}
-        initialValues={formValuesState}
+        initialValues={data?.data ?? initialValues}
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({setFieldValue, isValid}) => (
+        {({isValid, setFieldValue}) => (
           <BasicFormWrapper>
             <BasicFormInput
               placeholder="Question title"
@@ -95,12 +82,13 @@ const EditQuestionPage: FC = () => {
               placeholder="Question description"
               name="description"
             />
-            <Editor
+            <Field
+              as={Editor}
+              className="mb-3 h-52"
               language="javascript"
-              className="mb-3"
-              code={formValuesState.attachedCode}
-              onChange={(_editor, _data, value) => {
-                setFieldValue('attachedCode', value)
+              name="attachedCode"
+              onChange={(newValue: string) => {
+                setFieldValue('attachedCode', newValue)
               }}
             />
             <SubmitButton isLoading={isLoading} isValid={isValid}>

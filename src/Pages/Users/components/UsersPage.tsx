@@ -3,7 +3,7 @@ import {QuestionForm} from '../../../Features'
 import {useGetQuestionsQuery, useInfiniteScroll} from '../../../Shared'
 import {DownloadMask} from '../../../Widgets'
 
-const QuestionsPage: FC = () => {
+const UsersPage: FC = () => {
   const [questionLimitState, setQuestionLimit] = useState<number>(15)
 
   const {data, isLoading, isFetching} = useGetQuestionsQuery({
@@ -50,4 +50,4 @@ const QuestionsPage: FC = () => {
   )
 }
 
-export default QuestionsPage
+export default UsersPage

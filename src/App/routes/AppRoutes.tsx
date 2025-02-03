@@ -10,6 +10,7 @@ import {
   QuestionsPage,
   CreateQuestionPage,
   EditQuestionPage,
+  UsersPage,
 } from '../../Pages'
 import {LayoutPage, SimpleLayoutPage} from '../../Pages'
 
@@ -26,16 +27,17 @@ const AppRoutes: FC = () => {
           }
         >
           <Route index element={<HomePage />} />
+          <Route path="edit_question" element={<Navigate to="/" replace />} />
+          <Route path="edit_post" element={<Navigate to="/" replace />} />
           <Route path="posts" element={<></>} />
           <Route path="create_post" element={<></>} />
           <Route path="my_posts" element={<></>} />
           <Route path="edit_post/:postId" element={<></>} />
           <Route path="account" element={<AccountPage />} />
-          <Route path="users" element={<></>} />
+          <Route path="users" element={<UsersPage />} />
           <Route path="users/:userId" element={<></>} />
           <Route path="questions" element={<QuestionsPage />} />
           <Route path="create_question" element={<CreateQuestionPage />} />
-          <Route path="edit_question" element={<Navigate to="/" replace />} />
           <Route
             path="edit_question/:questionId"
             element={<EditQuestionPage />}
@@ -50,6 +52,7 @@ const AppRoutes: FC = () => {
             </Redirection>
           }
         >
+          <Route index element={<Navigate to="/" replace />} />
           <Route path="registration" element={<RegisterPage />} />
           <Route path="login" element={<LoginPage />} />
         </Route>

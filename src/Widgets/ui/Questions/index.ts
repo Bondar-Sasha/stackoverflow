@@ -1,3 +1,3 @@
-import Question from './Question/Question'
+import QuestionsList from './QuestionsList/QuestionsList'
 
-export { Question }
+export {QuestionsList}

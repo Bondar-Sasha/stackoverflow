@@ -17,7 +17,9 @@ export namespace QuestionsTypes {
     isResolved: boolean
   }
   export interface GetQuestionsResponse {
-    data: Question[]
+    data: {
+      data: Question[]
+    }
   }
 
   export interface CreateQuestionRequest {

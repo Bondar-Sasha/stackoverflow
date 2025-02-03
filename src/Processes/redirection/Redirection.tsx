@@ -21,17 +21,14 @@ interface RedirectionProps {
   children?: ReactNode
 }
 
-const restrictedFixedPaths: Record<string, string> = {
+const restrictedPaths: Record<string, string> = {
   '/account': 'Account page is available only for logged in users',
   '/create_question':
     'Creating questions page is available only for logged in users',
   '/create_post': 'Creating posts page is available only for logged in users',
   '/my_posts': 'My posts page is available only for logged in users',
 }
-const restrictedDynamicPaths: Record<string, string> = {
-  '/edit_post': 'Edit posts page is available only for logged in users',
-  '/edit_question': 'Edit questions page is available only for logged in users',
-}
+
 const editQuestionUrlPattern = /^\/edit_question\/\d+$/
 
 const Redirection: FC<RedirectionProps> = ({children}) => {
@@ -86,24 +83,10 @@ const Redirection: FC<RedirectionProps> = ({children}) => {
           return
         }
       } else {
-        const restrictedFixedPathsMessage =
-          restrictedFixedPaths[location.pathname]
-        if (restrictedFixedPathsMessage) {
-          toast(restrictedFixedPathsMessage, {type: 'warning', autoClose: 2200})
+        const restrictedPathsMessage = restrictedPaths[location.pathname]
+        if (restrictedPathsMessage) {
+          toast(restrictedPathsMessage, {type: 'warning', autoClose: 2200})
           setRedirectElem(<Navigate to="/auth/login" replace />)
-          return
-        }
-
-        const determinateRestrictedPath = Object.keys(
-          restrictedDynamicPaths
-        ).find((path) => location.pathname.includes(path))
-
-        if (determinateRestrictedPath) {
-          setRedirectElem(<Navigate to="/auth/login" replace />)
-          toast(restrictedDynamicPaths[determinateRestrictedPath], {
-            type: 'warning',
-            autoClose: 2200,
-          })
           return
         }
       }

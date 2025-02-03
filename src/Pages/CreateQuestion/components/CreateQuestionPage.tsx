@@ -1,5 +1,5 @@
 import {FC} from 'react'
-import {Formik} from 'formik'
+import {Field, Formik} from 'formik'
 import * as Yup from 'yup'
 
 import {Editor} from '../../../Widgets'
@@ -33,6 +33,7 @@ const CreateQuestionPage: FC = () => {
   const [createQuestion, {isLoading}] = useCreateQuestionMutation()
   const handleSubmit = async (formData: DataForCreatingQuestion) => {
     try {
+      console.log(formData)
       await createQuestion(formData).unwrap()
       toast('Question was created', {
         type: 'success',
@@ -55,7 +56,7 @@ const CreateQuestionPage: FC = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({values, setFieldValue, isValid}) => (
+        {({isValid, setFieldValue}) => (
           <BasicFormWrapper>
             <BasicFormInput
               placeholder="question title"
@@ -66,14 +67,16 @@ const CreateQuestionPage: FC = () => {
               placeholder="question description"
               name="description"
             />
-            <Editor
+            <Field
+              as={Editor}
+              className="mb-3 h-52"
               language="javascript"
-              className="mb-3"
-              code={values.attachedCode}
-              onChange={(_editor, _data, value) => {
-                setFieldValue('attachedCode', value)
+              name="attachedCode"
+              onChange={(newValue: string) => {
+                setFieldValue('attachedCode', newValue)
               }}
             />
+
             <SubmitButton isLoading={isLoading} isValid={isValid}>
               create question
             </SubmitButton>

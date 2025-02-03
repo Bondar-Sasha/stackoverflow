@@ -1,36 +1,41 @@
 import {FC} from 'react'
-import {Controlled} from 'react-codemirror2'
-import {Editor as EditorType, EditorChange} from 'codemirror'
+import MonacoEditor from '@monaco-editor/react'
 
-interface DefaultEditorProps {
+interface EditorProps {
   language: 'javascript' | 'go' | 'css' | 'rust' | 'python'
-  code: string
-  onChange: (editor: EditorType, data: EditorChange, value: string) => void
+  value: string
+  onChange: (newValue: string | undefined) => void
   readOnly?: boolean
+  name?: string
   className?: string
 }
 
-const DefaultEditor: FC<DefaultEditorProps> = ({
+const Editor: FC<EditorProps> = ({
   language,
-  code,
-  onChange,
-  readOnly = false,
   className = '',
+  readOnly = false,
+  ...props
 }) => {
   return (
-    <Controlled
-      value={code}
-      className={`border-2 border-solid border-#e5e7eb ${className}`}
-      options={{
-        readOnly,
-        lineNumbers: true,
-        lineWrapping: true,
-        mode: language,
-        theme: 'default',
-      }}
-      onBeforeChange={onChange}
-    />
+    <div className={`h-44 border-2 border-theme p-2 ${className}`}>
+      <MonacoEditor
+        {...props}
+        language={language}
+        height="100%"
+        width="100%"
+        options={{
+          readOnly,
+          selectOnLineNumbers: true,
+          automaticLayout: true,
+          theme: 'github',
+          minimap: {
+            enabled: false,
+          },
+          scrollBeyondLastLine: false,
+        }}
+      />
+    </div>
   )
 }
 
-export default DefaultEditor
+export default Editor
