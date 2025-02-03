@@ -1,3 +1,3 @@
-import FormAuthWrapper from './FormAuthWrapper/FormAuthWrapper'
+import BasicFormWrapper from './BasicFormWrapper/BasicFormWrapper'
 
-export { FormAuthWrapper }
+export { BasicFormWrapper }

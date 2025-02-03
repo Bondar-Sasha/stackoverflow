@@ -4,25 +4,17 @@ import { ErrorMessage, Field } from 'formik'
 import stylesForErrors from '../../styles/errors.module.css'
 import stylesForInput from '../../styles/input.module.css'
 import { BasicInput } from '../../../../../../Shared'
-import { PasswordInput } from '../../../../../../Entities'
 
 type BasicInputProps = ComponentProps<typeof BasicInput>
 
-interface FormAuthInputProps {
-  inputType: 'text' | 'password'
+interface BasicFormInputProps {
   name: string
   placeholder: string
 }
 
-const inputs = {
-  password: PasswordInput,
-  text: BasicInput,
-}
-
-const FormAuthInput: FC<FormAuthInputProps & BasicInputProps> = ({
+const BasicFormInput: FC<BasicFormInputProps & BasicInputProps> = ({
   name,
   placeholder,
-  inputType,
   ...props
 }) => {
   return (
@@ -30,7 +22,7 @@ const FormAuthInput: FC<FormAuthInputProps & BasicInputProps> = ({
       <Field
         {...props}
         name={name}
-        as={inputs[inputType]}
+        as={BasicInput}
         placeholder={placeholder}
         className="rounded-full h-11 border-theme border-2 text-lg w-full pb-1"
       />
@@ -43,4 +35,4 @@ const FormAuthInput: FC<FormAuthInputProps & BasicInputProps> = ({
   )
 }
 
-export default FormAuthInput
+export default BasicFormInput

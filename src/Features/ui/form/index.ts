@@ -1,5 +1,4 @@
-import SubmitButton from './SubmitButton/SubmitButton'
-
 export * from './input'
 export * from './formWrappers'
-export { SubmitButton }
+export * from './SubmitButton'
+export * from './textarea'

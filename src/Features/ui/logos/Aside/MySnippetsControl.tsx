@@ -4,7 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { AsideItemWrapper } from '../../../../Entities'
 
-const MySnippetsControl: FC = () => {
+interface ControlProps {
+  onClick?: () => void
+}
+
+const MySnippetsControl: FC<ControlProps> = ({ onClick }) => {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -12,6 +16,7 @@ const MySnippetsControl: FC = () => {
 
   const handleClick = () => {
     navigate('/my_posts')
+    if (onClick) onClick()
   }
   return (
     <AsideItemWrapper

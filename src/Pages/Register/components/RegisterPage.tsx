@@ -6,7 +6,11 @@ import { toast } from 'react-toastify'
 
 import { Errors, useRegisterMutation } from '../../../Shared'
 
-import { FormAuthInput, FormAuthWrapper, SubmitButton } from '../../../Features'
+import {
+  AuthFormInput,
+  BasicFormWrapper,
+  SubmitButton,
+} from '../../../Features'
 
 interface RegisterFormData {
   username: string
@@ -68,18 +72,18 @@ const RegisterPage: FC = () => {
         onSubmit={onSubmit}
       >
         {({ isValid }) => (
-          <FormAuthWrapper>
-            <FormAuthInput
+          <BasicFormWrapper>
+            <AuthFormInput
               placeholder="username"
               name="username"
               inputType="text"
             />
-            <FormAuthInput
+            <AuthFormInput
               placeholder="password"
               name="password"
               inputType="password"
             />
-            <FormAuthInput
+            <AuthFormInput
               autoComplete="new-password"
               placeholder="confirm password"
               name="confirmPassword"
@@ -89,7 +93,7 @@ const RegisterPage: FC = () => {
             <SubmitButton isLoading={isLoading} isValid={isValid}>
               Sing up{' '}
             </SubmitButton>
-          </FormAuthWrapper>
+          </BasicFormWrapper>
         )}
       </Formik>
       <div className="mt-4 flex justify-between w-full">

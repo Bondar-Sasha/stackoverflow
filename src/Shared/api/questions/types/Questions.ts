@@ -17,13 +17,15 @@ export namespace QuestionsTypes {
     isResolved: boolean
   }
   export interface GetQuestionsResponse {
-    data: Question[]
+    data: {
+      data: Question[]
+    }
   }
 
   export interface CreateQuestionRequest {
     title: string
-    description: string
-    attachedCode: string
+    description?: string
+    attachedCode?: string
   }
   export interface CreateQuestionResponse {
     data: {
@@ -43,5 +45,24 @@ export namespace QuestionsTypes {
   }
   export interface GetQuestionResponse {
     data: Question
+  }
+  export interface EditQuestionRequest {
+    id: number
+    title: string
+    description?: string
+    attachedCode?: string
+  }
+  export interface EditQuestionResponse {
+    data: {
+      title: string
+      description: string
+      attachedCode: string
+      user: {
+        id: string
+        username: string
+        role: string
+      }
+      id: string
+    }
   }
 }

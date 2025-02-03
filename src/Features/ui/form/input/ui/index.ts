@@ -1,3 +1,4 @@
-import FormAuthInput from './FormAuthInput/FormAuthInput'
+import AuthFormInput from './AuthFormInput/AuthFormInput'
+import BasicFormInput from './BasicFormInput/BasicFormInput'
 
-export { FormAuthInput }
+export { AuthFormInput, BasicFormInput }

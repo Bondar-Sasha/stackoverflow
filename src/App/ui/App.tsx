@@ -1,14 +1,13 @@
-import { FC, useEffect } from 'react'
+import {FC, useEffect} from 'react'
 
-import { setIsAuth, setId, useAppDispatch, setWaitingForAuth } from '../redux'
-import { useGetAuthQuery } from '../../Shared'
+import {setIsAuth, setId, useAppDispatch, setWaitingForAuth} from '../redux'
+import {useGetAuthQuery} from '../../Shared'
 import Accumulator from './Accumulator'
-import { DownloadMask } from '../../Widgets'
+import {DownloadMask} from '../../Widgets'
 
 const App: FC = () => {
   const dispatch = useAppDispatch()
-  const { isLoading, isSuccess, data } = useGetAuthQuery()
-
+  const {isLoading, isSuccess, data} = useGetAuthQuery()
   useEffect(() => {
     dispatch(setWaitingForAuth(isLoading))
     if (isSuccess && data) {
@@ -20,7 +19,7 @@ const App: FC = () => {
     }
   }, [data, dispatch, isLoading, isSuccess])
 
-  return <>{isLoading ? <DownloadMask /> : <Accumulator />}</>
+  return isLoading ? <DownloadMask /> : <Accumulator />
 }
 
 export default App

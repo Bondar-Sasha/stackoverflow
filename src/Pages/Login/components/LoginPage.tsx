@@ -6,7 +6,11 @@ import { toast } from 'react-toastify'
 
 import { Errors, useLoginMutation } from '../../../Shared'
 
-import { FormAuthInput, FormAuthWrapper, SubmitButton } from '../../../Features'
+import {
+  AuthFormInput,
+  BasicFormWrapper,
+  SubmitButton,
+} from '../../../Features'
 
 interface LoginFormData {
   username: string
@@ -61,14 +65,14 @@ const LoginPage: FC = () => {
         onSubmit={onSubmit}
       >
         {({ isValid }) => (
-          <FormAuthWrapper>
+          <BasicFormWrapper>
             {' '}
-            <FormAuthInput
+            <AuthFormInput
               placeholder="username"
               name="username"
               inputType="text"
             />
-            <FormAuthInput
+            <AuthFormInput
               placeholder="password"
               name="password"
               inputType="password"
@@ -76,7 +80,7 @@ const LoginPage: FC = () => {
             <SubmitButton isLoading={isLoading} isValid={isValid}>
               Log in
             </SubmitButton>
-          </FormAuthWrapper>
+          </BasicFormWrapper>
         )}
       </Formik>
       <div className="mt-4 flex justify-between w-full">

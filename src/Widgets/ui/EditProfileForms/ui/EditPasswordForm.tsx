@@ -1,14 +1,14 @@
-import { FC } from 'react'
-import { Formik } from 'formik'
-import { toast } from 'react-toastify'
+import {FC} from 'react'
+import {Formik} from 'formik'
+import {toast} from 'react-toastify'
 import * as Yup from 'yup'
 
 import {
-  FormAuthInput,
-  FormAuthWrapper,
+  AuthFormInput,
+  BasicFormWrapper,
   SubmitButton,
 } from '../../../../Features'
-import { Errors, usePatchMyPasswordMutation } from '../../../../Shared'
+import {Errors, usePatchMyPasswordMutation} from '../../../../Shared'
 
 interface FormData {
   oldPassword: string
@@ -43,9 +43,9 @@ const initialValues: FormData = {
 }
 
 const EditPasswordForm: FC = () => {
-  const [changePassword, { isLoading }] = usePatchMyPasswordMutation()
+  const [changePassword, {isLoading}] = usePatchMyPasswordMutation()
 
-  const submitForm = async ({ oldPassword, newPassword }: FormData) => {
+  const submitForm = async ({oldPassword, newPassword}: FormData) => {
     try {
       const response = await changePassword({
         oldPassword,
@@ -71,27 +71,30 @@ const EditPasswordForm: FC = () => {
         validationSchema={validationSchema}
         onSubmit={submitForm}
       >
-        {({ isValid }) => (
-          <FormAuthWrapper>
-            <FormAuthInput
+        {({isValid}) => (
+          <BasicFormWrapper>
+            <AuthFormInput
               placeholder="old password"
               name="oldPassword"
               inputType="password"
+              autoComplete="current-password"
             />
-            <FormAuthInput
+            <AuthFormInput
               placeholder="new password"
               name="newPassword"
               inputType="password"
+              autoComplete="new-password"
             />
-            <FormAuthInput
+            <AuthFormInput
               placeholder="confirm password"
               name="confirmPassword"
               inputType="password"
+              autoComplete="new-password"
             />
             <SubmitButton isValid={isValid} isLoading={isLoading}>
               Change password
             </SubmitButton>
-          </FormAuthWrapper>
+          </BasicFormWrapper>
         )}
       </Formik>
     </div>

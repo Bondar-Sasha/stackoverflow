@@ -6,6 +6,10 @@
   --toastify-color-dark: #005fb4;
   --toastify-color-progress-dark: white;
 } */
+.react-codemirror2 > .CodeMirror:first-child {
+  display: none;
+}
+
 html,
 body {
   margin: 0;

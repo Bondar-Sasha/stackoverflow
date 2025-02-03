@@ -1,8 +1,8 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
-import type { QuestionsTypes } from './types/Questions'
+import type {QuestionsTypes} from './types/Questions'
 
-import { baseUrl } from '../../constants'
+import {baseUrl} from '../../constants'
 
 export const questionsApi = createApi({
   reducerPath: 'questionsApi',
@@ -11,22 +11,22 @@ export const questionsApi = createApi({
     credentials: 'include',
   }),
 
-  tagTypes: ['User', 'MeData', 'IsMeAuth'],
+  tagTypes: ['Questions', 'Question'],
   endpoints: (builder) => ({
     getQuestions: builder.query<
       QuestionsTypes.GetQuestionsResponse,
       QuestionsTypes.GetQuestionsRequest
     >({
-      query: ({ page, limit }) =>
+      query: ({page, limit}) =>
         `questions?page=${page}&limit=${limit}&sortBy=id:ASC`,
-      providesTags: ['User'],
+      providesTags: ['Questions'],
     }),
     getQuestion: builder.query<
       QuestionsTypes.GetQuestionResponse,
       QuestionsTypes.GetQuestionRequest
     >({
-      query: ({ id }) => `questions/${id}`,
-      providesTags: ['User'],
+      query: ({id}) => `questions/${id}`,
+      providesTags: ['Question'],
     }),
     createQuestion: builder.mutation<
       QuestionsTypes.CreateQuestionResponse,
@@ -37,13 +37,26 @@ export const questionsApi = createApi({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['Questions'],
+    }),
+    editQuestion: builder.mutation<
+      QuestionsTypes.EditQuestionResponse,
+      QuestionsTypes.EditQuestionRequest
+    >({
+      query: ({id, ...data}) => ({
+        url: `questions/${id}`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['Questions', 'Question'],
     }),
   }),
 })
 
 export const {
   useGetQuestionQuery,
+  useLazyGetQuestionQuery,
   useGetQuestionsQuery,
   useCreateQuestionMutation,
+  useEditQuestionMutation,
 } = questionsApi

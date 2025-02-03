@@ -1,0 +1,6 @@
+.textarea:not(:has(span)) {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 12px;
+}

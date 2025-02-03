@@ -1,39 +1,29 @@
-import { useDebounce } from '@uidotdev/usehooks'
-import { useEffect, useState, useCallback } from 'react'
+import {useEffect, useState, useCallback} from 'react'
 
-const useInfiniteScroll = (ref: React.RefObject<HTMLElement>) => {
+const useInfiniteScroll = () => {
   const [isEnd, setIsEnd] = useState(false)
 
   const scrollHandler = useCallback(() => {
-    if (!ref.current) return
+    const scrollTop = window.scrollY
+    const clientHeight = window.innerHeight
+    const scrollHeight = document.documentElement.scrollHeight
 
-    const { scrollTop, scrollHeight } = ref.current
-    const clientHeight = ref.current.clientHeight
-
-    if (scrollHeight - scrollTop - clientHeight < 50) {
+    if (scrollHeight - scrollTop - clientHeight < scrollHeight * 0.3) {
       setIsEnd(true)
     } else {
       setIsEnd(false)
     }
-  }, [ref])
-
-  const debouncedScrollHandler = useDebounce(scrollHandler, 200)
+  }, [])
 
   useEffect(() => {
-    const currentRef = ref.current
-
-    if (currentRef) {
-      currentRef.addEventListener('scroll', debouncedScrollHandler)
-    }
+    window.addEventListener('scroll', scrollHandler)
 
     return () => {
-      if (currentRef) {
-        currentRef.removeEventListener('scroll', debouncedScrollHandler)
-      }
+      window.removeEventListener('scroll', scrollHandler)
     }
-  }, [ref, debouncedScrollHandler])
+  }, [scrollHandler])
 
-  return { isEnd }
+  return {isEnd}
 }
 
 export default useInfiniteScroll
