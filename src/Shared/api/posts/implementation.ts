@@ -6,6 +6,19 @@ import type {CommentsTypes} from './types/Comments'
 
 import {baseUrl} from '../../constants'
 
+function markQuantity(
+  marks: PostsTypes.GetPostsResponse['data']['data'][number]['marks']
+): (item: 'like' | 'dislike') => number {
+  return (targetField) => {
+    return marks.reduce((acc, curr) => {
+      if (curr.type === targetField) {
+        return acc + 1
+      }
+      return acc
+    }, 0)
+  }
+}
+
 export const postsApi = createApi({
   reducerPath: 'postsApi',
   baseQuery: fetchBaseQuery({
@@ -16,7 +29,7 @@ export const postsApi = createApi({
   tagTypes: ['Posts', 'Post', 'Marks', 'Mark', 'Comments', 'Comment'],
   endpoints: (builder) => ({
     getPosts: builder.query<
-      PostsTypes.GetPostsResponse,
+      PostsTypes.GetPostsPreparedResponse,
       PostsTypes.GetPostsRequest
     >({
       query: ({page, limit, userId}) =>
@@ -24,6 +37,32 @@ export const postsApi = createApi({
           userId ? `userId=${userId}&` : ''
         }page=${page}&limit=${limit}`,
       providesTags: ['Posts'],
+      transformResponse: (
+        response: PostsTypes.GetPostsResponse,
+        _meta,
+        arg
+      ) => {
+        const preparedResponse = response.data.data.map(
+          ({comments, marks, ...items}) => {
+            const preparedMarkQuantity = markQuantity(marks)
+            const likesQuantity = preparedMarkQuantity('like')
+            const dislikesQuantity = preparedMarkQuantity('dislike')
+            const commentsQuantity = comments.length
+            const myMark: 'like' | 'dislike' | undefined = marks.find(
+              (item) => item.user.id === String(arg.senderId)
+            )?.type
+
+            return {
+              ...items,
+              myMark,
+              dislikesQuantity,
+              likesQuantity,
+              commentsQuantity,
+            }
+          }
+        )
+        return preparedResponse
+      },
     }),
     getPost: builder.query<
       PostsTypes.GetPostResponse,

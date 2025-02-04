@@ -3,7 +3,7 @@ import MonacoEditor from '@monaco-editor/react'
 import {ProgrammingLanguages} from '../../../Shared'
 
 interface EditorProps {
-  language: ProgrammingLanguages
+  language: Lowercase<ProgrammingLanguages>
   value: string
   onChange: (newValue: string | undefined) => void
   readOnly?: boolean

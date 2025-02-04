@@ -11,6 +11,7 @@ export namespace PostsTypes {
 
   export interface GetPostsRequest {
     userId?: number
+    senderId: number
     page: number
     limit: number
   }
@@ -36,11 +37,22 @@ export namespace PostsTypes {
     marks: Mark[]
     user: User
   }
+  interface PreparedPost {
+    id: string
+    code: string
+    language: ProgrammingLanguages
+    dislikesQuantity: number
+    likesQuantity: number
+    commentsQuantity: number
+    myMark: 'like' | 'dislike' | undefined
+    user: User
+  }
   export interface GetPostsResponse {
     data: {
       data: Post[]
     }
   }
+  export type GetPostsPreparedResponse = PreparedPost[]
 
   export interface CreatePostRequest {
     code: string
