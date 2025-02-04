@@ -156,4 +156,13 @@ export const {
   useEditPostMutation,
   useGetPostQuery,
   useGetPostsQuery,
+  useCreateCommentMutation,
+  useCreateMarkMutation,
+  useDeleteCommentMutation,
+  useEditCommentMutation,
+  useEditMarkMutation,
+  useGetCommentQuery,
+  useGetCommentsQuery,
+  useGetMarkQuery,
+  useGetMarksQuery,
 } = postsApi

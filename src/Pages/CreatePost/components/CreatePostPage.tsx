@@ -1,41 +1,34 @@
 import {FC} from 'react'
 import {Field, Formik} from 'formik'
 import * as Yup from 'yup'
-
-import {Editor} from '../../../Widgets'
-import {
-  BasicFormInput,
-  BasicFormTextarea,
-  BasicFormWrapper,
-  SubmitButton,
-} from '../../../Features'
-import {} from '../../../Shared'
 import {toast} from 'react-toastify'
 
-interface DataForCreatingQuestion {
-  title: string
-  description: string
-  attachedCode: string
+import {Editor} from '../../../Widgets'
+import {BasicFormWrapper, SubmitButton} from '../../../Features'
+import {ProgrammingLanguages, useCreatePostMutation} from '../../../Shared'
+import {OptionItem, ProgLangSelect} from '../../../Entities'
+import {SingleValue} from 'react-select'
+
+interface DataForCreatingPost {
+  language: ProgrammingLanguages
+  code: string
 }
 
 const validationSchema = Yup.object({
-  title: Yup.string().required('question title is required'),
-  description: Yup.string(),
-  attachedCode: Yup.string(),
+  language: Yup.string().required('Post programming language is required'),
+  code: Yup.string().required('Post code is required'),
 })
 
-const initialValues: DataForCreatingQuestion = {
-  language: '',
-  description: '',
-  attachedCode: '',
+const initialValues: DataForCreatingPost = {
+  language: 'JavaScript',
+  code: '',
 }
 const CreatePostPage: FC = () => {
-  const [createQuestion, {isLoading}] = useCreateQuestionMutation()
-  const handleSubmit = async (formData: DataForCreatingQuestion) => {
+  const [createPost, {isLoading}] = useCreatePostMutation()
+  const handleSubmit = async (formData: DataForCreatingPost) => {
     try {
-      console.log(formData)
-      await createQuestion(formData).unwrap()
-      toast('Question was created', {
+      await createPost(formData).unwrap()
+      toast('Post was created', {
         type: 'success',
         autoClose: 1800,
       })
@@ -49,36 +42,37 @@ const CreatePostPage: FC = () => {
   }
 
   return (
-    <div className="w-full p-6 flex-center flex-col">
+    <div className="w-3/4 p-6 flex-center flex-col">
       <h1 className="mb-5 text-3xl">Create a new post</h1>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({isValid, setFieldValue}) => (
+        {({isValid, values, setFieldValue}) => (
           <BasicFormWrapper>
-            <BasicFormInput
-              placeholder="question title"
-              name="title"
-              className="mb-5"
-            />
-            <BasicFormTextarea
-              placeholder="question description"
-              name="description"
+            <Field
+              as={ProgLangSelect}
+              name="language"
+              className="mb-3"
+              value={values.language}
+              onChange={(newValue: SingleValue<OptionItem>) => {
+                setFieldValue('language', newValue?.value)
+              }}
             />
             <Field
               as={Editor}
               className="mb-3 h-52"
-              language="javascript"
-              name="attachedCode"
+              name="code"
+              value={values.code}
+              language={values.language.toLowerCase()}
               onChange={(newValue: string) => {
-                setFieldValue('attachedCode', newValue)
+                setFieldValue('code', newValue)
               }}
             />
 
             <SubmitButton isLoading={isLoading} isValid={isValid}>
-              create question
+              create post
             </SubmitButton>
           </BasicFormWrapper>
         )}

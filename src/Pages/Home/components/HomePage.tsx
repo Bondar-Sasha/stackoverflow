@@ -1,19 +1,7 @@
-import { FC, useState } from 'react'
-import { Editor } from '../../../Widgets'
+import {FC} from 'react'
 
 const HomePage: FC = () => {
-  const [s, sets] = useState('')
-  return (
-    <div className="w-full">
-      <Editor
-        language="javascript"
-        code={s}
-        onChange={(editor, data, value) => {
-          sets(value)
-        }}
-      />
-    </div>
-  )
+  return <div className="w-full"></div>
 }
 
 export default HomePage
