@@ -11,7 +11,7 @@ export namespace PostsTypes {
 
   export interface GetPostsRequest {
     userId?: number
-    senderId: number
+    senderId?: number
     page: number
     limit: number
   }

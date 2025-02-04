@@ -44,13 +44,15 @@ export const postsApi = createApi({
       ) => {
         const preparedResponse = response.data.data.map(
           ({comments, marks, ...items}) => {
+            console.log(arg)
             const preparedMarkQuantity = markQuantity(marks)
             const likesQuantity = preparedMarkQuantity('like')
             const dislikesQuantity = preparedMarkQuantity('dislike')
             const commentsQuantity = comments.length
-            const myMark: 'like' | 'dislike' | undefined = marks.find(
-              (item) => item.user.id === String(arg.senderId)
-            )?.type
+            const myMark: 'like' | 'dislike' | undefined = arg.senderId
+              ? marks.find((item) => item.user.id === String(arg.senderId))
+                  ?.type
+              : undefined
 
             return {
               ...items,

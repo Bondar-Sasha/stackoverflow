@@ -1,6 +1,5 @@
-import { toast } from 'react-toastify'
-import { setIsAuth, useAppDispatch } from '../../../../App'
-import { LogoutLogo } from '../../../../Entities'
+import {toast} from 'react-toastify'
+import {LogoutLogo} from '../../../../Entities'
 import {
   BasicButton,
   Errors,
@@ -8,14 +7,12 @@ import {
   useLogoutMutation,
 } from '../../../../Shared'
 
-const LogoutButton: typeof BasicButton = ({ className = '', ...props }) => {
-  const dispatch = useAppDispatch()
-  const [logout, { isLoading }] = useLogoutMutation()
+const LogoutButton: typeof BasicButton = ({className = '', ...props}) => {
+  const [logout, {isLoading}] = useLogoutMutation()
 
   const handleClick = async () => {
     try {
       await logout().unwrap()
-      dispatch(setIsAuth(false))
       toast('You have successfully logged out', {
         type: 'success',
         autoClose: 1900,

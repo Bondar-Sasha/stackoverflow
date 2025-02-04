@@ -21,6 +21,7 @@ interface PostFormProps {
   likesQuantity: number
   dislikesQuantity: number
   commentsQuantity: number
+  myMark?: 'like' | 'dislike'
 }
 
 const PostForm: FC<PostFormProps> = ({
@@ -32,8 +33,10 @@ const PostForm: FC<PostFormProps> = ({
   likesQuantity,
   dislikesQuantity,
   commentsQuantity,
+  myMark,
 }) => {
   // const [createMark, createMarkParams] = useCreateMarkMutation()
+
   const handleLikeMark = async () => {
     console.log(postId)
   }
@@ -65,13 +68,19 @@ const PostForm: FC<PostFormProps> = ({
       <div className="flex justify-between items-center">
         <div className="flex justify-between items-center">
           <div className="flex items-center mr-4" onClick={handleLikeMark}>
-            <MarksLogoWrapper className="mr-2 text-2xl">
+            <MarksLogoWrapper
+              className="mr-2 text-2xl"
+              isActive={myMark === 'like'}
+            >
               <BiSolidLike />
             </MarksLogoWrapper>
             <span>{likesQuantity}</span>
           </div>
           <div className="flex items-center" onClick={handleDislikeMark}>
-            <MarksLogoWrapper className="mr-2 text-2xl">
+            <MarksLogoWrapper
+              className="mr-2 text-2xl"
+              isActive={myMark === 'dislike'}
+            >
               <BiSolidDislike />
             </MarksLogoWrapper>
             <span>{dislikesQuantity}</span>

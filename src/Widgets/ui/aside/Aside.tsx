@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import {FC} from 'react'
 
 import styles from './styles/aside.module.css'
 import {
@@ -10,15 +10,15 @@ import {
   QuestionsControl,
   UsersControl,
 } from '../../../Features'
-import { selectorIsAuth, useAppSelector } from '../../../App'
+import {useLinkedGetAuth} from '../../../Shared'
 
 interface AsideProps {
   onClose: () => void
   isOpen: boolean
 }
 
-const Aside: FC<AsideProps> = ({ onClose, isOpen }) => {
-  const isAuth = useAppSelector(selectorIsAuth)
+const Aside: FC<AsideProps> = ({onClose, isOpen}) => {
+  const {userId} = useLinkedGetAuth()
 
   return (
     <aside
@@ -28,9 +28,9 @@ const Aside: FC<AsideProps> = ({ onClose, isOpen }) => {
     >
       <ExitControl onClick={onClose} className={styles.closeLogo} />
       <HomeControl onClick={onClose} />
-      {isAuth && <AccountControl onClick={onClose} />}
-      {isAuth && <PostSnippetControl onClick={onClose} />}
-      {isAuth && <MySnippetsControl onClick={onClose} />}
+      {userId && <AccountControl onClick={onClose} />}
+      {userId && <PostSnippetControl onClick={onClose} />}
+      {userId && <MySnippetsControl onClick={onClose} />}
       <QuestionsControl onClick={onClose} />
       <UsersControl onClick={onClose} />
     </aside>
