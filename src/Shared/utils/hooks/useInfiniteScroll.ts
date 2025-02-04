@@ -16,10 +16,14 @@ const useInfiniteScroll = () => {
   }, [])
 
   useEffect(() => {
-    window.addEventListener('scroll', scrollHandler)
+    const throttledScrollHandler = () => {
+      requestAnimationFrame(scrollHandler)
+    }
+
+    window.addEventListener('scroll', throttledScrollHandler)
 
     return () => {
-      window.removeEventListener('scroll', scrollHandler)
+      window.removeEventListener('scroll', throttledScrollHandler)
     }
   }, [scrollHandler])
 

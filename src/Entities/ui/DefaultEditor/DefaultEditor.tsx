@@ -1,8 +1,9 @@
 import {FC} from 'react'
 import MonacoEditor from '@monaco-editor/react'
+import {ProgrammingLanguages} from '../../../Shared'
 
 interface EditorProps {
-  language: 'javascript' | 'go' | 'css' | 'rust' | 'python'
+  language: Lowercase<ProgrammingLanguages>
   value: string
   onChange: (newValue: string | undefined) => void
   readOnly?: boolean

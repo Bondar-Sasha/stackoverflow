@@ -1,23 +1,24 @@
-import { FC, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import {FC, useState} from 'react'
+import {Outlet} from 'react-router-dom'
 
-import { Aside, BasicFooter, Header } from '../../../Widgets'
-import { selectorIsAuth, useAppSelector } from '../../../App'
+import {Aside, BasicFooter, Header} from '../../../Widgets'
 
 import styles from '../styles/layout.module.css'
+import {useLinkedGetAuth} from '../../../Shared'
 
 interface LayoutPageProps {
   neutral?: boolean
 }
 
-const LayoutPage: FC<LayoutPageProps> = ({ neutral }) => {
-  const isAuth = useAppSelector(selectorIsAuth)
+const LayoutPage: FC<LayoutPageProps> = ({neutral}) => {
+  const {userId} = useLinkedGetAuth()
+
   const [asideState, setAsideState] = useState<boolean>(false)
   const asideHandler = () => {
     setAsideState((prev) => !prev)
   }
 
-  const PreparedHeader = isAuth ? (
+  const PreparedHeader = userId ? (
     <Header type="auth" asideHandler={asideHandler} />
   ) : neutral ? (
     <Header type="neutral" />
@@ -28,7 +29,7 @@ const LayoutPage: FC<LayoutPageProps> = ({ neutral }) => {
   return (
     <>
       {PreparedHeader}
-      <main className={`w-full flex flex-grow ${styles.main}`}>
+      <main className={`w-full flex-center flex-grow ${styles.main}`}>
         <Aside isOpen={asideState} onClose={asideHandler} />
         <Outlet />
       </main>

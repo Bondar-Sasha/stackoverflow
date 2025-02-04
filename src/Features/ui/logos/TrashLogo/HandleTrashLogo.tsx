@@ -1,17 +1,14 @@
-import { toast } from 'react-toastify'
+import {toast} from 'react-toastify'
 
-import { TrashLogo } from '../../../../Entities'
-import { Spinner, useLogoutMutation } from '../../../../Shared'
-import { setIsAuth, useAppDispatch } from '../../../../App'
+import {TrashLogo} from '../../../../Entities'
+import {Spinner, useLogoutMutation} from '../../../../Shared'
 
 const HandleTrashLogo: typeof TrashLogo = (props) => {
-  const dispatch = useAppDispatch()
-  const [logout, { data, isLoading }] = useLogoutMutation()
+  const [logout, {data, isLoading}] = useLogoutMutation()
 
   const handleClick = async () => {
     await logout().catch((error: unknown) => console.error(error))
     if (!data) {
-      dispatch(setIsAuth(false))
       toast('You have successfully logged out', {
         type: 'success',
         autoClose: 1900,

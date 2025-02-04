@@ -1,6 +1,5 @@
-import { toast } from 'react-toastify'
-import { setIsAuth, useAppDispatch } from '../../../../App'
-import { TrashLogo } from '../../../../Entities'
+import {toast} from 'react-toastify'
+import {TrashLogo} from '../../../../Entities'
 import {
   BasicButton,
   Errors,
@@ -8,15 +7,13 @@ import {
   useDeleteMeMutation,
 } from '../../../../Shared'
 
-const DeleteAccButton: typeof BasicButton = ({ className = '', ...props }) => {
-  const dispatch = useAppDispatch()
-  const [deleteMyAcc, { isLoading }] = useDeleteMeMutation()
+const DeleteAccButton: typeof BasicButton = ({className = '', ...props}) => {
+  const [deleteMyAcc, {isLoading}] = useDeleteMeMutation()
 
   const handleClick = async () => {
     try {
       const response = await deleteMyAcc().unwrap()
 
-      dispatch(setIsAuth(false))
       toast(response.message, {
         type: 'success',
         autoClose: 1900,

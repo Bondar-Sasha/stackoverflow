@@ -1,9 +1,10 @@
 import {FC} from 'react'
 
 import {DefaultEditor} from '../../../Entities'
+import {ProgrammingLanguages} from '../../../Shared'
 
 interface EditorProps {
-  language: 'javascript' | 'go' | 'css' | 'rust' | 'python'
+  language: Lowercase<ProgrammingLanguages>
   value: string
   onChange: (newValue: string | undefined) => void
   readOnly?: boolean

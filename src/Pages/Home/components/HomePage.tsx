@@ -1,17 +1,11 @@
-import { FC, useState } from 'react'
-import { Editor } from '../../../Widgets'
+import {FC} from 'react'
+import {PostList} from '../../../Widgets'
 
 const HomePage: FC = () => {
-  const [s, sets] = useState('')
   return (
-    <div className="w-full">
-      <Editor
-        language="javascript"
-        code={s}
-        onChange={(editor, data, value) => {
-          sets(value)
-        }}
-      />
+    <div className="stretching flex items-center flex-col">
+      <h1 className="mb-4 mt-4 text-2xl">Posts:</h1>
+      <PostList />
     </div>
   )
 }

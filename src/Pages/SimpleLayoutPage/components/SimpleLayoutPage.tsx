@@ -1,14 +1,13 @@
-import { FC } from 'react'
-import { Outlet } from 'react-router-dom'
+import {FC} from 'react'
+import {Outlet} from 'react-router-dom'
 
-import { BasicFooter, Header } from '../../../Widgets'
+import {BasicFooter, Header} from '../../../Widgets'
 
 const SimpleLayoutPage: FC = () => {
   return (
     <>
       <Header type="neutral" asideHandler={() => {}} />
-      <main className="w-full h-full flex items-center justify-center flex-grow bg-[rgb(241,241,241)]">
-        {' '}
+      <main className="stretching flex-center flex-grow bg-gray-100 mt-14">
         <Outlet />
       </main>
       <BasicFooter />

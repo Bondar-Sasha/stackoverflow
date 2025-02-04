@@ -1,16 +1,11 @@
 import {FC, ReactNode, useLayoutEffect, useState} from 'react'
 import {Navigate, useLocation, useParams} from 'react-router-dom'
-import {
-  selectorId,
-  selectorIsAuth,
-  selectorWaitingForAuth,
-  useAppSelector,
-} from '../../App'
+
 import {toast} from 'react-toastify'
-import {useLazyGetQuestionQuery} from '../../Shared'
+import {useLazyGetQuestionQuery, useLinkedGetAuth} from '../../Shared'
 import {DownloadMask} from '../../Widgets'
 
-interface Params {
+export interface Params {
   userId: string
   questionId: string
   postId: string
@@ -32,17 +27,16 @@ const restrictedPaths: Record<string, string> = {
 const editQuestionUrlPattern = /^\/edit_question\/\d+$/
 
 const Redirection: FC<RedirectionProps> = ({children}) => {
+  const {userId, isLoading} = useLinkedGetAuth()
+
   const location = useLocation()
   const params = useParams<Params>()
-  const userId = useAppSelector(selectorId)
-  const isAuth = useAppSelector(selectorIsAuth)
-  const isLoading = useAppSelector(selectorWaitingForAuth)
   const [redirectElem, setRedirectElem] = useState<ReactNode>(children)
   const [getQuestion, getQuestionFetchingState] = useLazyGetQuestionQuery()
 
   useLayoutEffect(() => {
     if (!isLoading) {
-      if (isAuth) {
+      if (userId) {
         if (location.pathname.includes('auth')) {
           const isManualNavigation =
             !window.history.state || !window.history.state.idx
@@ -66,9 +60,7 @@ const Redirection: FC<RedirectionProps> = ({children}) => {
           const getQuestionWithAwait = async (id: number) => {
             try {
               const response = await getQuestion({id}).unwrap()
-              console.log(response)
-
-              if (Number(response.data.user.id) !== userId) {
+              if (response.data.user.id !== userId) {
                 setRedirectElem(<Navigate to="/" replace />)
                 toast('You did not ask this question', {
                   type: 'warning',
@@ -95,7 +87,6 @@ const Redirection: FC<RedirectionProps> = ({children}) => {
   }, [
     children,
     getQuestion,
-    isAuth,
     isLoading,
     location.pathname,
     params.questionId,

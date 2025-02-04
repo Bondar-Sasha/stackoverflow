@@ -1,11 +1,10 @@
-import { FC, useLayoutEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import {FC, useLayoutEffect} from 'react'
+import {useNavigate} from 'react-router-dom'
+import {toast} from 'react-toastify'
 
-import { DeleteAccButton, LogoutButton } from '../../../Features'
-import { selectorId, useAppSelector } from '../../../App'
-import { useLazyGetUserStatisticQuery } from './../../../Shared'
-import { AnonymousUser } from '../../../Entities'
+import {DeleteAccButton, LogoutButton} from '../../../Features'
+import {useLazyGetUserStatisticQuery, useLinkedGetAuth} from './../../../Shared'
+import {AnonymousUser} from '../../../Entities'
 import {
   DownloadMask,
   EditPasswordForm,
@@ -14,9 +13,9 @@ import {
 
 const AccountPage: FC = () => {
   const navigate = useNavigate()
-  const userId = useAppSelector(selectorId)
+  const {userId} = useLinkedGetAuth()
 
-  const [statistic, { isLoading, data }] = useLazyGetUserStatisticQuery()
+  const [statistic, {isLoading, data}] = useLazyGetUserStatisticQuery()
 
   useLayoutEffect(() => {
     async function handleStatistic() {

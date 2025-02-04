@@ -11,6 +11,10 @@ import {
   CreateQuestionPage,
   EditQuestionPage,
   UsersPage,
+  UserPage,
+  CreatePostPage,
+  NotFoundPage,
+  MyPostsPage,
 } from '../../Pages'
 import {LayoutPage, SimpleLayoutPage} from '../../Pages'
 
@@ -30,12 +34,12 @@ const AppRoutes: FC = () => {
           <Route path="edit_question" element={<Navigate to="/" replace />} />
           <Route path="edit_post" element={<Navigate to="/" replace />} />
           <Route path="posts" element={<></>} />
-          <Route path="create_post" element={<></>} />
-          <Route path="my_posts" element={<></>} />
+          <Route path="create_post" element={<CreatePostPage />} />
+          <Route path="my_posts" element={<MyPostsPage />} />
           <Route path="edit_post/:postId" element={<></>} />
           <Route path="account" element={<AccountPage />} />
           <Route path="users" element={<UsersPage />} />
-          <Route path="users/:userId" element={<></>} />
+          <Route path="users/:userId" element={<UserPage />} />
           <Route path="questions" element={<QuestionsPage />} />
           <Route path="create_question" element={<CreateQuestionPage />} />
           <Route
@@ -56,8 +60,8 @@ const AppRoutes: FC = () => {
           <Route path="registration" element={<RegisterPage />} />
           <Route path="login" element={<LoginPage />} />
         </Route>
-        <Route path="*" element={<SimpleLayoutPage />}>
-          <Route index element={<>404 Not Found</>} />
+        <Route element={<SimpleLayoutPage />}>
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
