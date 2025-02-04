@@ -10,7 +10,7 @@ import {toast} from 'react-toastify'
 import {useLazyGetQuestionQuery} from '../../Shared'
 import {DownloadMask} from '../../Widgets'
 
-interface Params {
+export interface Params {
   userId: string
   questionId: string
   postId: string

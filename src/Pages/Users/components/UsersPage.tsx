@@ -22,8 +22,11 @@ const UsersPage: FC = () => {
   if (isLoading) {
     return <DownloadMask />
   }
+  console.log(data)
   if (!data) {
-    return <div>There are no users</div>
+    return (
+      <div className="flex-center stretching text-xl">There are no users</div>
+    )
   }
 
   return (

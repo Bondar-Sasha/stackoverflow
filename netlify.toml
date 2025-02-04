@@ -1,15 +1,9 @@
-[build]
-  publish = "build"
-  command = "npm run build"
-
 [[redirects]]
   from = "/api/*"
   to = "https://codelang.vercel.app/api/:splat"
   status = 200
-  force = true
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  force = true

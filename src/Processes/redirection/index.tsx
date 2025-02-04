@@ -1,3 +1,5 @@
-import Redirection from './Redirection'
+import Redirection, {Params} from './Redirection'
 
-export { Redirection }
+export type {Params}
+
+export {Redirection}

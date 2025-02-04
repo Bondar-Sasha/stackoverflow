@@ -24,7 +24,11 @@ const QuestionsPage: FC = () => {
     return <DownloadMask />
   }
   if (!data) {
-    return <div>There are no questions</div>
+    return (
+      <div className="flex-center stretching text-xl">
+        There are no questions
+      </div>
+    )
   }
 
   return (
