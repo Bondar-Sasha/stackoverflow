@@ -8,7 +8,7 @@ const useInfiniteScroll = () => {
     const clientHeight = window.innerHeight
     const scrollHeight = document.documentElement.scrollHeight
 
-    if (scrollHeight - scrollTop - clientHeight < 200) {
+    if (scrollHeight - scrollTop - clientHeight < scrollHeight * 0.3) {
       setIsEnd(true)
     } else {
       setIsEnd(false)

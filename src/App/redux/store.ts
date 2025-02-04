@@ -1,12 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { combineReducers } from 'redux'
+import {configureStore} from '@reduxjs/toolkit'
+import {combineReducers} from 'redux'
 
-import { userApi, questionsApi } from '../../Shared'
-import { authReducer } from './slices'
+import {userApi, questionsApi, postsApi} from '../../Shared'
+import {authReducer} from './slices'
 
 const rootReducer = combineReducers({
   authReducer,
   [userApi.reducerPath]: userApi.reducer,
+  [postsApi.reducerPath]: postsApi.reducer,
   [questionsApi.reducerPath]: questionsApi.reducer,
 })
 
@@ -17,6 +18,7 @@ export const setupStore = () => {
       return getDefaultMiddleware()
         .concat(userApi.middleware)
         .concat(questionsApi.middleware)
+        .concat(postsApi.middleware)
     },
   })
 }
