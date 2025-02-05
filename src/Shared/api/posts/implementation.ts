@@ -194,6 +194,21 @@ export const postsApi = createApi({
         return [{type: 'Post', id: args.snippetId}]
       },
     }),
+    deleteMark: builder.mutation<
+      MarksTypes.DeleteMarkResponse,
+      MarksTypes.DeleteMarkRequest
+    >({
+      query: ({snippetId}) => ({
+        url: `marks?snippetId=${snippetId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_result, error, args) => {
+        if (error) {
+          return []
+        }
+        return [{type: 'Post', id: args.snippetId}]
+      },
+    }),
 
     // getComments: builder.query<
     //   CommentsTypes.GetCommentsResponse,
@@ -270,6 +285,7 @@ export const {
   useLazyGetPostQuery,
   useGetPostsQuery,
   useCreateCommentMutation,
+  useDeleteMarkMutation,
   useCreateMarkMutation,
   // useDeleteCommentMutation,
   // useEditCommentMutation,
