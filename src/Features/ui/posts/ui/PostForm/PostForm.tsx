@@ -10,11 +10,13 @@ import {
   MarksLogoWrapper,
   ProgrammingLanguages,
   useCreateMarkMutation,
+  useDeleteMarkMutation,
   useEditMarkMutation,
   useLinkedGetAuth,
   // useCreateMarkMutation,
 } from '../../../../../Shared'
 import {DefaultEditor, UserLogo} from '../../../../../Entities'
+import {toast} from 'react-toastify'
 
 interface PostFormProps {
   progLang: ProgrammingLanguages
@@ -41,31 +43,33 @@ const PostForm: FC<PostFormProps> = ({
 }) => {
   const navigate = useNavigate()
   const [createMark] = useCreateMarkMutation()
+  const [deleteMark] = useDeleteMarkMutation()
   const [editMark] = useEditMarkMutation()
   const authData = useLinkedGetAuth()
 
-  const handleLikeMark = async () => {
+  const handleMark = async (type: 'like' | 'dislike') => {
     try {
-      if (myMark) {
-        await editMark({type: 'like', snippetId: postId}).unwrap()
+      if (authData.userId) {
+        if (!myMark) {
+          await createMark({type, snippetId: postId}).unwrap()
+          return
+        }
+
+        if (myMark === type) {
+          await deleteMark({snippetId: postId}).unwrap()
+        } else {
+          await editMark({type, snippetId: postId}).unwrap()
+        }
       } else {
-        await createMark({type: 'like', snippetId: postId}).unwrap()
+        toast('You need to be authorized', {autoClose: 1800, type: 'warning'})
       }
     } catch (error) {
       console.error(error)
     }
   }
-  const handleDislikeMark = async () => {
-    try {
-      if (myMark) {
-        await editMark({type: 'dislike', snippetId: postId}).unwrap()
-      } else {
-        await createMark({type: 'dislike', snippetId: postId}).unwrap()
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
+
+  const handleLikeMark = () => handleMark('like')
+  const handleDislikeMark = () => handleMark('dislike')
 
   return (
     <div className="w-full flex flex-col mb-5">

@@ -55,4 +55,14 @@ export namespace MarksTypes {
     }
     message: string
   }
+  export interface DeleteMarkRequest {
+    snippetId: number
+  }
+  export interface DeleteMarkResponse {
+    data: {
+      type: 'like' | 'dislike'
+      user: User
+    }
+    message: string
+  }
 }
