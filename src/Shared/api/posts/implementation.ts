@@ -87,16 +87,14 @@ export const postsApi = createApi({
         return [{type: 'Post', id: result.id}]
       },
 
-      transformResponse: (response: PostsTypes.GetPostResponse, _meta, arg) => {
+      transformResponse: (response: PostsTypes.GetPostResponse) => {
         const {comments, marks, ...items} = response.data
         const preparedMarkQuantity = markQuantity(marks)
 
         const likesQuantity = preparedMarkQuantity('like')
         const dislikesQuantity = preparedMarkQuantity('dislike')
         const commentsQuantity = comments.length
-        const myMark: 'like' | 'dislike' | undefined = arg.senderId
-          ? marks.find((item) => item.user.id === String(arg.senderId))?.type
-          : undefined
+        const myMark: 'like' | 'dislike' | undefined = undefined
 
         return {
           ...items,
