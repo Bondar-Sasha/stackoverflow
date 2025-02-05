@@ -44,9 +44,11 @@ export namespace PostsTypes {
     dislikesQuantity: number
     likesQuantity: number
     commentsQuantity: number
+    comments: Comment[]
     myMark: 'like' | 'dislike' | undefined
     user: User
   }
+
   export interface GetPostsResponse {
     data: {
       data: Post[]
@@ -67,11 +69,14 @@ export namespace PostsTypes {
     }
   }
   export interface GetPostRequest {
+    senderId?: number
     id: number
   }
   export interface GetPostResponse {
     data: Post
   }
+  export type GetPreparedPostResponse = PreparedPost
+
   export interface EditPostRequest {
     id: number
     code: string

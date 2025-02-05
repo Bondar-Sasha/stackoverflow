@@ -15,6 +15,8 @@ import {
   CreatePostPage,
   NotFoundPage,
   MyPostsPage,
+  PostPage,
+  EditPostPage,
 } from '../../Pages'
 import {LayoutPage, SimpleLayoutPage} from '../../Pages'
 
@@ -31,12 +33,10 @@ const AppRoutes: FC = () => {
           }
         >
           <Route index element={<HomePage />} />
-          <Route path="edit_question" element={<Navigate to="/" replace />} />
-          <Route path="edit_post" element={<Navigate to="/" replace />} />
-          <Route path="posts" element={<></>} />
+          <Route path="posts/:postId" element={<PostPage />} />
           <Route path="create_post" element={<CreatePostPage />} />
           <Route path="my_posts" element={<MyPostsPage />} />
-          <Route path="edit_post/:postId" element={<></>} />
+          <Route path="edit_post/:postId" element={<EditPostPage />} />
           <Route path="account" element={<AccountPage />} />
           <Route path="users" element={<UsersPage />} />
           <Route path="users/:userId" element={<UserPage />} />

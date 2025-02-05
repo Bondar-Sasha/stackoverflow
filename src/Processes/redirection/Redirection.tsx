@@ -2,7 +2,11 @@ import {FC, ReactNode, useLayoutEffect, useState} from 'react'
 import {Navigate, useLocation, useParams} from 'react-router-dom'
 
 import {toast} from 'react-toastify'
-import {useLazyGetQuestionQuery, useLinkedGetAuth} from '../../Shared'
+import {
+  useLazyGetPostQuery,
+  useLazyGetQuestionQuery,
+  useLinkedGetAuth,
+} from '../../Shared'
 import {DownloadMask} from '../../Widgets'
 
 export interface Params {
@@ -18,13 +22,11 @@ interface RedirectionProps {
 
 const restrictedPaths: Record<string, string> = {
   '/account': 'Account page is available only for logged in users',
-  '/create_question':
-    'Creating questions page is available only for logged in users',
-  '/create_post': 'Creating posts page is available only for logged in users',
   '/my_posts': 'My posts page is available only for logged in users',
 }
 
 const editQuestionUrlPattern = /^\/edit_question\/\d+$/
+const editPostUrlPattern = /^\/edit_post\/\d+$/
 
 const Redirection: FC<RedirectionProps> = ({children}) => {
   const {userId, isLoading} = useLinkedGetAuth()
@@ -33,6 +35,7 @@ const Redirection: FC<RedirectionProps> = ({children}) => {
   const params = useParams<Params>()
   const [redirectElem, setRedirectElem] = useState<ReactNode>(children)
   const [getQuestion, getQuestionFetchingState] = useLazyGetQuestionQuery()
+  const [getPost, getPostFetchingState] = useLazyGetPostQuery()
 
   useLayoutEffect(() => {
     if (!isLoading) {
@@ -74,6 +77,24 @@ const Redirection: FC<RedirectionProps> = ({children}) => {
           getQuestionWithAwait(Number(params.questionId))
           return
         }
+        if (editPostUrlPattern.test(location.pathname) && params.postId) {
+          const getPostWithAwait = async (id: number) => {
+            try {
+              const response = await getPost({id}).unwrap()
+              if (response.user.id !== userId) {
+                setRedirectElem(<Navigate to="/" replace />)
+                toast('You did not create this post', {
+                  type: 'warning',
+                  autoClose: 1800,
+                })
+              }
+            } catch (error) {
+              console.error(error)
+            }
+          }
+          getPostWithAwait(Number(params.postId))
+          return
+        }
       } else {
         const restrictedPathsMessage = restrictedPaths[location.pathname]
         if (restrictedPathsMessage) {
@@ -86,15 +107,22 @@ const Redirection: FC<RedirectionProps> = ({children}) => {
     }
   }, [
     children,
+    getPost,
     getQuestion,
     isLoading,
     location.pathname,
+    params.postId,
     params.questionId,
     params.userId,
     userId,
   ])
 
-  return getQuestionFetchingState.isLoading ? <DownloadMask /> : redirectElem
+  return getQuestionFetchingState.isLoading ||
+    getPostFetchingState.isLoading ? (
+    <DownloadMask />
+  ) : (
+    redirectElem
+  )
 }
 
 export default Redirection

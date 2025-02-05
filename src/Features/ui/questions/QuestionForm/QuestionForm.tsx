@@ -1,7 +1,10 @@
 import {FC} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+
 import {Editor} from '../../../../Widgets'
 import {AnonymousUser} from '../../../../Entities'
-import {Link} from 'react-router-dom'
+import {useLinkedGetAuth} from '../../../../Shared'
+import {BasicButton} from '../../../../Shared'
 
 interface QuestionFormProps {
   title: string
@@ -18,6 +21,9 @@ const QuestionForm: FC<QuestionFormProps> = ({
   description,
   attachedCode,
 }) => {
+  const authData = useLinkedGetAuth()
+  const navigate = useNavigate()
+
   return (
     <div className="flex flex-col w-4/5 mb-7">
       <div className="w-full flex items-center mb-2">
@@ -43,10 +49,20 @@ const QuestionForm: FC<QuestionFormProps> = ({
         <Editor
           readOnly
           language="javascript"
-          className="w-full"
+          className="w-full mb-2"
           value={attachedCode}
           onChange={() => {}}
         />
+      )}
+      {authData.userId === userId && (
+        <BasicButton
+          onClick={() => {
+            navigate(`/edit_question/${userId}`)
+          }}
+          className={`flex items-center justify-center bg-theme max-w-24 text-osseous-theme`}
+        >
+          Edit
+        </BasicButton>
       )}
     </div>
   )

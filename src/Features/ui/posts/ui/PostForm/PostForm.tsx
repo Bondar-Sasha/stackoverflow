@@ -3,11 +3,15 @@ import {CgTerminal} from 'react-icons/cg'
 import {BiSolidLike} from 'react-icons/bi'
 import {BiSolidDislike} from 'react-icons/bi'
 import {CgComment} from 'react-icons/cg'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import {TiPencil} from 'react-icons/ti'
 
 import {
   MarksLogoWrapper,
   ProgrammingLanguages,
+  useCreateMarkMutation,
+  useEditMarkMutation,
+  useLinkedGetAuth,
   // useCreateMarkMutation,
 } from '../../../../../Shared'
 import {DefaultEditor, UserLogo} from '../../../../../Entities'
@@ -35,12 +39,34 @@ const PostForm: FC<PostFormProps> = ({
   commentsQuantity,
   myMark,
 }) => {
-  // const [createMark, createMarkParams] = useCreateMarkMutation()
+  const navigate = useNavigate()
+  const [createMark] = useCreateMarkMutation()
+  const [editMark] = useEditMarkMutation()
+  const authData = useLinkedGetAuth()
 
   const handleLikeMark = async () => {
-    console.log(postId)
+    try {
+      if (myMark) {
+        await editMark({type: 'like', snippetId: postId}).unwrap()
+      } else {
+        await createMark({type: 'like', snippetId: postId}).unwrap()
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
-  const handleDislikeMark = async () => {}
+  const handleDislikeMark = async () => {
+    try {
+      if (myMark) {
+        await editMark({type: 'dislike', snippetId: postId}).unwrap()
+      } else {
+        await createMark({type: 'dislike', snippetId: postId}).unwrap()
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <div className="w-full flex flex-col mb-5">
       <div className="flex justify-between items-center mb-1">
@@ -66,7 +92,7 @@ const PostForm: FC<PostFormProps> = ({
         className="mb-2"
       />
       <div className="flex justify-between items-center">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center">
           <div className="flex items-center mr-4" onClick={handleLikeMark}>
             <MarksLogoWrapper
               className="mr-2 text-2xl"
@@ -76,7 +102,7 @@ const PostForm: FC<PostFormProps> = ({
             </MarksLogoWrapper>
             <span>{likesQuantity}</span>
           </div>
-          <div className="flex items-center" onClick={handleDislikeMark}>
+          <div className="flex items-center mr-3" onClick={handleDislikeMark}>
             <MarksLogoWrapper
               className="mr-2 text-2xl"
               isActive={myMark === 'dislike'}
@@ -85,8 +111,23 @@ const PostForm: FC<PostFormProps> = ({
             </MarksLogoWrapper>
             <span>{dislikesQuantity}</span>
           </div>
+          {authData.userId === String(userId) && (
+            <div
+              className="flex items-center cursor-pointer"
+              onClick={() => {
+                navigate(`/edit_post/${postId}`)
+              }}
+            >
+              <TiPencil className="text-xl text-theme" />
+            </div>
+          )}
         </div>
-        <div className="flex items-center">
+        <div
+          className="flex items-center cursor-pointer"
+          onClick={() => {
+            navigate(`/posts/${postId}`)
+          }}
+        >
           <CgComment className="mr-2 text-xl" />
           <span>{commentsQuantity}</span>
         </div>

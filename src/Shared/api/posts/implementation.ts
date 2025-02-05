@@ -26,7 +26,7 @@ export const postsApi = createApi({
     credentials: 'include',
   }),
 
-  tagTypes: ['Posts', 'Post', 'Marks', 'Mark', 'Comments', 'Comment'],
+  tagTypes: ['Posts', 'Post', 'Mark', 'Comments', 'Comment'],
   endpoints: (builder) => ({
     getPosts: builder.query<
       PostsTypes.GetPostsPreparedResponse,
@@ -36,7 +36,16 @@ export const postsApi = createApi({
         `snippets?${
           userId ? `userId=${userId}&` : ''
         }page=${page}&limit=${limit}`,
-      providesTags: ['Posts'],
+      providesTags: (result) => {
+        if (!result) {
+          return []
+        }
+        return [
+          ...result.map(({id}) => ({type: 'Post' as const, id})),
+          {type: 'Posts' as const},
+        ]
+      },
+
       transformResponse: (
         response: PostsTypes.GetPostsResponse,
         _meta,
@@ -44,7 +53,6 @@ export const postsApi = createApi({
       ) => {
         const preparedResponse = response.data.data.map(
           ({comments, marks, ...items}) => {
-            console.log(arg)
             const preparedMarkQuantity = markQuantity(marks)
             const likesQuantity = preparedMarkQuantity('like')
             const dislikesQuantity = preparedMarkQuantity('dislike')
@@ -56,6 +64,7 @@ export const postsApi = createApi({
 
             return {
               ...items,
+              comments,
               myMark,
               dislikesQuantity,
               likesQuantity,
@@ -67,11 +76,37 @@ export const postsApi = createApi({
       },
     }),
     getPost: builder.query<
-      PostsTypes.GetPostResponse,
+      PostsTypes.GetPreparedPostResponse,
       PostsTypes.GetPostRequest
     >({
       query: ({id}) => `snippets/${id}`,
-      providesTags: ['Post'],
+      providesTags: (result) => {
+        if (!result) {
+          return []
+        }
+        return [{type: 'Post', id: result.id}]
+      },
+
+      transformResponse: (response: PostsTypes.GetPostResponse, _meta, arg) => {
+        const {comments, marks, ...items} = response.data
+        const preparedMarkQuantity = markQuantity(marks)
+
+        const likesQuantity = preparedMarkQuantity('like')
+        const dislikesQuantity = preparedMarkQuantity('dislike')
+        const commentsQuantity = comments.length
+        const myMark: 'like' | 'dislike' | undefined = arg.senderId
+          ? marks.find((item) => item.user.id === String(arg.senderId))?.type
+          : undefined
+
+        return {
+          ...items,
+          myMark,
+          dislikesQuantity,
+          likesQuantity,
+          commentsQuantity,
+          comments: comments.reverse(),
+        }
+      },
     }),
     createPost: builder.mutation<
       PostsTypes.CreatePostResponse,
@@ -93,24 +128,34 @@ export const postsApi = createApi({
         method: 'PATCH',
         body: data,
       }),
-      invalidatesTags: ['Posts', 'Post'],
+      invalidatesTags: (_result, err, args) => {
+        if (err) {
+          return []
+        }
+        return [{type: 'Post', id: args.id}]
+      },
     }),
-    deletePost: builder.mutation<
-      PostsTypes.DeletePostResponse,
-      PostsTypes.DeletePostRequest
-    >({
-      query: ({id}) => ({
-        url: `snippets/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['Posts', 'Post'],
-    }),
+    // deletePost: builder.mutation<
+    //   PostsTypes.DeletePostResponse,
+    //   PostsTypes.DeletePostRequest
+    // >({
+    //   query: ({id}) => ({
+    //     url: `snippets/${id}`,
+    //     method: 'DELETE',
+    //   }),
+    //   invalidatesTags: (_result, err, args) => {
+    //     if (err) {
+    //       return []
+    //     }
+    //     return [{type: 'Post', id: args.id}]
+    //   },
+    // }),
     getMarks: builder.query<
       MarksTypes.GetMarksResponse,
       MarksTypes.GetMarksRequest
     >({
       query: ({page, limit}) => `marks?page=${page}&limit=${limit}`,
-      providesTags: ['Marks'],
+      providesTags: [],
     }),
     getMark: builder.query<
       MarksTypes.GetMarkResponse,
@@ -128,7 +173,12 @@ export const postsApi = createApi({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Marks', 'Mark'],
+      invalidatesTags: (_result, error, args) => {
+        if (error) {
+          return []
+        }
+        return [{type: 'Post', id: args.snippetId}]
+      },
     }),
     editMark: builder.mutation<
       MarksTypes.EditMarkResponse,
@@ -139,23 +189,41 @@ export const postsApi = createApi({
         method: 'PATCH',
         body: data,
       }),
-      invalidatesTags: ['Marks', 'Mark'],
+      invalidatesTags: (_result, error, args) => {
+        if (error) {
+          return []
+        }
+        return [{type: 'Post', id: args.snippetId}]
+      },
     }),
 
-    getComments: builder.query<
-      CommentsTypes.GetCommentsResponse,
-      CommentsTypes.GetCommentsRequest
-    >({
-      query: ({page, limit}) => `comments?page=${page}&limit=${limit}`,
-      providesTags: ['Comments'],
-    }),
-    getComment: builder.query<
-      CommentsTypes.GetCommentResponse,
-      CommentsTypes.GetCommentRequest
-    >({
-      query: ({id}) => `comments/${id}`,
-      providesTags: ['Comment'],
-    }),
+    // getComments: builder.query<
+    //   CommentsTypes.GetCommentsResponse,
+    //   CommentsTypes.GetCommentsRequest
+    // >({
+    //   query: ({page, limit}) => `comments?page=${page}&limit=${limit}`,
+    //   // providesTags: (result) => {
+    //   //   if (!result) {
+    //   //     return [{type: 'Comments'}]
+    //   //   }
+    //   //   return [
+    //   //     ...result.data.items.map(({id}) => ({type: 'Comment' as const, id})),
+    //   //     {type: 'Comments'},
+    //   //   ]
+    //   // },
+    // }),
+    // getComment: builder.query<
+    //   CommentsTypes.GetCommentResponse,
+    //   CommentsTypes.GetCommentRequest
+    // >({
+    //   query: ({id}) => `comments/${id}`,
+    //   // providesTags: (_result, error, args) => {
+    //   //   if (error) {
+    //   //     return []
+    //   //   }
+    //   //   return [{type: 'Comment', id: args.id}]
+    //   // },
+    // }),
     createComment: builder.mutation<
       CommentsTypes.CreateCommentResponse,
       CommentsTypes.CreateCommentRequest
@@ -165,45 +233,51 @@ export const postsApi = createApi({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['Comments', 'Comment'],
+      invalidatesTags: (_result, error, args) => {
+        if (error) {
+          return []
+        }
+        return [{type: 'Post', id: args.snippetId}]
+      },
     }),
-    editComment: builder.mutation<
-      CommentsTypes.EditCommentResponse,
-      CommentsTypes.EditCommentRequest
-    >({
-      query: ({id, ...data}) => ({
-        url: `comments/${id}`,
-        method: 'PATCH',
-        body: data,
-      }),
-      invalidatesTags: ['Comments', 'Comment'],
-    }),
-    deleteComment: builder.mutation<
-      CommentsTypes.DeleteCommentResponse,
-      CommentsTypes.DeleteCommentRequest
-    >({
-      query: ({id}) => ({
-        url: `comments/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: ['Comments', 'Comment'],
-    }),
+    // editComment: builder.mutation<
+    //   CommentsTypes.EditCommentResponse,
+    //   CommentsTypes.EditCommentRequest
+    // >({
+    //   query: ({id, ...data}) => ({
+    //     url: `comments/${id}`,
+    //     method: 'PATCH',
+    //     body: data,
+    //   }),
+    //   invalidatesTags: ['Comment'],
+    // }),
+    // deleteComment: builder.mutation<
+    //   CommentsTypes.DeleteCommentResponse,
+    //   CommentsTypes.DeleteCommentRequest
+    // >({
+    //   query: ({id}) => ({
+    //     url: `comments/${id}`,
+    //     method: 'DELETE',
+    //   }),
+    //   invalidatesTags: ['Comment'],
+    // }),
   }),
 })
 
 export const {
   useCreatePostMutation,
-  useDeletePostMutation,
+  // useDeletePostMutation,
   useEditPostMutation,
   useGetPostQuery,
+  useLazyGetPostQuery,
   useGetPostsQuery,
   useCreateCommentMutation,
   useCreateMarkMutation,
-  useDeleteCommentMutation,
-  useEditCommentMutation,
+  // useDeleteCommentMutation,
+  // useEditCommentMutation,
   useEditMarkMutation,
-  useGetCommentQuery,
-  useGetCommentsQuery,
+  // useGetCommentQuery,
+  // useGetCommentsQuery,
   useGetMarkQuery,
   useGetMarksQuery,
 } = postsApi

@@ -45,7 +45,7 @@ const PostList: FC<PostListProps> = ({isITheSender = false}) => {
             key={item.id}
             likesQuantity={item.likesQuantity}
             dislikesQuantity={item.dislikesQuantity}
-            commentsQuantity={item.dislikesQuantity}
+            commentsQuantity={item.commentsQuantity}
             progLang={item.language}
             code={item.code}
             myMark={item.myMark}

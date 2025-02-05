@@ -13,7 +13,7 @@ import {
 } from '../../../Features'
 import {useEditQuestionMutation, useGetQuestionQuery} from '../../../Shared'
 
-interface DataForCreatingQuestion {
+interface DataForEditingQuestion {
   title: string
   description: string
   attachedCode: string
@@ -25,7 +25,7 @@ const validationSchema = Yup.object({
   attachedCode: Yup.string(),
 })
 
-const initialValues: DataForCreatingQuestion = {
+const initialValues: DataForEditingQuestion = {
   title: '',
   description: '',
   attachedCode: '',
@@ -43,7 +43,7 @@ const EditQuestionPage: FC = () => {
     id: Number(params.questionId),
   })
 
-  const handleSubmit = async (formData: DataForCreatingQuestion) => {
+  const handleSubmit = async (formData: DataForEditingQuestion) => {
     try {
       await editQuestion({
         id: Number(params.questionId),
