@@ -31,8 +31,8 @@ const LogoutButton: typeof BasicButton = ({className = '', ...props}) => {
 
   return (
     <BasicButton
-      onClick={handleClick}
       {...props}
+      onClick={handleClick}
       disabled={isLoading}
       className={preparedClasses}
     >

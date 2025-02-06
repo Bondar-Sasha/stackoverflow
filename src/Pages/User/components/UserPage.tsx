@@ -1,7 +1,7 @@
 import {FC} from 'react'
 import {useParams} from 'react-router-dom'
 
-import {useGetUserStatisticQuery} from '../../../Shared'
+import {isPositiveInteger, useGetUserStatisticQuery} from '../../../Shared'
 import {AnonymousUser} from '../../../Entities'
 import {DownloadMask} from '../../../Widgets'
 import {Params} from '../../../Processes'
@@ -9,9 +9,14 @@ import {Params} from '../../../Processes'
 const UserPage: FC = () => {
   const params = useParams<Params>()
 
-  const {isLoading, data} = useGetUserStatisticQuery({
-    id: params.userId ?? '0',
-  })
+  const {isLoading, data} = useGetUserStatisticQuery(
+    {
+      id: String(params.userId),
+    },
+    {
+      skip: !isPositiveInteger(params.userId),
+    }
+  )
 
   if (isLoading) return <DownloadMask />
 

@@ -1,32 +1,34 @@
 import {FC} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 
-import {Editor} from '../../../../Widgets'
+import {Editor} from '../../../../Entities'
 import {AnonymousUser} from '../../../../Entities'
 import {useLinkedGetAuth} from '../../../../Shared'
 import {BasicButton} from '../../../../Shared'
 
 interface QuestionFormProps {
   title: string
-  author: string
+  username: string
   userId: string
+  className?: string
   description?: string
   attachedCode?: string
 }
 
 const QuestionForm: FC<QuestionFormProps> = ({
   title,
-  author,
+  username,
   userId,
   description,
   attachedCode,
+  className = '',
 }) => {
   const authData = useLinkedGetAuth()
   const navigate = useNavigate()
 
   return (
-    <div className="flex flex-col w-4/5 mb-7">
-      <div className="w-full flex items-center mb-2">
+    <div className={`flex flex-col w-3/4 ${className}`}>
+      <div className="flex items-center mb-2">
         <AnonymousUser className="min-w-10 min-h-10" />
         <div className="flex flex-col ml-3">
           <span className="text-justify font-bold text-lg">{title}</span>
@@ -38,7 +40,7 @@ const QuestionForm: FC<QuestionFormProps> = ({
                 className="text-theme cursor-pointer hover:underline"
                 to={`/users/${userId}`}
               >
-                {author}
+                {username}
               </Link>
             }
           </span>
@@ -61,7 +63,7 @@ const QuestionForm: FC<QuestionFormProps> = ({
           }}
           className={`flex items-center justify-center bg-theme max-w-24 text-osseous-theme`}
         >
-          Edit
+          edit
         </BasicButton>
       )}
     </div>

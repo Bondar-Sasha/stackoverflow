@@ -133,21 +133,21 @@ export const postsApi = createApi({
         return [{type: 'Post', id: args.id}]
       },
     }),
-    // deletePost: builder.mutation<
-    //   PostsTypes.DeletePostResponse,
-    //   PostsTypes.DeletePostRequest
-    // >({
-    //   query: ({id}) => ({
-    //     url: `snippets/${id}`,
-    //     method: 'DELETE',
-    //   }),
-    //   invalidatesTags: (_result, err, args) => {
-    //     if (err) {
-    //       return []
-    //     }
-    //     return [{type: 'Post', id: args.id}]
-    //   },
-    // }),
+    deletePost: builder.mutation<
+      PostsTypes.DeletePostResponse,
+      PostsTypes.DeletePostRequest
+    >({
+      query: ({id}) => ({
+        url: `snippets/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (_result, err, args) => {
+        if (err) {
+          return []
+        }
+        return [{type: 'Post', id: args.id}]
+      },
+    }),
     getMarks: builder.query<
       MarksTypes.GetMarksResponse,
       MarksTypes.GetMarksRequest
@@ -210,33 +210,33 @@ export const postsApi = createApi({
       },
     }),
 
-    // getComments: builder.query<
-    //   CommentsTypes.GetCommentsResponse,
-    //   CommentsTypes.GetCommentsRequest
-    // >({
-    //   query: ({page, limit}) => `comments?page=${page}&limit=${limit}`,
-    //   // providesTags: (result) => {
-    //   //   if (!result) {
-    //   //     return [{type: 'Comments'}]
-    //   //   }
-    //   //   return [
-    //   //     ...result.data.items.map(({id}) => ({type: 'Comment' as const, id})),
-    //   //     {type: 'Comments'},
-    //   //   ]
-    //   // },
-    // }),
-    // getComment: builder.query<
-    //   CommentsTypes.GetCommentResponse,
-    //   CommentsTypes.GetCommentRequest
-    // >({
-    //   query: ({id}) => `comments/${id}`,
-    //   // providesTags: (_result, error, args) => {
-    //   //   if (error) {
-    //   //     return []
-    //   //   }
-    //   //   return [{type: 'Comment', id: args.id}]
-    //   // },
-    // }),
+    getComments: builder.query<
+      CommentsTypes.GetCommentsResponse,
+      CommentsTypes.GetCommentsRequest
+    >({
+      query: ({page, limit}) => `comments?page=${page}&limit=${limit}`,
+      providesTags: (result) => {
+        if (!result) {
+          return [{type: 'Comments'}]
+        }
+        return [
+          ...result.data.items.map(({id}) => ({type: 'Comment' as const, id})),
+          {type: 'Comments'},
+        ]
+      },
+    }),
+    getComment: builder.query<
+      CommentsTypes.GetCommentResponse,
+      CommentsTypes.GetCommentRequest
+    >({
+      query: ({id}) => `comments/${id}`,
+      providesTags: (_result, error, args) => {
+        if (error) {
+          return []
+        }
+        return [{type: 'Comment', id: args.id}]
+      },
+    }),
     createComment: builder.mutation<
       CommentsTypes.CreateCommentResponse,
       CommentsTypes.CreateCommentRequest
@@ -253,33 +253,33 @@ export const postsApi = createApi({
         return [{type: 'Post', id: args.snippetId}]
       },
     }),
-    // editComment: builder.mutation<
-    //   CommentsTypes.EditCommentResponse,
-    //   CommentsTypes.EditCommentRequest
-    // >({
-    //   query: ({id, ...data}) => ({
-    //     url: `comments/${id}`,
-    //     method: 'PATCH',
-    //     body: data,
-    //   }),
-    //   invalidatesTags: ['Comment'],
-    // }),
-    // deleteComment: builder.mutation<
-    //   CommentsTypes.DeleteCommentResponse,
-    //   CommentsTypes.DeleteCommentRequest
-    // >({
-    //   query: ({id}) => ({
-    //     url: `comments/${id}`,
-    //     method: 'DELETE',
-    //   }),
-    //   invalidatesTags: ['Comment'],
-    // }),
+    editComment: builder.mutation<
+      CommentsTypes.EditCommentResponse,
+      CommentsTypes.EditCommentRequest
+    >({
+      query: ({id, ...data}) => ({
+        url: `comments/${id}`,
+        method: 'PATCH',
+        body: data,
+      }),
+      invalidatesTags: ['Comment'],
+    }),
+    deleteComment: builder.mutation<
+      CommentsTypes.DeleteCommentResponse,
+      CommentsTypes.DeleteCommentRequest
+    >({
+      query: ({id}) => ({
+        url: `comments/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Comment'],
+    }),
   }),
 })
 
 export const {
   useCreatePostMutation,
-  // useDeletePostMutation,
+  useDeletePostMutation,
   useEditPostMutation,
   useGetPostQuery,
   useLazyGetPostQuery,

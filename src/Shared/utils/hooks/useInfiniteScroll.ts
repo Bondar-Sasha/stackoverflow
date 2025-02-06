@@ -1,29 +1,27 @@
-import {useEffect, useState, useCallback} from 'react'
+import {useEffect, useState} from 'react'
+import {throttle} from 'lodash'
 
 const useInfiniteScroll = () => {
   const [isEnd, setIsEnd] = useState(false)
 
-  const scrollHandler = useCallback(() => {
+  const scrollHandler = throttle(() => {
     const scrollTop = window.scrollY
     const clientHeight = window.innerHeight
     const scrollHeight = document.documentElement.scrollHeight
 
-    if (scrollHeight - scrollTop - clientHeight < scrollHeight * 0.3) {
-      setIsEnd(true)
-    } else {
-      setIsEnd(false)
+    const shouldSetEnd =
+      scrollHeight - scrollTop - clientHeight < scrollHeight * 0.3
+
+    if (shouldSetEnd !== isEnd) {
+      setIsEnd(shouldSetEnd)
     }
-  }, [])
+  }, 200)
 
   useEffect(() => {
-    const throttledScrollHandler = () => {
-      requestAnimationFrame(scrollHandler)
-    }
-
-    window.addEventListener('scroll', throttledScrollHandler)
+    window.addEventListener('scroll', scrollHandler)
 
     return () => {
-      window.removeEventListener('scroll', throttledScrollHandler)
+      window.removeEventListener('scroll', scrollHandler)
     }
   }, [scrollHandler])
 

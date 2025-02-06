@@ -1,46 +1,56 @@
-import {FC} from 'react'
+import {FC, useState} from 'react'
 
-import {useGetPostsQuery, useLinkedGetAuth} from '../../../../Shared'
+import {
+  useCheckFetching,
+  useGetPostsQuery,
+  useLinkedGetAuth,
+} from '../../../../Shared'
 import {PostForm} from '../../../../Features'
 import {DownloadMask} from '../../DownloadMask'
+import {NotFoundMask} from '../../NotFoundMask'
+import {EndLessList} from '../../EndLessList'
 
 interface PostListProps {
-  isITheSender?: boolean
+  myPosts?: boolean
+  label?: string
 }
 
-function createParams<T>(base: T) {
-  return function (userId?: string) {
-    if (!userId) {
-      return base
-    }
-    return {...base, userId: Number(userId)}
-  }
-}
-
-const PostList: FC<PostListProps> = ({isITheSender = false}) => {
+const PostList: FC<PostListProps> = ({
+  myPosts = false,
+  label = 'All posts:',
+}) => {
+  const [limitState, setLimit] = useState<number>(15)
   const {userId} = useLinkedGetAuth()
   const senderId = userId
 
-  const {data, isLoading} = useGetPostsQuery(
-    createParams({
-      page: 1,
-      limit: 15,
-      senderId: Number(senderId),
-    })(isITheSender ? userId : undefined)
-  )
-  if (isLoading) {
-    return <DownloadMask />
+  const {data, isLoading} = useGetPostsQuery({
+    ...(myPosts ? {userId: Number(userId)} : {}),
+    page: 1,
+    limit: limitState,
+    senderId: Number(senderId),
+  })
+
+  const preparedUpdateLimitFunc = () => {
+    setLimit((prev) => prev + 10)
   }
-  if (!data) {
-    return (
-      <div className="stretching flex-center text-xl">There are no posts</div>
-    )
+
+  const valRes = useCheckFetching([
+    {condition: isLoading, result: <DownloadMask />},
+    {
+      condition: !data || !data.length,
+      result: <NotFoundMask label="There are no posts" />,
+    },
+  ])
+
+  if (valRes) {
+    return valRes
   }
 
   return (
-    <div className="w-3/4 flex items-center flex-col">
-      {data.map((item) => {
-        return (
+    <div className="stretching flex-center flex-col">
+      <h1 className="mb-4 mt-4 text-2xl">{label}</h1>
+      <EndLessList updateLimit={preparedUpdateLimitFunc} data={data!}>
+        {(item) => (
           <PostForm
             key={item.id}
             likesQuantity={item.likesQuantity}
@@ -52,9 +62,10 @@ const PostList: FC<PostListProps> = ({isITheSender = false}) => {
             username={item.user.username}
             userId={Number(item.user.id)}
             postId={Number(item.id)}
+            className="mb-5"
           />
-        )
-      })}
+        )}
+      </EndLessList>
     </div>
   )
 }

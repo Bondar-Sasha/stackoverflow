@@ -1,7 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { ChangeEvent, FC, useState } from 'react'
+import React from 'react'
+import type {Meta, StoryObj} from '@storybook/react'
+import {ChangeEvent, FC, useState} from 'react'
 
-import BasicInputTemplate, { BasicInputProps } from './BasicInput'
+import BasicInputTemplate, {BasicInputProps} from './BasicInput'
 
 const BasicInput: FC<BasicInputProps> = (props) => {
   const [valueState, setValue] = useState<string>('')
@@ -11,9 +12,9 @@ const BasicInput: FC<BasicInputProps> = (props) => {
 
   return (
     <BasicInputTemplate
+      {...props}
       onChange={handleSetValue}
       value={valueState}
-      {...props}
     />
   )
 }
@@ -55,7 +56,7 @@ const meta: Meta<typeof BasicInput> = {
       description: 'Event triggered when the input field loses focus.',
     },
   },
-  args: { placeholder: 'write' },
+  args: {placeholder: 'write', className: 'border-2 border-theme'},
 }
 
 export default meta

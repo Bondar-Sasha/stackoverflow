@@ -6,11 +6,19 @@ interface UserFormProps {
   username: string
   userId: string
   role: string
+  className?: string
 }
 
-const UserForm: FC<UserFormProps> = ({username, role, userId}) => {
+const UserForm: FC<UserFormProps> = ({
+  username,
+  role,
+  userId,
+  className = '',
+}) => {
   return (
-    <div className="flex items-center w-4/5 mb-7 border-theme border-2 p-2">
+    <div
+      className={`flex items-center w-3/4 border-theme border-2 p-2 ${className}`}
+    >
       <AnonymousUser className="min-w-10 min-h-10 mr-3" />
       <div className="w-full flex flex-col mb-2">
         <span>

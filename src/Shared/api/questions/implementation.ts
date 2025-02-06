@@ -57,6 +57,7 @@ export const {
   useGetQuestionQuery,
   useLazyGetQuestionQuery,
   useGetQuestionsQuery,
+  useLazyGetQuestionsQuery,
   useCreateQuestionMutation,
   useEditQuestionMutation,
 } = questionsApi

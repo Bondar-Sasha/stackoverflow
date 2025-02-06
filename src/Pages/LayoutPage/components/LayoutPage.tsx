@@ -1,4 +1,4 @@
-import {FC, useState} from 'react'
+import {FC, ReactNode, useState} from 'react'
 import {Outlet} from 'react-router-dom'
 
 import {Aside, BasicFooter, Header} from '../../../Widgets'
@@ -18,17 +18,24 @@ const LayoutPage: FC<LayoutPageProps> = ({neutral}) => {
     setAsideState((prev) => !prev)
   }
 
-  const PreparedHeader = userId ? (
-    <Header type="auth" asideHandler={asideHandler} />
-  ) : neutral ? (
-    <Header type="neutral" />
-  ) : (
-    <Header type="unauth" asideHandler={asideHandler} />
-  )
+  const getHeader = (
+    first_key: boolean
+  ): ((second_key: boolean) => ReactNode) => {
+    return (second_key) => {
+      if (first_key) {
+        return <Header type="auth" asideHandler={asideHandler} />
+      }
+      return second_key ? (
+        <Header type="neutral" />
+      ) : (
+        <Header type="unauth" asideHandler={asideHandler} />
+      )
+    }
+  }
 
   return (
     <>
-      {PreparedHeader}
+      {getHeader(!!userId)(!!neutral)}
       <main className={`w-full flex-center flex-grow ${styles.main}`}>
         <Aside isOpen={asideState} onClose={asideHandler} />
         <Outlet />

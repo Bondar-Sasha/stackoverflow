@@ -37,7 +37,6 @@ const ProgLangSelect: FC<ProgLangSelectProps> = ({
   const selectedOption = options.find((item) => item.value === value)
   return (
     <div className={className}>
-      {' '}
       <Select
         value={selectedOption}
         onChange={onChange}

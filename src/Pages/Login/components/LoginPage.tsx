@@ -1,16 +1,12 @@
-import { FC } from 'react'
-import { Formik } from 'formik'
+import {FC} from 'react'
+import {Formik} from 'formik'
 import * as Yup from 'yup'
-import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import {Link} from 'react-router-dom'
+import {toast} from 'react-toastify'
 
-import { Errors, useLoginMutation } from '../../../Shared'
+import {Errors, useLoginMutation} from '../../../Shared'
 
-import {
-  AuthFormInput,
-  BasicFormWrapper,
-  SubmitButton,
-} from '../../../Features'
+import {AuthFormInput, BasicFormWrapper, SubmitButton} from '../../../Features'
 
 interface LoginFormData {
   username: string
@@ -40,7 +36,7 @@ const initialValues: LoginFormData = {
 }
 
 const LoginPage: FC = () => {
-  const [login, { isLoading }] = useLoginMutation()
+  const [login, {isLoading}] = useLoginMutation()
   const onSubmit = async (formData: LoginFormData) => {
     try {
       const response = await login(formData).unwrap()
@@ -64,9 +60,8 @@ const LoginPage: FC = () => {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {({ isValid }) => (
+        {({isValid}) => (
           <BasicFormWrapper>
-            {' '}
             <AuthFormInput
               placeholder="username"
               name="username"

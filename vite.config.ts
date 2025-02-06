@@ -7,19 +7,6 @@ export default defineConfig({
   plugins: [react(), svgr()],
   base: './',
   build: {
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('src/Pages')) {
-            const pageName = id.split('/').pop()?.replace('.tsx', '') || ''
-            return `page-${pageName}`
-          }
-          if (id.includes('node_modules')) {
-            return 'vendor'
-          }
-        },
-      },
-    },
     outDir: 'build',
   },
   resolve: {

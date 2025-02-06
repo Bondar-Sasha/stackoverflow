@@ -1,11 +1,7 @@
-import { FC } from 'react'
+import {FC} from 'react'
 
 import styles from './styles/header.module.css'
-import {
-  HeaderWrapper,
-  LoginButton,
-  SingUpButton,
-} from '../../../../../Features'
+import {HeaderWrapper, SimpleRedirectingButton} from '../../../../../Features'
 
 interface UnauthenticatedHeaderProps {
   asideHandler?: () => void
@@ -16,8 +12,8 @@ const UnauthenticatedHeader: FC<UnauthenticatedHeaderProps> = ({
 }) => {
   return (
     <HeaderWrapper asideHandler={asideHandler} className={styles.header}>
-      <LoginButton />
-      <SingUpButton className="ml-1" />
+      <SimpleRedirectingButton type="login" className="mr-2" />
+      <SimpleRedirectingButton type="singUp" />
     </HeaderWrapper>
   )
 }

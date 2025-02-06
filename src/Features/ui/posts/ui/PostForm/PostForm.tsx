@@ -5,6 +5,7 @@ import {BiSolidDislike} from 'react-icons/bi'
 import {CgComment} from 'react-icons/cg'
 import {Link, useNavigate} from 'react-router-dom'
 import {TiPencil} from 'react-icons/ti'
+import {toast} from 'react-toastify'
 
 import {
   MarksLogoWrapper,
@@ -13,10 +14,8 @@ import {
   useDeleteMarkMutation,
   useEditMarkMutation,
   useLinkedGetAuth,
-  // useCreateMarkMutation,
 } from '../../../../../Shared'
-import {DefaultEditor, UserLogo} from '../../../../../Entities'
-import {toast} from 'react-toastify'
+import {Editor, UserLogo} from '../../../../../Entities'
 
 interface PostFormProps {
   progLang: ProgrammingLanguages
@@ -28,6 +27,7 @@ interface PostFormProps {
   dislikesQuantity: number
   commentsQuantity: number
   myMark?: 'like' | 'dislike'
+  className?: string
 }
 
 const PostForm: FC<PostFormProps> = ({
@@ -40,6 +40,7 @@ const PostForm: FC<PostFormProps> = ({
   dislikesQuantity,
   commentsQuantity,
   myMark,
+  className = '',
 }) => {
   const navigate = useNavigate()
   const [createMark] = useCreateMarkMutation()
@@ -72,7 +73,7 @@ const PostForm: FC<PostFormProps> = ({
   const handleDislikeMark = () => handleMark('dislike')
 
   return (
-    <div className="w-full flex flex-col mb-5">
+    <div className={`w-3/4 flex flex-col ${className}`}>
       <div className="flex justify-between items-center mb-1">
         <div className="flex items-center">
           <UserLogo className="mr-2 cursor-default" />
@@ -88,7 +89,7 @@ const PostForm: FC<PostFormProps> = ({
           <span>{progLang}</span>
         </div>
       </div>
-      <DefaultEditor
+      <Editor
         readOnly
         value={code}
         language={progLang.toLowerCase() as Lowercase<ProgrammingLanguages>}

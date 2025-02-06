@@ -1,5 +1,5 @@
-import { FC } from 'react'
-import { HeaderWrapper, HomeButton } from '../../../../../Features'
+import {FC} from 'react'
+import {HeaderWrapper, SimpleRedirectingButton} from '../../../../../Features'
 
 interface NeutralHeaderProps {
   asideHandler?: () => void
@@ -8,7 +8,7 @@ interface NeutralHeaderProps {
 const NeutralHeader: FC<NeutralHeaderProps> = () => {
   return (
     <HeaderWrapper isAsideBurger={false}>
-      <HomeButton />
+      <SimpleRedirectingButton type="home" />
     </HeaderWrapper>
   )
 }

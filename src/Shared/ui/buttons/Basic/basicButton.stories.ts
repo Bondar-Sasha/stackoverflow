@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type {Meta, StoryObj} from '@storybook/react'
 import BasicButton from './BasicButton'
 
 const meta: Meta<typeof BasicButton> = {
@@ -23,7 +23,7 @@ const meta: Meta<typeof BasicButton> = {
         type: 'select',
       },
       table: {
-        defaultValue: { summary: 'medium' },
+        defaultValue: {summary: 'medium'},
         type: {},
       },
       description: 'Button size.',
@@ -35,7 +35,7 @@ const meta: Meta<typeof BasicButton> = {
         type: 'select',
       },
       table: {
-        defaultValue: { summary: 'contained' },
+        defaultValue: {summary: 'contained'},
         type: {},
       },
       description: 'Button variant.',

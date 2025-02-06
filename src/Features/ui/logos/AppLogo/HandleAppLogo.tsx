@@ -1,13 +1,13 @@
-import { useNavigate } from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
-import { AppLogo } from '../../../../Entities'
+import {AppLogo} from '../../../../Entities'
 
 const HandleAppLogo: typeof AppLogo = (props) => {
   const navigate = useNavigate()
   const handleClick = () => {
     navigate('/')
   }
-  return <AppLogo onClick={handleClick} {...props} />
+  return <AppLogo {...props} onClick={handleClick} />
 }
 
 export default HandleAppLogo

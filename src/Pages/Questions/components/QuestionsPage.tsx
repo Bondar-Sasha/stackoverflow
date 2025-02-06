@@ -1,51 +1,43 @@
-import {FC, useEffect, useState} from 'react'
+import {FC, useState} from 'react'
+
 import {QuestionForm} from '../../../Features'
-import {useGetQuestionsQuery, useInfiniteScroll} from '../../../Shared'
-import {DownloadMask} from '../../../Widgets'
+import {useCheckFetching, useGetQuestionsQuery} from '../../../Shared'
+import {DownloadMask, EndLessList, NotFoundMask} from '../../../Widgets'
 
 const QuestionsPage: FC = () => {
-  const [questionLimitState, setQuestionLimit] = useState<number>(15)
+  const [limitState, setLimit] = useState<number>(15)
 
-  const {data, isLoading} = useGetQuestionsQuery({
-    page: 1,
-    limit: questionLimitState,
-  })
+  const {isLoading, data} = useGetQuestionsQuery({limit: limitState, page: 1})
 
-  const {isEnd} = useInfiniteScroll()
-  console.log(isEnd)
-
-  useEffect(() => {
-    if (isEnd) {
-      setQuestionLimit((prevLimit) => prevLimit + 10)
-    }
-  }, [isEnd])
-
-  if (isLoading) {
-    return <DownloadMask />
+  const preparedUpdateLimitFunc = () => {
+    setLimit((prev) => prev + 10)
   }
-  if (!data) {
-    return (
-      <div className="flex-center stretching text-xl">
-        There are no questions
-      </div>
-    )
+
+  const valRes = useCheckFetching([
+    {condition: isLoading, result: <DownloadMask />},
+    {
+      condition: !data || !data.data.data.length,
+      result: <NotFoundMask label="There are no questions" />,
+    },
+  ])
+
+  if (valRes) {
+    return valRes
   }
 
   return (
-    <div
-      className="p-7 flex-center flex-col"
-      style={{width: '100%', height: '100%', overflowY: 'auto'}}
-    >
-      {data.data.data.map((item) => (
-        <QuestionForm
-          key={item.id}
-          title={item.title}
-          userId={item.user.id}
-          author={item.user.username}
-          attachedCode={item.attachedCode}
-          description={item.description}
-        />
-      ))}
+    <div className="stretching flex-center flex-col">
+      <h1 className="mb-4 mt-4 text-2xl">Questions:</h1>
+      <EndLessList updateLimit={preparedUpdateLimitFunc} data={data!.data.data}>
+        {({user, ...arrayElem}) => (
+          <QuestionForm
+            {...arrayElem}
+            className="mb-4"
+            userId={user.id}
+            username={user.username}
+          />
+        )}
+      </EndLessList>
     </div>
   )
 }

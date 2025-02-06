@@ -41,7 +41,7 @@ const AccountPage: FC = () => {
     <div className="stretching flex flex-col items-center p-5">
       <div className="mb-10">
         <h1 className="text-2xl">
-          <span className="font-bold">Welcome</span>,{' '}
+          <span className="font-bold">Welcome</span>,
           <span className="">{data?.data.username}</span>
         </h1>
       </div>

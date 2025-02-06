@@ -1,16 +1,12 @@
-import { FC } from 'react'
-import { Formik } from 'formik'
+import {FC} from 'react'
+import {Formik} from 'formik'
 import * as Yup from 'yup'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import {Link, useNavigate} from 'react-router-dom'
+import {toast} from 'react-toastify'
 
-import { Errors, useRegisterMutation } from '../../../Shared'
+import {Errors, useRegisterMutation} from '../../../Shared'
 
-import {
-  AuthFormInput,
-  BasicFormWrapper,
-  SubmitButton,
-} from '../../../Features'
+import {AuthFormInput, BasicFormWrapper, SubmitButton} from '../../../Features'
 
 interface RegisterFormData {
   username: string
@@ -46,7 +42,7 @@ const initialValues: RegisterFormData = {
 
 const RegisterPage: FC = () => {
   const navigate = useNavigate()
-  const [register, { isLoading }] = useRegisterMutation()
+  const [register, {isLoading}] = useRegisterMutation()
   const onSubmit = async (values: RegisterFormData) => {
     try {
       await register(values).unwrap()
@@ -71,7 +67,7 @@ const RegisterPage: FC = () => {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {({ isValid }) => (
+        {({isValid}) => (
           <BasicFormWrapper>
             <AuthFormInput
               placeholder="username"
@@ -91,7 +87,7 @@ const RegisterPage: FC = () => {
             />
 
             <SubmitButton isLoading={isLoading} isValid={isValid}>
-              Sing up{' '}
+              Sing up
             </SubmitButton>
           </BasicFormWrapper>
         )}

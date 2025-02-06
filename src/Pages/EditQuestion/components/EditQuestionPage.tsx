@@ -1,49 +1,32 @@
 import {FC} from 'react'
-import {Field, Formik} from 'formik'
-import * as Yup from 'yup'
 import {useParams} from 'react-router-dom'
 import {toast} from 'react-toastify'
 
-import {DownloadMask, Editor} from '../../../Widgets'
 import {
-  BasicFormInput,
-  BasicFormTextarea,
-  BasicFormWrapper,
-  SubmitButton,
-} from '../../../Features'
-import {useEditQuestionMutation, useGetQuestionQuery} from '../../../Shared'
-
-interface DataForEditingQuestion {
-  title: string
-  description: string
-  attachedCode: string
-}
-
-const validationSchema = Yup.object({
-  title: Yup.string().required('Question title is required'),
-  description: Yup.string(),
-  attachedCode: Yup.string(),
-})
-
-const initialValues: DataForEditingQuestion = {
-  title: '',
-  description: '',
-  attachedCode: '',
-}
-
-interface Params {
-  questionId: string
-  [key: string]: string
-}
+  DownloadMask,
+  GeneralQuestionForm,
+  NotFoundMask,
+  QuestionFormData,
+} from '../../../Widgets'
+import {
+  isPositiveInteger,
+  useEditQuestionMutation,
+  useGetQuestionQuery,
+} from '../../../Shared'
+import {Params} from '../../../Processes'
 
 const EditQuestionPage: FC = () => {
   const params = useParams<Params>()
   const [editQuestion, {isLoading}] = useEditQuestionMutation()
-  const {isLoading: fetchingQuestion, data} = useGetQuestionQuery({
-    id: Number(params.questionId),
-  })
 
-  const handleSubmit = async (formData: DataForEditingQuestion) => {
+  const {isLoading: fetchingQuestion, data} = useGetQuestionQuery(
+    {
+      id: Number(params.questionId),
+    },
+    {skip: !isPositiveInteger(params.questionId)}
+  )
+
+  const handleSubmit = async (formData: QuestionFormData) => {
     try {
       await editQuestion({
         id: Number(params.questionId),
@@ -54,49 +37,36 @@ const EditQuestionPage: FC = () => {
         autoClose: 1800,
       })
     } catch (error) {
+      toast('error', {
+        type: 'error',
+        autoClose: 1800,
+      })
       console.error(error)
     }
+  }
+  if (!data) {
+    return <NotFoundMask label="There is no such question" />
   }
 
   if (fetchingQuestion) {
     return <DownloadMask />
   }
 
+  const initValues: QuestionFormData = {
+    title: data.data.title,
+    description: data.data.description,
+    attachedCode: data.data.attachedCode,
+  }
+
   return (
-    <div className="w-full p-6 flex-center flex-col">
-      <h1 className="mb-5 text-3xl">Edit your question</h1>
-      <Formik
-        validationSchema={validationSchema}
-        initialValues={data?.data ?? initialValues}
-        enableReinitialize
+    <div className="w-3/4 p-6 flex-center flex-col">
+      <GeneralQuestionForm
+        isFetching={isLoading}
         onSubmit={handleSubmit}
-      >
-        {({isValid, setFieldValue}) => (
-          <BasicFormWrapper>
-            <BasicFormInput
-              placeholder="Question title"
-              name="title"
-              className="mb-5"
-            />
-            <BasicFormTextarea
-              placeholder="Question description"
-              name="description"
-            />
-            <Field
-              as={Editor}
-              className="mb-3 h-52"
-              language="javascript"
-              name="attachedCode"
-              onChange={(newValue: string) => {
-                setFieldValue('attachedCode', newValue)
-              }}
-            />
-            <SubmitButton isLoading={isLoading} isValid={isValid}>
-              Commit changes
-            </SubmitButton>
-          </BasicFormWrapper>
-        )}
-      </Formik>
+        formName="Edit your question:"
+        submitButtonLabel="commit changes"
+        initValues={initValues}
+      />
     </div>
   )
 }

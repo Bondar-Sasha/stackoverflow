@@ -23,7 +23,7 @@ const HandleTrashLogo: typeof TrashLogo = (props) => {
   return isLoading ? (
     <Spinner className="text-ordinary-text" />
   ) : (
-    <TrashLogo onClick={handleClick} {...props} />
+    <TrashLogo {...props} onClick={handleClick} />
   )
 }
 

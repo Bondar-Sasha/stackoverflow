@@ -1,50 +1,23 @@
-# React + TypeScript + Vite
+app link: https://candid-daifuku-fba6bd.netlify.app/
+storybook: https://bondar-sasha.github.io/stackoverflow/
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Main Routes
+- `/`: Redirects to the homepage.
+- `/posts/:postId`: View a specific post.
+- `/create_post`: Create a new post.
+- `/my_posts`: View posts created by the user.
+- `/edit_post/:postId`: Edit an existing post.
+- `/account`: User account settings.
+- `/users`: List of users.
+- `/users/:userId`: View a specific user profile.
+- `/questions`: List of questions.
+- `/create_question`: Create a new question.
+- `/edit_question/:questionId`: Edit an existing question.
 
-Currently, two official plugins are available:
+### Authentication Routes
+- `/auth`: Redirects to the authentication section.
+  - `/auth/registration`: User registration page.
+  - `/auth/login`: User login page.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Error Handling
+- `*`: Redirects to a Not Found page for any undefined routes.

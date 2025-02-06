@@ -1,47 +1,36 @@
-import {FC, useEffect, useState} from 'react'
+import {FC, useState} from 'react'
 import {UserForm} from '../../../Features'
-import {useGetUsersQuery, useInfiniteScroll} from '../../../Shared'
-import {DownloadMask} from '../../../Widgets'
+import {useCheckFetching, useGetUsersQuery} from '../../../Shared'
+import {DownloadMask, EndLessList, NotFoundMask} from '../../../Widgets'
 
 const UsersPage: FC = () => {
-  const [usersLimitState, setUsersLimit] = useState<number>(15)
+  const [limitState, setLimit] = useState<number>(15)
 
-  const {data, isLoading} = useGetUsersQuery({
-    page: 1,
-    limit: usersLimitState,
-  })
+  const {data, isLoading} = useGetUsersQuery({limit: limitState, page: 1})
 
-  const {isEnd} = useInfiniteScroll()
-
-  useEffect(() => {
-    if (isEnd) {
-      setUsersLimit((prevLimit) => prevLimit + 10)
-    }
-  }, [isEnd])
-
-  if (isLoading) {
-    return <DownloadMask />
+  const preparedUpdateLimitFunc = () => {
+    setLimit((prev) => prev + 10)
   }
-  console.log(data)
-  if (!data) {
-    return (
-      <div className="flex-center stretching text-xl">There are no users</div>
-    )
+  const valRes = useCheckFetching([
+    {condition: isLoading, result: <DownloadMask />},
+    {
+      condition: !data || !data.data.data.length,
+      result: <NotFoundMask label="There are no users" />,
+    },
+  ])
+
+  if (valRes) {
+    return valRes
   }
 
   return (
-    <div
-      className="p-7 flex-center flex-col"
-      style={{width: '100%', height: '100%', overflowY: 'auto'}}
-    >
-      {data.data.data.map((item) => (
-        <UserForm
-          key={item.id}
-          username={item.username}
-          userId={item.id}
-          role={item.role}
-        />
-      ))}
+    <div className="stretching flex-center flex-col">
+      <h1 className="mb-4 mt-4 text-2xl">Users:</h1>
+      <EndLessList updateLimit={preparedUpdateLimitFunc} data={data!.data.data}>
+        {({id, ...arrayElem}) => (
+          <UserForm {...arrayElem} userId={id} className="mb-7" />
+        )}
+      </EndLessList>
     </div>
   )
 }

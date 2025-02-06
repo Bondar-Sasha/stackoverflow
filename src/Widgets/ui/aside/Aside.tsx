@@ -1,15 +1,7 @@
 import {FC} from 'react'
 
 import styles from './styles/aside.module.css'
-import {
-  AccountControl,
-  ExitControl,
-  HomeControl,
-  MySnippetsControl,
-  PostSnippetControl,
-  QuestionsControl,
-  UsersControl,
-} from '../../../Features'
+import {AsideIconHost, ExitControl} from '../../../Features'
 import {useLinkedGetAuth} from '../../../Shared'
 
 interface AsideProps {
@@ -27,12 +19,13 @@ const Aside: FC<AsideProps> = ({onClose, isOpen}) => {
       } ${styles.aside}`}
     >
       <ExitControl onClick={onClose} className={styles.closeLogo} />
-      <HomeControl onClick={onClose} />
-      {userId && <AccountControl onClick={onClose} />}
-      {userId && <PostSnippetControl onClick={onClose} />}
-      {userId && <MySnippetsControl onClick={onClose} />}
-      <QuestionsControl onClick={onClose} />
-      <UsersControl onClick={onClose} />
+      <AsideIconHost type="home" onClick={onClose} />
+      {userId && <AsideIconHost type="account" onClick={onClose} />}
+      {userId && <AsideIconHost type="postSnippet" onClick={onClose} />}
+      {userId && <AsideIconHost type="mySnippets" onClick={onClose} />}
+      <AsideIconHost type="questions" onClick={onClose} />
+      {userId && <AsideIconHost type="askQuestion" onClick={onClose} />}
+      <AsideIconHost type="users" onClick={onClose} />
     </aside>
   )
 }

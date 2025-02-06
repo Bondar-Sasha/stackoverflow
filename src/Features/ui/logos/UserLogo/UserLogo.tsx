@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
-import { UserLogo } from '../../../../Entities'
+import {UserLogo} from '../../../../Entities'
 
 const HandleUserLogo: typeof UserLogo = (props) => {
   const navigate = useNavigate()
@@ -8,7 +8,7 @@ const HandleUserLogo: typeof UserLogo = (props) => {
   const handleClick = () => {
     navigate('/account')
   }
-  return <UserLogo onClick={handleClick} {...props} />
+  return <UserLogo {...props} onClick={handleClick} />
 }
 
 export default HandleUserLogo

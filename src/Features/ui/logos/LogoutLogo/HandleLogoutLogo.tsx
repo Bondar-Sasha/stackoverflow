@@ -23,7 +23,7 @@ const HandleLogoutLogo: typeof LogoutLogo = (props) => {
   return isLoading ? (
     <Spinner className="text-osseous-theme" />
   ) : (
-    <LogoutLogo onClick={handleClick} {...props} />
+    <LogoutLogo {...props} onClick={handleClick} />
   )
 }
 

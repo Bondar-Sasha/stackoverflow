@@ -3,6 +3,7 @@ import {Navigate, useLocation, useParams} from 'react-router-dom'
 
 import {toast} from 'react-toastify'
 import {
+  isPositiveInteger,
   useLazyGetPostQuery,
   useLazyGetQuestionQuery,
   useLinkedGetAuth,
@@ -23,6 +24,8 @@ interface RedirectionProps {
 const restrictedPaths: Record<string, string> = {
   '/account': 'Account page is available only for logged in users',
   '/my_posts': 'My posts page is available only for logged in users',
+  '/create_post': 'Only logged in users can create posts',
+  '/create_question': 'Only logged in users can create questions',
 }
 
 const editQuestionUrlPattern = /^\/edit_question\/\d+$/
@@ -74,7 +77,16 @@ const Redirection: FC<RedirectionProps> = ({children}) => {
               console.error(error)
             }
           }
-          getQuestionWithAwait(Number(params.questionId))
+          const questionIdFromURL = params.questionId
+          if (!isPositiveInteger(questionIdFromURL)) {
+            setRedirectElem(<Navigate to="/" replace />)
+            toast('There is no such question', {
+              type: 'warning',
+              autoClose: 1800,
+            })
+            return
+          }
+          getQuestionWithAwait(Number(questionIdFromURL))
           return
         }
         if (editPostUrlPattern.test(location.pathname) && params.postId) {
@@ -92,7 +104,16 @@ const Redirection: FC<RedirectionProps> = ({children}) => {
               console.error(error)
             }
           }
-          getPostWithAwait(Number(params.postId))
+          const postIdFromURL = params.postId
+          if (!isPositiveInteger(postIdFromURL)) {
+            setRedirectElem(<Navigate to="/" replace />)
+            toast('There is no such post', {
+              type: 'warning',
+              autoClose: 1800,
+            })
+            return
+          }
+          getPostWithAwait(Number(postIdFromURL))
           return
         }
       } else {
