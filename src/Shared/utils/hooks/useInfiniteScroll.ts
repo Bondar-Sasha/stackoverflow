@@ -4,26 +4,27 @@ import {throttle} from 'lodash'
 const useInfiniteScroll = () => {
   const [isEnd, setIsEnd] = useState(false)
 
-  const scrollHandler = throttle(() => {
-    const scrollTop = window.scrollY
-    const clientHeight = window.innerHeight
-    const scrollHeight = document.documentElement.scrollHeight
-
-    const shouldSetEnd =
-      scrollHeight - scrollTop - clientHeight < scrollHeight * 0.3
-
-    if (shouldSetEnd !== isEnd) {
-      setIsEnd(shouldSetEnd)
-    }
-  }, 200)
-
   useEffect(() => {
-    window.addEventListener('scroll', scrollHandler)
+    const handleScroll = throttle(() => {
+      const scrollTop = window.scrollY
+      const clientHeight = window.innerHeight
+      const scrollHeight = document.documentElement.scrollHeight
+
+      const scrolledPercentage = (scrollTop + clientHeight) / scrollHeight
+
+      if (scrolledPercentage >= 0.7) {
+        setIsEnd(true)
+      } else {
+        setIsEnd(false)
+      }
+    }, 200)
+
+    window.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.removeEventListener('scroll', scrollHandler)
+      window.removeEventListener('scroll', handleScroll)
     }
-  }, [scrollHandler])
+  }, [])
 
   return {isEnd}
 }

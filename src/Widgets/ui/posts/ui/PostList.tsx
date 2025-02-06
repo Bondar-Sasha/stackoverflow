@@ -1,4 +1,4 @@
-import {FC, useState} from 'react'
+import {FC, useCallback, useState} from 'react'
 
 import {
   useCheckFetching,
@@ -23,16 +23,16 @@ const PostList: FC<PostListProps> = ({
   const {userId} = useLinkedGetAuth()
   const senderId = userId
 
-  const {data, isLoading} = useGetPostsQuery({
+  const {data, isLoading, isFetching} = useGetPostsQuery({
     ...(myPosts ? {userId: Number(userId)} : {}),
     page: 1,
     limit: limitState,
     senderId: Number(senderId),
   })
 
-  const preparedUpdateLimitFunc = () => {
+  const preparedUpdateLimitFunc = useCallback(() => {
     setLimit((prev) => prev + 10)
-  }
+  }, [])
 
   const valRes = useCheckFetching([
     {condition: isLoading, result: <DownloadMask />},
@@ -49,7 +49,11 @@ const PostList: FC<PostListProps> = ({
   return (
     <div className="stretching flex-center flex-col">
       <h1 className="mb-4 mt-4 text-2xl">{label}</h1>
-      <EndLessList updateLimit={preparedUpdateLimitFunc} data={data!}>
+      <EndLessList
+        isFetching={isFetching}
+        updateLimit={preparedUpdateLimitFunc}
+        data={data!}
+      >
         {(item) => (
           <PostForm
             key={item.id}

@@ -13,7 +13,9 @@ export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => {
-      return getDefaultMiddleware()
+      return getDefaultMiddleware({
+        serializableCheck: false,
+      })
         .concat(userApi.middleware)
         .concat(questionsApi.middleware)
         .concat(postsApi.middleware)
