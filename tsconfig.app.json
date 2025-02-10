@@ -25,7 +25,11 @@
       {
         "name": "typed-css-modules"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src"],
   "exclude": [

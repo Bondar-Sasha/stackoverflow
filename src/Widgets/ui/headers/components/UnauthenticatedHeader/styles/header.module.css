@@ -1,10 +1,10 @@
 @media screen and (max-width: 545px) {
-  .header [data-elem-role='app-name'] {
+  .appName {
     display: none;
   }
 }
 @media screen and (max-width: 370px) {
-  .header [data-elem-role='nav-buttons-wrapper'] > :first-child {
+  .headerButtons > :first-child {
     display: none;
   }
 }

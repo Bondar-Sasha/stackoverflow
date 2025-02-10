@@ -1,29 +1,26 @@
 import {FC, useCallback, useState} from 'react'
-import {UserForm} from '../../../Features'
-import {useCheckFetching, useGetUsersQuery} from '../../../Shared'
-import {DownloadMask, EndLessList, NotFoundMask} from '../../../Widgets'
+import {UserForm} from '@/Features'
+import {useGetUsersQuery} from '@/Shared'
+import {DownloadMask, EndLessList, NotFoundMask} from '@/Widgets'
 
 const UsersPage: FC = () => {
   const [limitState, setLimit] = useState<number>(15)
 
-  const {data, isLoading, isFetching} = useGetUsersQuery({
+  const {data, isFetching} = useGetUsersQuery({
     limit: limitState,
     page: 1,
   })
 
   const preparedUpdateLimitFunc = useCallback(() => {
-    setLimit((prev) => prev + 10)
+    setLimit((prev) => prev + 25)
   }, [])
-  const valRes = useCheckFetching([
-    {condition: isLoading, result: <DownloadMask />},
-    {
-      condition: !data || !data.data.data.length,
-      result: <NotFoundMask label="There are no users" />,
-    },
-  ])
 
-  if (valRes) {
-    return valRes
+  if (isFetching) {
+    return <DownloadMask />
+  }
+
+  if (!data) {
+    return <NotFoundMask label="There are no users" />
   }
 
   return (

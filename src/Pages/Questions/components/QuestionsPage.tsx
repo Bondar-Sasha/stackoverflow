@@ -1,31 +1,27 @@
 import {FC, useCallback, useState} from 'react'
 
-import {QuestionForm} from '../../../Features'
-import {useCheckFetching, useGetQuestionsQuery} from '../../../Shared'
-import {DownloadMask, EndLessList, NotFoundMask} from '../../../Widgets'
+import {QuestionForm} from '@/Features'
+import {useGetQuestionsQuery} from '@/Shared'
+import {DownloadMask, EndLessList, NotFoundMask} from '@/Widgets'
 
 const QuestionsPage: FC = () => {
   const [limitState, setLimit] = useState<number>(15)
 
-  const {isLoading, data, isFetching} = useGetQuestionsQuery({
+  const {data, isFetching} = useGetQuestionsQuery({
     limit: limitState,
     page: 1,
   })
 
   const preparedUpdateLimitFunc = useCallback(() => {
-    setLimit((prev) => prev + 10)
+    setLimit((prev) => prev + 25)
   }, [])
 
-  const valRes = useCheckFetching([
-    {condition: isLoading, result: <DownloadMask />},
-    {
-      condition: !data || !data.data.data.length,
-      result: <NotFoundMask label="There are no questions" />,
-    },
-  ])
+  if (isFetching) {
+    return <DownloadMask />
+  }
 
-  if (valRes) {
-    return valRes
+  if (!data) {
+    return <NotFoundMask label="There are no posts" />
   }
 
   return (

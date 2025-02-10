@@ -1,15 +1,61 @@
 import {FC} from 'react'
+import {useNavigate} from 'react-router-dom'
 
 import styles from './styles/aside.module.css'
-import {AsideIconHost, ExitControl} from '../../../Features'
-import {useLinkedGetAuth} from '../../../Shared'
+import {useLinkedGetAuth} from '@/Shared'
+import {IoHomeSharp} from 'react-icons/io5'
+import {UserLogo} from '@/Entities'
+import {RiTextSnippet} from 'react-icons/ri'
+import {GoQuestion} from 'react-icons/go'
+import {FaUsers} from 'react-icons/fa6'
+import {RxCross2} from 'react-icons/rx'
 
 interface AsideProps {
-  onClose: () => void
+  onClose?: () => void
   isOpen: boolean
 }
 
+const iconsData = [
+  {id: 1, controlledPath: '/', label: 'Home', icon: <IoHomeSharp />},
+  {
+    id: 2,
+    controlledPath: '/account',
+    label: 'My account',
+    icon: <UserLogo />,
+    auth: true,
+  },
+  {
+    id: 3,
+    controlledPath: '/create_post',
+    label: 'Post a snippet',
+    icon: <RiTextSnippet />,
+    auth: true,
+  },
+  {
+    id: 4,
+    controlledPath: '/my_posts',
+    label: 'My snippets',
+    icon: <RiTextSnippet />,
+    auth: true,
+  },
+  {
+    id: 5,
+    controlledPath: '/questions',
+    label: 'Questions',
+    icon: <GoQuestion />,
+  },
+  {
+    id: 6,
+    controlledPath: '/create_question',
+    label: 'Ask question',
+    icon: <GoQuestion />,
+    auth: true,
+  },
+  {controlledPath: '/users', label: 'Users', icon: <FaUsers />},
+]
+
 const Aside: FC<AsideProps> = ({onClose, isOpen}) => {
+  const navigate = useNavigate()
   const {userId} = useLinkedGetAuth()
 
   return (
@@ -18,14 +64,27 @@ const Aside: FC<AsideProps> = ({onClose, isOpen}) => {
         isOpen ? 'flex' : 'hidden'
       } ${styles.aside}`}
     >
-      <ExitControl onClick={onClose} className={styles.closeLogo} />
-      <AsideIconHost type="home" onClick={onClose} />
-      {userId && <AsideIconHost type="account" onClick={onClose} />}
-      {userId && <AsideIconHost type="postSnippet" onClick={onClose} />}
-      {userId && <AsideIconHost type="mySnippets" onClick={onClose} />}
-      <AsideIconHost type="questions" onClick={onClose} />
-      {userId && <AsideIconHost type="askQuestion" onClick={onClose} />}
-      <AsideIconHost type="users" onClick={onClose} />
+      <div
+        className={`flex items-center mr-10 w-full h-11 justify-end text-osseous-theme transition duration-100 ease-in-out ${styles.closeLogo}`}
+      >
+        <RxCross2 onClick={onClose} className="text-xl" />
+      </div>
+      {iconsData.map((item) => {
+        if (item.auth && !userId) {
+          return
+        }
+        return (
+          <div
+            key={item.id}
+            className="flex items-center w-full h-11 pl-5 cursor-pointer text-osseous-theme hover:bg-[rgb(60,130,195)] transition duration-100 ease-in-out"
+            onClick={() => {
+              navigate(item.controlledPath)
+            }}
+          >
+            {item.icon} <span className="ml-2">{item.label}</span>
+          </div>
+        )
+      })}
     </aside>
   )
 }

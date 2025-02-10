@@ -8,13 +8,9 @@ import {
   GeneraPostForm,
   NotFoundMask,
   PostFormData,
-} from '../../../Widgets'
-import {
-  isPositiveInteger,
-  useEditPostMutation,
-  useGetPostQuery,
-} from '../../../Shared'
-import {Params} from '../../../Processes'
+} from '@/Widgets'
+import {isPositiveInteger, useEditPostMutation, useGetPostQuery} from '@/Shared'
+import {Params} from '@/Processes'
 
 const EditPostPage: FC = () => {
   const params = useParams<Params>()
@@ -44,14 +40,14 @@ const EditPostPage: FC = () => {
       console.error(error)
     }
   }
+  if (fetchingPost) {
+    return <DownloadMask />
+  }
 
   if (!data) {
     return <NotFoundMask label="There is no such post" />
   }
 
-  if (fetchingPost) {
-    return <DownloadMask />
-  }
   const initValues: PostFormData = {
     language: data.language,
     code: data.code,

@@ -1,3 +1,5 @@
-import Header from './Header/Header'
+import AuthenticatedHeader from './AuthenticatedHeader/AuthenticatedHeader'
+import UnauthenticatedHeader from './UnauthenticatedHeader/UnauthenticatedHeader'
+import NeutralHeader from './NeutralHeader/NeutralHeader'
 
-export { Header }
+export {AuthenticatedHeader, UnauthenticatedHeader, NeutralHeader}

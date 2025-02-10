@@ -1,11 +1,7 @@
 import {FC, useCallback, useState} from 'react'
 
-import {
-  useCheckFetching,
-  useGetPostsQuery,
-  useLinkedGetAuth,
-} from '../../../../Shared'
-import {PostForm} from '../../../../Features'
+import {useGetPostsQuery, useLinkedGetAuth} from '@/Shared'
+import {PostForm} from '@/Features'
 import {DownloadMask} from '../../DownloadMask'
 import {NotFoundMask} from '../../NotFoundMask'
 import {EndLessList} from '../../EndLessList'
@@ -23,7 +19,7 @@ const PostList: FC<PostListProps> = ({
   const {userId} = useLinkedGetAuth()
   const senderId = userId
 
-  const {data, isLoading, isFetching} = useGetPostsQuery({
+  const {data, isFetching} = useGetPostsQuery({
     ...(myPosts ? {userId: Number(userId)} : {}),
     page: 1,
     limit: limitState,
@@ -31,19 +27,15 @@ const PostList: FC<PostListProps> = ({
   })
 
   const preparedUpdateLimitFunc = useCallback(() => {
-    setLimit((prev) => prev + 10)
+    setLimit((prev) => prev + 25)
   }, [])
 
-  const valRes = useCheckFetching([
-    {condition: isLoading, result: <DownloadMask />},
-    {
-      condition: !data || !data.length,
-      result: <NotFoundMask label="There are no posts" />,
-    },
-  ])
+  if (isFetching) {
+    return <DownloadMask />
+  }
 
-  if (valRes) {
-    return valRes
+  if (!data) {
+    return <NotFoundMask label="There are no posts" />
   }
 
   return (
