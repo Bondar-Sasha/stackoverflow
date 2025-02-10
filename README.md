@@ -1,5 +1,5 @@
-app link: https://candid-daifuku-fba6bd.netlify.app/
-storybook: https://bondar-sasha.github.io/stackoverflow/
+- app link: https://candid-daifuku-fba6bd.netlify.app/
+- storybook: https://bondar-sasha.github.io/stackoverflow/
 
 ### Main Routes
 - `/`: Redirects to the homepage.
@@ -21,3 +21,20 @@ storybook: https://bondar-sasha.github.io/stackoverflow/
 
 ### Error Handling
 - `*`: Redirects to a Not Found page for any undefined routes.
+
+### On your computer
+1) Clone the repository:
+   ```bash
+   git clone https://github.com/Bondar-Sasha/stackoverflow
+2) Navigate to the project directory:
+   ```bash
+   cd stackoverflow
+3) Install dependencies:
+   ```bash
+   npm ci
+4) Run app:
+   ```bash
+   npm run dev
+4) Run Storybook:
+   ```bash
+   npm run storybook
