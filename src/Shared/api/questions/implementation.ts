@@ -14,19 +14,35 @@ export const questionsApi = createApi({
   tagTypes: ['Questions', 'Question'],
   endpoints: (builder) => ({
     getQuestions: builder.query<
-      QuestionsTypes.GetQuestionsResponse,
+      QuestionsTypes.GetQuestionsResponse['data']['data'],
       QuestionsTypes.GetQuestionsRequest
     >({
       query: ({page, limit}) =>
         `questions?page=${page}&limit=${limit}&sortBy=id:ASC`,
-      providesTags: ['Questions'],
+      providesTags: (result) => {
+        if (!result) {
+          return ['Questions']
+        }
+        return [
+          ...result.map(({id}) => ({type: 'Question' as const, id})),
+          {type: 'Questions'},
+        ]
+      },
+      transformResponse: (response: QuestionsTypes.GetQuestionsResponse) => {
+        return response['data']['data']
+      },
     }),
     getQuestion: builder.query<
       QuestionsTypes.GetQuestionResponse,
       QuestionsTypes.GetQuestionRequest
     >({
       query: ({id}) => `questions/${id}`,
-      providesTags: ['Question'],
+      providesTags: (result) => {
+        if (!result) {
+          return []
+        }
+        return [{type: 'Question', id: result.data.id}]
+      },
     }),
     createQuestion: builder.mutation<
       QuestionsTypes.CreateQuestionResponse,
@@ -48,7 +64,12 @@ export const questionsApi = createApi({
         method: 'PATCH',
         body: data,
       }),
-      invalidatesTags: ['Questions', 'Question'],
+      invalidatesTags: (_result, err, args) => {
+        if (err) {
+          return []
+        }
+        return [{type: 'Question', id: args.id}]
+      },
     }),
   }),
 })

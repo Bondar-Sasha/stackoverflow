@@ -27,13 +27,15 @@ const FormInput: FC<FormInputProps> = ({
   ...props
 }) => {
   return (
-    <div className={`${stylesForInput.input} ${className}`}>
+    <div
+      className={`flex items-center flex-col w-full ${stylesForInput.input} ${className}`}
+    >
       <Field
         {...props}
         name={name}
         as={inputs[inputType]}
         placeholder={placeholder}
-        className="rounded-full h-11 border-theme border-2 text-lg w-full pb-1"
+        className={`rounded-full h-11 border-theme border-2 text-lg pb-1`}
       />
       <ErrorMessage
         name={name}

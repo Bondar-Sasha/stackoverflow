@@ -1,18 +1,18 @@
 import {FC} from 'react'
 import * as Yup from 'yup'
-import {Field, Form, Formik, FormikHelpers} from 'formik'
+import {Field, FieldProps, Form, Formik, FormikHelpers} from 'formik'
 import {SingleValue} from 'react-select'
-import Select from 'react-select/base'
+import Select from 'react-select'
 
 import {Editor} from '@/Entities'
-import {ProgrammingLanguages, Spinner} from '@/Shared'
-import {BasicButton} from 'custom-components-lib-test-react'
+import {BasicButton, ProgrammingLanguages, Spinner} from '@/Shared'
 import {toast} from 'react-toastify'
 
 export interface PostFormData {
   language: ProgrammingLanguages
   code: string
 }
+
 interface GeneraPostFormProps {
   submitButtonLabel: string
   formName: string
@@ -28,6 +28,7 @@ const validationSchema = Yup.object({
   language: Yup.string().required('Post programming language is required'),
   code: Yup.string().required('Post code is required'),
 })
+
 export interface OptionItem {
   value: ProgrammingLanguages
   label: Lowercase<ProgrammingLanguages>
@@ -48,6 +49,7 @@ const initialValues: PostFormData = {
   language: 'JavaScript',
   code: '',
 }
+
 const GeneraPostForm: FC<GeneraPostFormProps> = ({
   submitButtonLabel,
   initValues,
@@ -63,28 +65,38 @@ const GeneraPostForm: FC<GeneraPostFormProps> = ({
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {({isValid, values, setFieldValue}) => (
-          <Form>
-            <Field
-              as={Select}
-              name="language"
-              className="mb-3"
-              options={options}
-              placeholder="language"
-              onChange={(newValue: SingleValue<OptionItem>) => {
-                setFieldValue('language', newValue?.value)
-              }}
-            />
+        {({isValid, setFieldValue, errors, touched}) => (
+          <Form className="flex flex-col w-full">
+            <Field name="language">
+              {({field, form}: FieldProps) => (
+                <Select
+                  {...field}
+                  className="w-full mb-3"
+                  options={options}
+                  placeholder="Select a language"
+                  onChange={(newValue: SingleValue<OptionItem>) => {
+                    setFieldValue('language', newValue?.value)
+                  }}
+                  onBlur={() => form.setFieldTouched('language', true)}
+                  value={options.find((option) => option.value === field.value)}
+                />
+              )}
+            </Field>
+            {errors.language && touched.language && (
+              <span className="text-red-500">{errors.language}</span>
+            )}
             <Field
               as={Editor}
               className="mb-3 h-52"
               name="code"
-              value={values.code}
-              language={values.language.toLowerCase()}
+              language={initialValues.language.toLowerCase()}
               onChange={(newValue: string) => {
                 setFieldValue('code', newValue)
               }}
             />
+            {errors.code && touched.code && (
+              <span className="text-red-500">{errors.code}</span>
+            )}
             <BasicButton
               type="submit"
               disabled={isFetching}

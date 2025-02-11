@@ -2,8 +2,8 @@ import {FC} from 'react'
 import {toast} from 'react-toastify'
 import {FormikHelpers} from 'formik'
 
-import {useCreateQuestionMutation} from '../../../Shared'
-import {GeneralQuestionForm, QuestionFormData} from '../../../Widgets'
+import {useCreateQuestionMutation} from '@/Shared'
+import {GeneralQuestionForm, QuestionFormData} from '@/Widgets'
 
 const CreateQuestionPage: FC = () => {
   const [createQuestion, {isLoading}] = useCreateQuestionMutation()

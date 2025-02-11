@@ -40,7 +40,7 @@ const AuthenticatedHeader: FC<AuthenticatedHeaderProps> = ({asideHandler}) => {
         className={`cursor-pointer text-osseous-theme text-xl mr-2 hover:text-gray-200`}
       />
       {isLoading ? (
-        <Spinner className="text-xl" />
+        <Spinner className="text-xl text-osseous-theme" />
       ) : (
         <MdOutlineLogout
           onClick={handleLogout}

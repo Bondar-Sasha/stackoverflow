@@ -10,8 +10,6 @@ import {toast} from 'react-toastify'
 import {
   ProgrammingLanguages,
   useCreateMarkMutation,
-  useDeleteMarkMutation,
-  useEditMarkMutation,
   useLinkedGetAuth,
 } from '@/Shared'
 import {Editor} from '@/Entities'
@@ -44,25 +42,24 @@ const PostForm: FC<PostFormProps> = ({
 }) => {
   const navigate = useNavigate()
   const [createMark] = useCreateMarkMutation()
-  const [deleteMark] = useDeleteMarkMutation()
-  const [editMark] = useEditMarkMutation()
+
   const authData = useLinkedGetAuth()
 
   const handleMark = async (type: 'like' | 'dislike') => {
     try {
-      if (authData.userId) {
-        if (!myMark) {
-          await createMark({type, snippetId: postId}).unwrap()
-          return
-        }
-
-        if (myMark === type) {
-          await deleteMark({snippetId: postId}).unwrap()
-        } else {
-          await editMark({type, snippetId: postId}).unwrap()
-        }
-      } else {
+      if (!authData.userId) {
         toast('You need to be authorized', {autoClose: 1800, type: 'warning'})
+        return
+      }
+
+      if (myMark === 'none' || myMark !== type) {
+        await createMark({mark: type, snippetId: postId}).unwrap()
+        return
+      }
+
+      if (myMark === type) {
+        await createMark({mark: 'none', snippetId: postId}).unwrap()
+        return
       }
     } catch (error) {
       console.error(error)
@@ -97,7 +94,10 @@ const PostForm: FC<PostFormProps> = ({
       />
       <div className="flex justify-between items-center">
         <div className="flex items-center">
-          <div className="flex items-center mr-4" onClick={handleLikeMark}>
+          <div
+            className="flex items-center mr-4 cursor-pointer"
+            onClick={handleLikeMark}
+          >
             <BiSolidLike
               className={`mr-1 text-2xl text-gray-300 ${
                 myMark === 'like' ? 'text-theme' : ''
@@ -105,7 +105,10 @@ const PostForm: FC<PostFormProps> = ({
             />
             <span>{likesQuantity}</span>
           </div>
-          <div className="flex items-center mr-3" onClick={handleDislikeMark}>
+          <div
+            className="flex items-center mr-3 cursor-pointer"
+            onClick={handleDislikeMark}
+          >
             <BiSolidDislike
               className={`mr-1 text-2xl text-gray-300 ${
                 myMark === 'dislike' ? 'text-theme' : ''

@@ -113,6 +113,7 @@ export const userApi = createApi({
         url: `me`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['IsUserAuth'],
     }),
     patchMyPassword: builder.mutation<
       MeTypes.PatchMyPasswordResponse,
@@ -136,6 +137,7 @@ export const userApi = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['IsUserAuth'],
     }),
     logout: builder.mutation<AuthTypes.LogoutResponse, AuthTypes.LogoutRequest>(
       {

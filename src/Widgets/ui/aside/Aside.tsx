@@ -78,6 +78,7 @@ const Aside: FC<AsideProps> = ({onClose, isOpen}) => {
             key={item.id}
             className="flex items-center w-full h-11 pl-5 cursor-pointer text-osseous-theme hover:bg-[rgb(60,130,195)] transition duration-100 ease-in-out"
             onClick={() => {
+              onClose?.()
               navigate(item.controlledPath)
             }}
           >

@@ -10,7 +10,7 @@ const PasswordInput: typeof BasicInput = (props) => {
     setEye((prev) => !prev)
   }
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <BasicInput {...props} type={eyeState ? 'password' : 'text'} />
       {eyeState ? (
         <BsEyeSlash

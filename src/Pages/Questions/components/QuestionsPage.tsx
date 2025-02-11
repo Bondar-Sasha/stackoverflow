@@ -34,12 +34,12 @@ const QuestionsPage: FC = () => {
       <EndLessList
         isFetching={isFetching}
         updateLimit={preparedUpdateLimitFunc}
-        data={data.data.data}
+        data={data}
       >
         {({user, id, title, description, attachedCode}) => (
           <div key={id} className={`flex flex-col w-3/4 mb-4`}>
             <div className="flex items-center mb-2">
-              <FaRegCircleUser className="text-inherit stretching min-w-10 min-h-10" />
+              <FaRegCircleUser className="text-gray-400 text-5xl mr-2 min-w-10" />
               <div className="flex flex-col ml-3">
                 <span className="text-justify font-bold text-lg">{title}</span>
                 <span>

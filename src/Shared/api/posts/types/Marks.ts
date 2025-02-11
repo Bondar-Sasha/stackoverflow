@@ -1,4 +1,4 @@
-import {ProgrammingLanguages} from '../../../../Shared'
+import {ProgrammingLanguages} from '@/Shared'
 
 export namespace MarksTypes {
   export interface GetMarksRequest {

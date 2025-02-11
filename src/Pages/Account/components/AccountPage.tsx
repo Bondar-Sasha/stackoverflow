@@ -81,25 +81,21 @@ const AccountPage: FC = () => {
 
   return (
     <div className="stretching flex flex-col items-center p-5">
-      <div className="mb-10">
+      <div className=" mb-7">
         <h1 className="text-2xl">
           <span className="font-bold">Welcome</span>,
-          <span className="">{data.data.username}</span>
+          <span className="">{data.username}</span>
         </h1>
       </div>
       <div className="w-3/4 mb-5">
-        <div className="flex items-center justify-evenly">
-          <div
-            className={`bg-gray-200 text-gray-400 rounded-full text-7xl mr-5`}
-          >
-            <FaRegCircleUser className="text-gray-400 text-4xl mr-3" />
-          </div>
+        <div className="flex items-center justify-evenly  mb-7">
+          <FaRegCircleUser className="text-gray-400 text-7xl mr-2 min-w-10" />
 
           <div className="flex items-center flex-col">
             <div className="flex justify-around flex-col w-full mb-3">
-              <h2 className="font-bold">{data.data.username}</h2>
-              <span>id: {data.data.id}</span>
-              <span>Role: {data.data.role}</span>
+              <h2 className="font-bold">{data.username}</h2>
+              <span>id: {data.id}</span>
+              <span>Role: {data.role}</span>
             </div>
             <div className="flex justify-around w-full">
               <BasicButton
@@ -120,18 +116,14 @@ const AccountPage: FC = () => {
           </div>
         </div>
         <div className="flex flex-col text-sm">
-          <span>Rating: {data.data.statistic.rating}</span>
-          <span>Snippets: {data.data.statistic.snippetsCount}</span>
-          <span>Comments: {data.data.statistic.commentsCount}</span>
-          <span>Likes: {data.data.statistic.likesCount}</span>
-          <span>Dislikes: {data.data.statistic.dislikesCount}</span>
-          <span>Questions: {data.data.statistic.questionsCount}</span>
-          <span>
-            Correct answers: {data.data.statistic.correctAnswersCount}
-          </span>
-          <span>
-            Regular answers: {data.data.statistic.regularAnswersCount}
-          </span>
+          <span>Rating: {data.statistic.rating}</span>
+          <span>Snippets: {data.statistic.snippetsCount}</span>
+          <span>Comments: {data.statistic.commentsCount}</span>
+          <span>Likes: {data.statistic.likesCount}</span>
+          <span>Dislikes: {data.statistic.dislikesCount}</span>
+          <span>Questions: {data.statistic.questionsCount}</span>
+          <span>Correct answers: {data.statistic.correctAnswersCount}</span>
+          <span>Regular answers: {data.statistic.regularAnswersCount}</span>
         </div>
       </div>
       <div className="w-3/4 flex flex-col">

@@ -22,13 +22,16 @@ export namespace PostsTypes {
   }
   interface Mark {
     id: string
-    type: 'like' | 'dislike'
+    type: 'like' | 'dislike' | 'none'
     user: User
   }
+
   interface Comment {
     id: string
     content: string
+    user: User
   }
+
   interface Post {
     id: string
     code: string
@@ -45,8 +48,16 @@ export namespace PostsTypes {
     likesQuantity: number
     commentsQuantity: number
     comments: Comment[]
-    myMark: 'like' | 'dislike' | undefined
+    myMark: 'like' | 'dislike' | 'none'
     user: User
+  }
+
+  export interface CreateMarkRequest {
+    snippetId: number
+    mark: 'like' | 'dislike' | 'none'
+  }
+  export interface CreateMarkResponse {
+    mark: 'like' | 'dislike' | 'none'
   }
 
   export interface GetPostsResponse {

@@ -43,7 +43,7 @@ const AppRoutes: FC = () => {
           <Route
             path="create_post"
             element={
-              <SecureRoute redirectTo="/auth/login" isRedirection={!!userId}>
+              <SecureRoute redirectTo="/auth/login" isRedirection={!userId}>
                 <CreatePostPage />
               </SecureRoute>
             }
@@ -52,7 +52,7 @@ const AppRoutes: FC = () => {
           <Route
             path="edit_post/:postId"
             element={
-              <SecureRoute redirectTo="/auth/login" isRedirection={!!userId}>
+              <SecureRoute redirectTo="/auth/login" isRedirection={!userId}>
                 <EditPostPage />
               </SecureRoute>
             }
@@ -60,7 +60,7 @@ const AppRoutes: FC = () => {
           <Route
             path="account"
             element={
-              <SecureRoute redirectTo="/auth/login" isRedirection={!!userId}>
+              <SecureRoute redirectTo="/auth/login" isRedirection={!userId}>
                 <AccountPage />
               </SecureRoute>
             }
@@ -71,7 +71,7 @@ const AppRoutes: FC = () => {
           <Route
             path="create_question"
             element={
-              <SecureRoute redirectTo="/auth/login" isRedirection={!!userId}>
+              <SecureRoute redirectTo="/auth/login" isRedirection={!userId}>
                 <CreateQuestionPage />
               </SecureRoute>
             }

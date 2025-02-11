@@ -1,5 +1,5 @@
-import { FC } from 'react'
-import { TextLoader } from '../../../Shared'
+import {FC} from 'react'
+import {TextLoader} from '@/Shared'
 
 const DownloadMask: FC = () => {
   return (

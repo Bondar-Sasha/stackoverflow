@@ -2,8 +2,8 @@ import {FC} from 'react'
 import {FormikHelpers} from 'formik'
 import {toast} from 'react-toastify'
 
-import {GeneraPostForm, PostFormData} from '../../../Widgets'
-import {useCreatePostMutation} from '../../../Shared'
+import {GeneraPostForm, PostFormData} from '@/Widgets'
+import {useCreatePostMutation} from '@/Shared'
 
 const CreatePostPage: FC = () => {
   const [createPost, {isLoading}] = useCreatePostMutation()

@@ -1,5 +1,5 @@
 import {FC, useState} from 'react'
-import {useParams} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import {toast} from 'react-toastify'
 
 import {DownloadMask, NotFoundMask} from '@/Widgets'
@@ -35,21 +35,29 @@ const PostPage: FC = () => {
 
   const onCreateComment = async () => {
     try {
-      if (newCommentState) {
-        await createComment({
-          snippetId: Number(data.id),
-          content: newCommentState,
-        }).unwrap()
-        toast('Comment successfully was created', {
-          autoClose: 1800,
-          type: 'success',
-        })
-      } else {
+      if (!newCommentState) {
         toast("There are no comment's content", {
           autoClose: 1800,
           type: 'warning',
         })
+        return
       }
+      if (!userId) {
+        toast('You should be authorized', {
+          autoClose: 1800,
+          type: 'warning',
+        })
+        return
+      }
+      await createComment({
+        snippetId: Number(data.id),
+        content: newCommentState,
+      }).unwrap()
+      setNewComment('')
+      toast('Comment successfully was created', {
+        autoClose: 1800,
+        type: 'success',
+      })
     } catch (error) {
       console.error(error)
     }
@@ -57,6 +65,7 @@ const PostPage: FC = () => {
   return (
     <div className="stretching flex items-center flex-col p-5">
       <PostForm
+        className="mb-3"
         key={data.id}
         likesQuantity={data.likesQuantity}
         dislikesQuantity={data.dislikesQuantity}
@@ -80,7 +89,7 @@ const PostPage: FC = () => {
             className="border-2 border-theme p-2 text-lg mb-2"
           />
           <BasicButton
-            disabled={isLoading}
+            disabled={createCommentLogs.isLoading}
             onClick={onCreateComment}
             className={`flex items-center justify-center bg-theme h-11 max-w-24 text-osseous-theme`}
           >
@@ -97,7 +106,16 @@ const PostPage: FC = () => {
                 key={item.id}
                 className="w-full flex flex-col border-2 border-theme mb-3 p-3"
               >
-                <div>
+                <div className="flex flex-col">
+                  <div className="mb-1 text-sm">
+                    <span className="mr-2">username:</span>
+                    <Link
+                      to={`/users/${item.user.id}`}
+                      className="text-theme cursor-pointer hover:underline"
+                    >
+                      {item.user.username}
+                    </Link>
+                  </div>
                   <span>{item.content}</span>
                 </div>
               </div>

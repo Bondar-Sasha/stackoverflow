@@ -51,14 +51,14 @@ const GeneralQuestionForm: FC<GeneralQuestionFormProps> = ({
         onSubmit={onSubmit}
       >
         {({isValid, setFieldValue}) => (
-          <Form>
+          <Form className="flex flex-col w-full">
+            <FormInput placeholder="Question title" name="title" />
             <FormInput
-              placeholder="Question title"
-              name="title"
-              className="mb-5"
+              inputType="textarea"
+              placeholder="Question description"
+              className="rounded-none"
+              name="description"
             />
-
-            <FormInput placeholder="Question description" name="description" />
             <Field
               as={Editor}
               className="mb-3 h-52"

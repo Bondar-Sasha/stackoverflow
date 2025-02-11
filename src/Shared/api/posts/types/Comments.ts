@@ -1,8 +1,4 @@
 export namespace CommentsTypes {
-  export interface GetCommentsRequest {
-    page: number
-    limit: number
-  }
   interface User {
     id: string
     username: string
@@ -15,13 +11,6 @@ export namespace CommentsTypes {
     user: User
   }
 
-  export interface GetCommentsResponse {
-    data: {
-      items: Comment[]
-      totalCount: number
-    }
-  }
-
   export interface CreateCommentRequest {
     snippetId: number
     content: string
@@ -29,12 +18,7 @@ export namespace CommentsTypes {
   export interface CreateCommentResponse {
     data: Comment
   }
-  export interface GetCommentRequest {
-    id: number
-  }
-  export interface GetCommentResponse {
-    data: Comment
-  }
+
   export interface EditCommentRequest {
     id: number
     content: string

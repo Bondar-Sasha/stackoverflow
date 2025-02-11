@@ -7,13 +7,13 @@ import {
   GeneralQuestionForm,
   NotFoundMask,
   QuestionFormData,
-} from '../../../Widgets'
+} from '@/Widgets'
 import {
   isPositiveInteger,
   useEditQuestionMutation,
   useGetQuestionQuery,
-} from '../../../Shared'
-import {Params} from '../../../Processes'
+} from '@/Shared'
+import {Params} from '@/Processes'
 
 const EditQuestionPage: FC = () => {
   const params = useParams<Params>()

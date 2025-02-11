@@ -23,9 +23,13 @@ const validationSchema = Yup.object({
   password: Yup.string()
     .required('Password is required')
     .min(6, 'Password must be at least 6 characters')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .matches(/\d/, 'Password must contain at least one number')
+    .matches(/[\W_]/, 'Password must contain at least one special character')
     .matches(
-      /^[A-Za-z0-9]+$/,
-      'Password must contain only Latin letters and numbers'
+      /^[A-Za-z0-9\W_]+$/,
+      'Password must contain only valid characters'
     ),
 })
 
@@ -60,7 +64,7 @@ const LoginPage: FC = () => {
         onSubmit={onSubmit}
       >
         {({isValid}) => (
-          <Form>
+          <Form className={`text-ordinary-text flex flex-col w-full`}>
             <FormInput
               placeholder="username"
               name="username"
