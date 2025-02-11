@@ -1,14 +1,10 @@
-import { FC } from 'react'
-import { Formik } from 'formik'
-import { toast } from 'react-toastify'
+import {FC} from 'react'
+import {Form, Formik} from 'formik'
+import {toast} from 'react-toastify'
 import * as Yup from 'yup'
 
-import {
-  AuthFormInput,
-  BasicFormWrapper,
-  SubmitButton,
-} from '../../../../Features'
-import { Errors, usePatchMeMutation } from '../../../../Shared'
+import {BasicButton, Errors, Spinner, usePatchMeMutation} from '@/Shared'
+import {FormInput} from '@/Features'
 
 interface FormData {
   username: string
@@ -29,7 +25,7 @@ const initialValues: FormData = {
 }
 
 const EditUsernameForm: FC = () => {
-  const [patchMe, { isLoading }] = usePatchMeMutation()
+  const [patchMe, {isLoading}] = usePatchMeMutation()
   const submitForm = async (formData: FormData) => {
     try {
       const response = await patchMe(formData).unwrap()
@@ -53,17 +49,29 @@ const EditUsernameForm: FC = () => {
         validationSchema={validationSchema}
         onSubmit={submitForm}
       >
-        {({ isValid }) => (
-          <BasicFormWrapper>
-            <AuthFormInput
+        {({isValid}) => (
+          <Form>
+            <FormInput
               placeholder="new username"
               name="username"
               inputType="text"
             />
-            <SubmitButton isValid={isValid} isLoading={isLoading}>
-              Save
-            </SubmitButton>
-          </BasicFormWrapper>
+            <BasicButton
+              type="submit"
+              disabled={isLoading}
+              onClick={() => {
+                if (!isValid) {
+                  toast('Fill out the form correctly', {
+                    autoClose: 2000,
+                    type: 'warning',
+                  })
+                }
+              }}
+              className="flex items-center justify-center bg-theme h-11 rounded-full w-full text-osseous-theme"
+            >
+              {isLoading ? <Spinner /> : 'Change password'}
+            </BasicButton>
+          </Form>
         )}
       </Formik>
     </div>

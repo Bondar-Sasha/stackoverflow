@@ -1,7 +1,7 @@
 import {FC, ReactNode, useEffect} from 'react'
 import {useLocation, useNavigate, useParams} from 'react-router-dom'
-
 import {toast} from 'react-toastify'
+
 import {
   isPositiveInteger,
   useLazyGetPostQuery,

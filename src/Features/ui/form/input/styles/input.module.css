@@ -4,3 +4,8 @@
   width: 100%;
   margin-bottom: 12px;
 }
+.error {
+  color: red;
+  margin-left: 20px;
+  padding: 3px 0;
+}

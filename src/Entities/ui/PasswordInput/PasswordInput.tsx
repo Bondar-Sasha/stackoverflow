@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import {useState} from 'react'
+import {BsEye, BsEyeSlash} from 'react-icons/bs'
 
-import { BasicInput } from '../../../Shared'
 import styles from './styles/passwordInput.module.css'
-import PreparedEye from './PreparedEye'
+import {BasicInput} from '@/Shared'
 
 const PasswordInput: typeof BasicInput = (props) => {
   const [eyeState, setEye] = useState<boolean>(true)
@@ -12,11 +12,17 @@ const PasswordInput: typeof BasicInput = (props) => {
   return (
     <div className="relative">
       <BasicInput {...props} type={eyeState ? 'password' : 'text'} />
-      <PreparedEye
-        onClick={handleClick}
-        eyeState={eyeState}
-        className={`text-theme cursor-pointer text-xl ${styles.eye}`}
-      />
+      {eyeState ? (
+        <BsEyeSlash
+          onClick={handleClick}
+          className={`text-theme cursor-pointer text-xl ${styles.eye}`}
+        />
+      ) : (
+        <BsEye
+          onClick={handleClick}
+          className={`text-theme cursor-pointer text-xl ${styles.eye}`}
+        />
+      )}
     </div>
   )
 }

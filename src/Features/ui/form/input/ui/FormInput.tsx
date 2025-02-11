@@ -1,7 +1,7 @@
 import {FC} from 'react'
 import {ErrorMessage, Field} from 'formik'
 
-import stylesForInput from '../../styles/input.module.css'
+import stylesForInput from '../styles/input.module.css'
 import {BasicInput, BasicTextarea} from '@/Shared'
 import {PasswordInput} from '@/Entities'
 
@@ -10,6 +10,7 @@ interface FormInputProps {
   name: string
   placeholder: string
   autoComplete?: string
+  className?: string
 }
 
 const inputs = {
@@ -22,10 +23,11 @@ const FormInput: FC<FormInputProps> = ({
   name,
   placeholder,
   inputType = 'text',
+  className = '',
   ...props
 }) => {
   return (
-    <div className={`${stylesForInput.input}`}>
+    <div className={`${stylesForInput.input} ${className}`}>
       <Field
         {...props}
         name={name}

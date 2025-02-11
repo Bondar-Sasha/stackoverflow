@@ -1,14 +1,14 @@
 import {FC} from 'react'
 import {useNavigate} from 'react-router-dom'
-
-import styles from './styles/aside.module.css'
-import {useLinkedGetAuth} from '@/Shared'
-import {IoHomeSharp} from 'react-icons/io5'
-import {UserLogo} from '@/Entities'
 import {RiTextSnippet} from 'react-icons/ri'
 import {GoQuestion} from 'react-icons/go'
 import {FaUsers} from 'react-icons/fa6'
 import {RxCross2} from 'react-icons/rx'
+import {IoHomeSharp} from 'react-icons/io5'
+import {FaRegUser} from 'react-icons/fa'
+
+import styles from './styles/aside.module.css'
+import {useLinkedGetAuth} from '@/Shared'
 
 interface AsideProps {
   onClose?: () => void
@@ -21,7 +21,7 @@ const iconsData = [
     id: 2,
     controlledPath: '/account',
     label: 'My account',
-    icon: <UserLogo />,
+    icon: <FaRegUser />,
     auth: true,
   },
   {
@@ -51,7 +51,7 @@ const iconsData = [
     icon: <GoQuestion />,
     auth: true,
   },
-  {controlledPath: '/users', label: 'Users', icon: <FaUsers />},
+  {id: 7, controlledPath: '/users', label: 'Users', icon: <FaUsers />},
 ]
 
 const Aside: FC<AsideProps> = ({onClose, isOpen}) => {

@@ -1,5 +1,5 @@
 import {FC} from 'react'
-import {PostList} from '../../../Widgets'
+import {PostList} from '@/Widgets'
 
 const HomePage: FC = () => {
   return (

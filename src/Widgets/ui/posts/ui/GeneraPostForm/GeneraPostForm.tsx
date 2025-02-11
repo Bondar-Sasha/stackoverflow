@@ -1,12 +1,13 @@
 import {FC} from 'react'
 import * as Yup from 'yup'
-import {Field, Formik, FormikHelpers} from 'formik'
+import {Field, Form, Formik, FormikHelpers} from 'formik'
 import {SingleValue} from 'react-select'
+import Select from 'react-select/base'
 
-import {BasicFormWrapper, SubmitButton} from '../../../../../Features'
-import {Editor} from '../../../../../Entities'
-import {OptionItem, ProgLangSelect} from '../../../../../Entities'
-import {ProgrammingLanguages} from '../../../../../Shared'
+import {Editor} from '@/Entities'
+import {ProgrammingLanguages, Spinner} from '@/Shared'
+import {BasicButton} from 'custom-components-lib-test-react'
+import {toast} from 'react-toastify'
 
 export interface PostFormData {
   language: ProgrammingLanguages
@@ -27,6 +28,21 @@ const validationSchema = Yup.object({
   language: Yup.string().required('Post programming language is required'),
   code: Yup.string().required('Post code is required'),
 })
+export interface OptionItem {
+  value: ProgrammingLanguages
+  label: Lowercase<ProgrammingLanguages>
+}
+
+const options: OptionItem[] = [
+  {value: 'JavaScript', label: 'javascript'},
+  {value: 'Ruby', label: 'ruby'},
+  {value: 'C#', label: 'c#'},
+  {value: 'Python', label: 'python'},
+  {value: 'Java', label: 'java'},
+  {value: 'C/C++', label: 'c/c++'},
+  {value: 'Go', label: 'go'},
+  {value: 'Kotlin', label: 'kotlin'},
+]
 
 const initialValues: PostFormData = {
   language: 'JavaScript',
@@ -48,12 +64,13 @@ const GeneraPostForm: FC<GeneraPostFormProps> = ({
         onSubmit={onSubmit}
       >
         {({isValid, values, setFieldValue}) => (
-          <BasicFormWrapper>
+          <Form>
             <Field
-              as={ProgLangSelect}
+              as={Select}
               name="language"
               className="mb-3"
-              value={values.language}
+              options={options}
+              placeholder="language"
               onChange={(newValue: SingleValue<OptionItem>) => {
                 setFieldValue('language', newValue?.value)
               }}
@@ -68,11 +85,22 @@ const GeneraPostForm: FC<GeneraPostFormProps> = ({
                 setFieldValue('code', newValue)
               }}
             />
-
-            <SubmitButton isLoading={isFetching} isValid={isValid}>
-              {submitButtonLabel}
-            </SubmitButton>
-          </BasicFormWrapper>
+            <BasicButton
+              type="submit"
+              disabled={isFetching}
+              onClick={() => {
+                if (!isValid) {
+                  toast('Fill out the form correctly', {
+                    autoClose: 2000,
+                    type: 'warning',
+                  })
+                }
+              }}
+              className="flex items-center justify-center bg-theme h-11 rounded-full w-full text-osseous-theme"
+            >
+              {isFetching ? <Spinner /> : submitButtonLabel}
+            </BasicButton>
+          </Form>
         )}
       </Formik>
     </>

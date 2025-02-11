@@ -1,10 +1,16 @@
 import {FC, ReactNode, useState} from 'react'
 import {Outlet} from 'react-router-dom'
 
-import {Aside, BasicFooter, Header} from '../../../Widgets'
+import {
+  Aside,
+  BasicFooter,
+  AuthenticatedHeader,
+  UnauthenticatedHeader,
+  NeutralHeader,
+} from '@/Widgets'
 
 import styles from '../styles/layout.module.css'
-import {useLinkedGetAuth} from '../../../Shared'
+import {useLinkedGetAuth} from '@/Shared'
 
 interface LayoutPageProps {
   neutral?: boolean
@@ -23,12 +29,12 @@ const LayoutPage: FC<LayoutPageProps> = ({neutral}) => {
   ): ((second_key: boolean) => ReactNode) => {
     return (second_key) => {
       if (first_key) {
-        return <Header type="auth" asideHandler={asideHandler} />
+        return <AuthenticatedHeader asideHandler={asideHandler} />
       }
       return second_key ? (
-        <Header type="neutral" />
+        <NeutralHeader />
       ) : (
-        <Header type="unauth" asideHandler={asideHandler} />
+        <UnauthenticatedHeader asideHandler={asideHandler} />
       )
     }
   }

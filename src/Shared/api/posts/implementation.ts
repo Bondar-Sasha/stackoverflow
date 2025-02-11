@@ -56,7 +56,7 @@ export const postsApi = createApi({
             const preparedMarkQuantity = markQuantity(marks)
             const likesQuantity = preparedMarkQuantity('like')
             const dislikesQuantity = preparedMarkQuantity('dislike')
-            const commentsQuantity = comments.length
+            const commentsQuantity = 10
             const myMark: 'like' | 'dislike' | undefined = arg.senderId
               ? marks.find((item) => item.user.id === String(arg.senderId))
                   ?.type

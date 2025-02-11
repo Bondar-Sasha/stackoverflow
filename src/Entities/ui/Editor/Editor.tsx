@@ -5,7 +5,7 @@ import {ProgrammingLanguages} from '../../../Shared'
 interface EditorProps {
   language: Lowercase<ProgrammingLanguages>
   value: string
-  onChange: (newValue: string | undefined) => void
+  onChange?: (newValue: string | undefined) => void
   readOnly?: boolean
   name?: string
   className?: string

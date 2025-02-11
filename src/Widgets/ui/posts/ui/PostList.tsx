@@ -19,7 +19,7 @@ const PostList: FC<PostListProps> = ({
   const {userId} = useLinkedGetAuth()
   const senderId = userId
 
-  const {data, isFetching} = useGetPostsQuery({
+  const {data, isFetching, isLoading} = useGetPostsQuery({
     ...(myPosts ? {userId: Number(userId)} : {}),
     page: 1,
     limit: limitState,
@@ -30,7 +30,7 @@ const PostList: FC<PostListProps> = ({
     setLimit((prev) => prev + 25)
   }, [])
 
-  if (isFetching) {
+  if (isLoading) {
     return <DownloadMask />
   }
 
@@ -44,7 +44,7 @@ const PostList: FC<PostListProps> = ({
       <EndLessList
         isFetching={isFetching}
         updateLimit={preparedUpdateLimitFunc}
-        data={data!}
+        data={data}
       >
         {(item) => (
           <PostForm

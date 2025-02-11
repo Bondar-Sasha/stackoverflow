@@ -1,6 +1,6 @@
 import {ReactNode, useEffect} from 'react'
 
-import {useInfiniteScroll} from '../../../Shared'
+import {useInfiniteScroll} from '@/Shared'
 
 interface EndLessListProps<T> {
   updateLimit: () => void

@@ -8,14 +8,14 @@ import {TiPencil} from 'react-icons/ti'
 import {toast} from 'react-toastify'
 
 import {
-  MarksLogoWrapper,
   ProgrammingLanguages,
   useCreateMarkMutation,
   useDeleteMarkMutation,
   useEditMarkMutation,
   useLinkedGetAuth,
-} from '../../../../../Shared'
-import {Editor, UserLogo} from '../../../../../Entities'
+} from '@/Shared'
+import {Editor} from '@/Entities'
+import {FaRegUser} from 'react-icons/fa'
 
 interface PostFormProps {
   progLang: ProgrammingLanguages
@@ -26,7 +26,7 @@ interface PostFormProps {
   likesQuantity: number
   dislikesQuantity: number
   commentsQuantity: number
-  myMark?: 'like' | 'dislike'
+  myMark: 'like' | 'dislike' | 'none'
   className?: string
 }
 
@@ -76,7 +76,7 @@ const PostForm: FC<PostFormProps> = ({
     <div className={`w-3/4 flex flex-col ${className}`}>
       <div className="flex justify-between items-center mb-1">
         <div className="flex items-center">
-          <UserLogo className="mr-2 cursor-default" />
+          <FaRegUser className={`mr-2 cursor-default`} />
           <Link
             to={`/users/${userId}`}
             className="text-theme cursor-pointer hover:underline"
@@ -93,27 +93,24 @@ const PostForm: FC<PostFormProps> = ({
         readOnly
         value={code}
         language={progLang.toLowerCase() as Lowercase<ProgrammingLanguages>}
-        onChange={() => {}}
         className="mb-2"
       />
       <div className="flex justify-between items-center">
         <div className="flex items-center">
           <div className="flex items-center mr-4" onClick={handleLikeMark}>
-            <MarksLogoWrapper
-              className="mr-2 text-2xl"
-              isActive={myMark === 'like'}
-            >
-              <BiSolidLike />
-            </MarksLogoWrapper>
+            <BiSolidLike
+              className={`mr-1 text-2xl text-gray-300 ${
+                myMark === 'like' ? 'text-theme' : ''
+              }`}
+            />
             <span>{likesQuantity}</span>
           </div>
           <div className="flex items-center mr-3" onClick={handleDislikeMark}>
-            <MarksLogoWrapper
-              className="mr-2 text-2xl"
-              isActive={myMark === 'dislike'}
-            >
-              <BiSolidDislike />
-            </MarksLogoWrapper>
+            <BiSolidDislike
+              className={`mr-1 text-2xl text-gray-300 ${
+                myMark === 'dislike' ? 'text-theme' : ''
+              }`}
+            />
             <span>{dislikesQuantity}</span>
           </div>
           {authData.userId === String(userId) && (

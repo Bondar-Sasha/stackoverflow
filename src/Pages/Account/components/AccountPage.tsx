@@ -92,7 +92,7 @@ const AccountPage: FC = () => {
           <div
             className={`bg-gray-200 text-gray-400 rounded-full text-7xl mr-5`}
           >
-            <FaRegCircleUser className="text-inherit stretching" />
+            <FaRegCircleUser className="text-gray-400 text-4xl mr-3" />
           </div>
 
           <div className="flex items-center flex-col">
@@ -111,7 +111,6 @@ const AccountPage: FC = () => {
               </BasicButton>
               <BasicButton
                 onClick={handleDeleteAcc}
-                isLoading={deleteAccLogs.isLoading}
                 disabled={deleteAccLogs.isLoading}
                 className="bg-red-500 rounded-md text-white cursor-pointer"
               >

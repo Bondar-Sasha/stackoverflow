@@ -1,12 +1,11 @@
 import {FC} from 'react'
-import {Formik} from 'formik'
+import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import {Link, useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 
-import {Errors, useRegisterMutation} from '../../../Shared'
-
-import {AuthFormInput, BasicFormWrapper, SubmitButton} from '../../../Features'
+import {BasicButton, Errors, Spinner, useRegisterMutation} from '@/Shared'
+import {FormInput} from '@/Features'
 
 interface RegisterFormData {
   username: string
@@ -68,28 +67,39 @@ const RegisterPage: FC = () => {
         onSubmit={onSubmit}
       >
         {({isValid}) => (
-          <BasicFormWrapper>
-            <AuthFormInput
+          <Form>
+            <FormInput
               placeholder="username"
               name="username"
               inputType="text"
             />
-            <AuthFormInput
+            <FormInput
               placeholder="password"
               name="password"
               inputType="password"
             />
-            <AuthFormInput
+            <FormInput
               autoComplete="new-password"
               placeholder="confirm password"
               name="confirmPassword"
               inputType="password"
             />
-
-            <SubmitButton isLoading={isLoading} isValid={isValid}>
-              Sing up
-            </SubmitButton>
-          </BasicFormWrapper>
+            <BasicButton
+              type="submit"
+              disabled={isLoading}
+              onClick={() => {
+                if (!isValid) {
+                  toast('Fill out the form correctly', {
+                    autoClose: 2000,
+                    type: 'warning',
+                  })
+                }
+              }}
+              className="flex items-center justify-center bg-theme h-11 rounded-full w-full text-osseous-theme"
+            >
+              {isLoading ? <Spinner /> : 'Sing up'}
+            </BasicButton>
+          </Form>
         )}
       </Formik>
       <div className="mt-4 flex justify-between w-full">

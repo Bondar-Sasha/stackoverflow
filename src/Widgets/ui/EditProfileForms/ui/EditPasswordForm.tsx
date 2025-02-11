@@ -1,14 +1,15 @@
 import {FC} from 'react'
-import {Formik} from 'formik'
+import {Form, Formik} from 'formik'
 import {toast} from 'react-toastify'
 import * as Yup from 'yup'
 
 import {
-  AuthFormInput,
-  BasicFormWrapper,
-  SubmitButton,
-} from '../../../../Features'
-import {Errors, usePatchMyPasswordMutation} from '../../../../Shared'
+  BasicButton,
+  Errors,
+  Spinner,
+  usePatchMyPasswordMutation,
+} from '@/Shared'
+import {FormInput} from '@/Features'
 
 interface FormData {
   oldPassword: string
@@ -72,29 +73,41 @@ const EditPasswordForm: FC = () => {
         onSubmit={submitForm}
       >
         {({isValid}) => (
-          <BasicFormWrapper>
-            <AuthFormInput
+          <Form>
+            <FormInput
               placeholder="old password"
               name="oldPassword"
               inputType="password"
               autoComplete="current-password"
             />
-            <AuthFormInput
+            <FormInput
               placeholder="new password"
               name="newPassword"
               inputType="password"
               autoComplete="new-password"
             />
-            <AuthFormInput
+            <FormInput
               placeholder="confirm password"
               name="confirmPassword"
               inputType="password"
               autoComplete="new-password"
             />
-            <SubmitButton isValid={isValid} isLoading={isLoading}>
-              Change password
-            </SubmitButton>
-          </BasicFormWrapper>
+            <BasicButton
+              type="submit"
+              disabled={isLoading}
+              onClick={() => {
+                if (!isValid) {
+                  toast('Fill out the form correctly', {
+                    autoClose: 2000,
+                    type: 'warning',
+                  })
+                }
+              }}
+              className="flex items-center justify-center bg-theme h-11 rounded-full w-full text-osseous-theme"
+            >
+              {isLoading ? <Spinner /> : 'Change password'}
+            </BasicButton>
+          </Form>
         )}
       </Formik>
     </div>

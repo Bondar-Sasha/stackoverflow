@@ -1,12 +1,11 @@
 import {FC} from 'react'
-import {Formik} from 'formik'
+import {Form, Formik} from 'formik'
 import * as Yup from 'yup'
 import {Link} from 'react-router-dom'
 import {toast} from 'react-toastify'
 
-import {Errors, useLoginMutation} from '../../../Shared'
-
-import {AuthFormInput, BasicFormWrapper, SubmitButton} from '../../../Features'
+import {BasicButton, Errors, Spinner, useLoginMutation} from '@/Shared'
+import {FormInput} from '@/Features'
 
 interface LoginFormData {
   username: string
@@ -61,21 +60,33 @@ const LoginPage: FC = () => {
         onSubmit={onSubmit}
       >
         {({isValid}) => (
-          <BasicFormWrapper>
-            <AuthFormInput
+          <Form>
+            <FormInput
               placeholder="username"
               name="username"
               inputType="text"
             />
-            <AuthFormInput
+            <FormInput
               placeholder="password"
               name="password"
               inputType="password"
             />
-            <SubmitButton isLoading={isLoading} isValid={isValid}>
-              Log in
-            </SubmitButton>
-          </BasicFormWrapper>
+            <BasicButton
+              type="submit"
+              disabled={isLoading}
+              onClick={() => {
+                if (!isValid) {
+                  toast('Fill out the form correctly', {
+                    autoClose: 2000,
+                    type: 'warning',
+                  })
+                }
+              }}
+              className="flex items-center justify-center bg-theme h-11 rounded-full w-full text-osseous-theme"
+            >
+              {isLoading ? <Spinner /> : 'Log in'}
+            </BasicButton>
+          </Form>
         )}
       </Formik>
       <div className="mt-4 flex justify-between w-full">

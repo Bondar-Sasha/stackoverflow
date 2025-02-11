@@ -1,14 +1,11 @@
 import {FC} from 'react'
 import * as Yup from 'yup'
-import {Field, Formik, FormikHelpers} from 'formik'
+import {Field, Form, Formik, FormikHelpers} from 'formik'
+import {toast} from 'react-toastify'
 
-import {
-  BasicFormInput,
-  BasicFormTextarea,
-  BasicFormWrapper,
-  SubmitButton,
-} from '../../../../Features'
-import {Editor} from '../../../../Entities'
+import {Editor} from '@/Entities'
+import {FormInput} from '@/Features'
+import {BasicButton, Spinner} from '@/Shared'
 
 export interface QuestionFormData {
   title: string
@@ -54,16 +51,14 @@ const GeneralQuestionForm: FC<GeneralQuestionFormProps> = ({
         onSubmit={onSubmit}
       >
         {({isValid, setFieldValue}) => (
-          <BasicFormWrapper>
-            <BasicFormInput
+          <Form>
+            <FormInput
               placeholder="Question title"
               name="title"
               className="mb-5"
             />
-            <BasicFormTextarea
-              placeholder="Question description"
-              name="description"
-            />
+
+            <FormInput placeholder="Question description" name="description" />
             <Field
               as={Editor}
               className="mb-3 h-52"
@@ -73,10 +68,22 @@ const GeneralQuestionForm: FC<GeneralQuestionFormProps> = ({
                 setFieldValue('attachedCode', newValue)
               }}
             />
-            <SubmitButton isLoading={isFetching} isValid={isValid}>
-              {submitButtonLabel}
-            </SubmitButton>
-          </BasicFormWrapper>
+            <BasicButton
+              type="submit"
+              disabled={isFetching}
+              onClick={() => {
+                if (!isValid) {
+                  toast('Fill out the form correctly', {
+                    autoClose: 2000,
+                    type: 'warning',
+                  })
+                }
+              }}
+              className="flex items-center justify-center bg-theme h-11 rounded-full w-full text-osseous-theme"
+            >
+              {isFetching ? <Spinner /> : submitButtonLabel}
+            </BasicButton>
+          </Form>
         )}
       </Formik>
     </>
