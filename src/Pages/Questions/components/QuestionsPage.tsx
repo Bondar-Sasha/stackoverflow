@@ -71,7 +71,7 @@ const QuestionsPage: FC = () => {
             {authData.userId === user.id && (
               <BasicButton
                 onClick={() => {
-                  navigate(`/edit_question/${user.id}`)
+                  navigate(`/edit_question/${id}`)
                 }}
                 className={`flex items-center justify-center bg-theme max-w-24 text-osseous-theme`}
               >

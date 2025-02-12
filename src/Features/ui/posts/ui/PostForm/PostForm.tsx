@@ -6,6 +6,7 @@ import {CgComment} from 'react-icons/cg'
 import {Link, useNavigate} from 'react-router-dom'
 import {TiPencil} from 'react-icons/ti'
 import {toast} from 'react-toastify'
+import {FaRegUser} from 'react-icons/fa'
 
 import {
   ProgrammingLanguages,
@@ -13,7 +14,6 @@ import {
   useLinkedGetAuth,
 } from '@/Shared'
 import {Editor} from '@/Entities'
-import {FaRegUser} from 'react-icons/fa'
 
 interface PostFormProps {
   progLang: ProgrammingLanguages
