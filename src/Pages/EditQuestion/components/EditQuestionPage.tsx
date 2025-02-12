@@ -44,13 +44,14 @@ const EditQuestionPage: FC = () => {
       console.error(error)
     }
   }
+  if (fetchingQuestion) {
+    return <DownloadMask />
+  }
+  
   if (!data) {
     return <NotFoundMask label="There is no such question" />
   }
 
-  if (fetchingQuestion) {
-    return <DownloadMask />
-  }
 
   const initValues: QuestionFormData = {
     title: data.data.title,
