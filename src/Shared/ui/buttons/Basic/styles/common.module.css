@@ -1,0 +1,8 @@
+.common {
+  padding: 0px 10px;
+  text-align: center;
+  border-radius: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}

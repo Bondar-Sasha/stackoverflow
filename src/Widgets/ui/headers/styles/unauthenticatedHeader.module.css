@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--theme);
+  padding: 0 20px;
+}
+.main_inf {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.controls > * {
+  margin-left: 7px;
+  background-color: rgb(238, 238, 238);
+  padding: 3px 0;
+  border-radius: 5px;
+}
+@media (hover: hover) {
+  .main_inf > * {
+    cursor: pointer;
+  }
+  .interactivity > * {
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .main_inf > :first-child {
+    display: none;
+  }
+}

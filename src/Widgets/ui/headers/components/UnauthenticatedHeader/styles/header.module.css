@@ -1,0 +1,10 @@
+@media screen and (max-width: 545px) {
+  .appName {
+    display: none;
+  }
+}
+@media screen and (max-width: 370px) {
+  .headerButtons > :first-child {
+    display: none;
+  }
+}

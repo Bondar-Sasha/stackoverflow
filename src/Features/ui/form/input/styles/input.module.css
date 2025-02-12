@@ -1,0 +1,14 @@
+.input:not(:has(.error)) > :first-child {
+  margin-bottom: 10px;
+}
+.input > .error {
+  margin: 4px 0;
+}
+.input > textarea {
+  border-radius: 0;
+}
+.error {
+  text-align-last: center;
+  word-break: break-all;
+  color: red;
+}

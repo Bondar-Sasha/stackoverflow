@@ -1,0 +1,10 @@
+.common {
+  display: flex;
+  align-items: center;
+  padding: 0px 10px;
+  width: 100%;
+  outline: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid initial;
+}

@@ -1,0 +1,9 @@
+.common {
+  padding: 5px 10px;
+  width: 100%;
+  min-height: fit-content;
+  outline: none;
+  overflow: hidden;
+  border: 1px solid initial;
+  resize: vertical;
+}
